@@ -37,9 +37,25 @@ router.get('/list', function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
 
+    // products.find({}, function (err, data) {
+    //     res.send(data);
+    // })
+
     products.find({}, function (err, data) {
         res.send(data);
+        console.log(data);
+        // data.forEach((e)=>{
+        //     products.findOne({_id:e._id}).populate('category').exec(function(err,c){
+        //         console.log(c);
+        //     }); 
+        // })
+
     })
+
+    // products.findOne({_id:req.params.id}).populate('course').exec(function(err,student){
+    //     res.send(student);
+    // }); 
+
 });
 
 router.get('/delete/:id', function (req, res, next) {
@@ -117,16 +133,21 @@ router.post('/edit/:id', function (req, res, next) {
 router.post('/add', function (req, res, next) {
     try {
         var filename;
+
         if (!isEmpty(req.body.Image)) {
             filename = storeImage(req.body.Image);
         }
         var listmore = []
 
         if (!isEmpty(req.body.MoreImages)) {
-            var listimages = [];
-            listimages = req.body.MoreImages;
-            for (var i = 0; i < listimages.length; i++) {
-                listmore.push(storeImage(listimages[i]));
+            var listimages = req.body.MoreImages;
+            if (listimages instanceof Array) {
+                for (var i = 0; i < listimages.length; i++) {
+                    listmore.push(storeImage(listimages[i]));
+                }
+            }
+            else {
+                listmore.push(storeImage(listimages));
             }
         }
         else {

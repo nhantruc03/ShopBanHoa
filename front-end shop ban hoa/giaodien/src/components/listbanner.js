@@ -3,17 +3,15 @@ import React, { Component } from 'react';
 import TableData from './table';
 import Pagination from './Pagination';
 import { Redirect } from 'react-router-dom';
-const tablerow = ['Tên', 'MetaTitle', 'Ảnh đại diện', 'Mô tả', 'Thao tác']
-const keydata = ['Name', 'MetaTitle', 'Image', 'Description']
-const obj = "products"
-
-
+const tablerow = ['Tên', 'Đường dẫn', 'Hình ảnh','Trạng thái', 'Thao tác']
+const keydata = ['Name', 'Link', 'Image','Status']
+const obj = "banners"
 
 const getData = () =>
-    Axios.get('http://localhost:9000/products/list')
+    Axios.get('http://localhost:9000/banners/list')
         .then((res) => res.data)
 
-class listproducts extends Component {
+class listbanner extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,18 +19,17 @@ class listproducts extends Component {
             currentPage: 1,
             postsPerPage: 10,
             listPage: [],
-            loading: false,
             search: '',
-            onAdd: false
+            loading: false
         }
     }
-
     UNSAFE_componentWillMount() {
         if (this.state.data === null) {
             getData().then((res) => {
                 this.setState({
                     data: res
                 });
+                console.log(this.state.data);
             })
         }
     }
@@ -67,7 +64,6 @@ class listproducts extends Component {
             [e.target.name]: e.target.value
         })
     }
-
     getlistpage = (ketqua) => {
         var listpage = [];
         for (let i = 1; i <= Math.ceil(ketqua.length / this.state.postsPerPage); i++) {
@@ -80,24 +76,23 @@ class listproducts extends Component {
         if (this.state.data !== null) {
             return (
                 <div className='mt-5 text-center'>
-                    <h1 className='text-primary mb-3'>Danh sách sản phẩm</h1>
+                    <h1 className='text-primary mb-3'>Danh sách banner</h1>
                     <input onChange={(e) => this.onChange(e)} name="search" id="search" style={{ textAlign: "center" }} className="form-control" type="text" placeholder="Tìm kiếm" />
+                    <TableData obj={obj} dataRow={tablerow} data={this.getCurData(ketqua)} keydata={keydata} onDelete={(e) => this.onDelete(e)} />
 
-                    <TableData obj={obj} dataRow={tablerow} data={this.getCurData(ketqua)} keydata={keydata} onDelete={(e) => this.onDelete(e)}
+                    <Pagination
+                        postsPerPage={this.state.postsPerPage}
+                        totalPosts={this.getlistpage(ketqua)}
+                        paginate={(e) => this.paginate(e)}
                     />
+                    <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
 
-
-                    <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(ketqua)} paginate={(e) =>
-                        this.paginate(e)}
-                    />
-                    <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm
-            </div>
                 </div>
             )
         }else{
             return(
                 <div className='mt-5 text-center'>
-                <h1 className='text-primary mb-3'>Danh sách sản phẩm</h1>
+                <h1 className='text-primary mb-3'>Danh sách banner</h1>
               
                 <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
 
@@ -105,9 +100,6 @@ class listproducts extends Component {
             )
         }
     }
-
-
-
     render() {
         var ketqua = [];
         if (this.state.data != null) {
@@ -117,11 +109,11 @@ class listproducts extends Component {
                 }
             })
         }
-
         if (!this.state.onAdd) {
             return (
                 <div>
                     <div className="container-fluid">
+
                         {this.printData(ketqua)}
                     </div>
 
@@ -130,9 +122,10 @@ class listproducts extends Component {
         }
         else {
             return (
-                <Redirect to={"/addproducts/"} />
+                <Redirect to={"/addbanners/"} />
             )
         }
     }
 }
-export default listproducts;
+
+export default listbanner;

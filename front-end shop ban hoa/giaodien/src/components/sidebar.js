@@ -33,6 +33,16 @@ class sidebar extends Component {
                         </Navbar.Collapse>
                     </Navbar>
 
+                    <Navbar expand="false" style={{ width: "100%", color: "white" }}>
+                        Quản lý chung
+                        <Navbar.Toggle style={{ width: 60 }} aria-controls="common" > <i className="fas  fa-bars" /></Navbar.Toggle>
+                        <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="common">
+                            <Nav className="mr-auto">
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/listbanners" >Xem danh sách banner</NavLink>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>
+
                     <hr className="sidebar-divider" />
 
 

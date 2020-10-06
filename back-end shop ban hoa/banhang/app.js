@@ -11,6 +11,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/product');
 var categoriesRouter = require('./routes/category');
+var bannerRouter = require('./routes/banner');
+
 const mongoose = require('mongoose');
 var app = express();
 mongoose.connect('mongodb://localhost/shopbanhoa', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -31,6 +33,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/categories', categoriesRouter);
+app.use('/banners', bannerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
