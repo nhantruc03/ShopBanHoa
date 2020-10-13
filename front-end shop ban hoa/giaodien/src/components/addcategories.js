@@ -49,7 +49,7 @@ class addproduct extends Component {
         slug = slug.replace(/\@\-|\-\@|\@/gi, '');//eslint-disable-line
         //In slug ra textbox có id “slug”
         this.setState({
-            metatitle:slug
+            metatitle: slug
         })
         //return slug;
     }
@@ -70,7 +70,7 @@ class addproduct extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-        if(e.target.name=== 'name'){
+        if(e.target.name === 'name'){
             this.ChangeToSlug(e.target.value);
         }
     }
@@ -84,7 +84,7 @@ class addproduct extends Component {
         };
 
         
-        Axios.post('/categories/add', data)
+        Axios.post('/categories', data)
             .then(res => {
                 this.onDone();
             })
@@ -108,14 +108,14 @@ class addproduct extends Component {
         else {
             return (
                 <div >
-                    <h1 className="text-center">Trang thêm sản phẩm</h1>
+                    <h1 className="text-center">Trang thêm danh mục sản phẩm</h1>
                     <div className="container-fluid">
                         <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                            <label htmlFor="name"  >Tên sản phẩm</label>
+                            <label htmlFor="name"  >Tên danh mục sản phẩm</label>
                             <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên sản phẩm" required={true} />
 
                             <label htmlFor="metatitle"  >Meta Title</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-san-pham" />
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-san-pham" value={this.state.metatitle} required={true}/>
 
                             <label htmlFor="isDeleted"  >Trạng thái</label>
                             <Select onChange={(e) => this.onSelectStatus(e)} name="isDeleted" options={trangthai} />

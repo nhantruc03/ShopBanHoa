@@ -18,7 +18,7 @@ exports.create = async (req, res, next) => {
         const categoryId = req.body.categoryId;
 
         // Check not enough property
-        if (isEmpty(name) || isEmpty(metatitle) || isEmpty(detail) || isEmpty(description) || isEmpty(image) || isEmpty(moreimages) || !price || !quantity || isEmpty(categoryId)) {
+        if (isEmpty(name) || isEmpty(metatitle) || isEmpty(detail) || isEmpty(description) || isEmpty(image) || !price || !quantity || isEmpty(categoryId)) {
             return res.status(406).json({
                 success: false,
                 error: "Not enough property"

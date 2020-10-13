@@ -146,7 +146,7 @@ class addproduct extends Component {
         var temp_list=[];
         if (this.state.moreimages != null) {
             for (const [key, value] of Object.entries(this.state.moreimages)) {
-                console.log(value);
+                console.log(key);
                 temp_list.push(value);
             }
             data.append('moreimages',temp_list.toString());
@@ -221,7 +221,7 @@ class addproduct extends Component {
                                 <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên sản phẩm" required={true} />
 
                                 <label htmlFor="metatitle"  >Meta Title</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-san-pham" value={this.state.metatitle} required={true} />
+                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-danh-muc-san-pham" value={this.state.metatitle} required={true} />
 
                                 <label htmlFor="image"  >Hình đại diện</label>
                                 <MultiImageInput

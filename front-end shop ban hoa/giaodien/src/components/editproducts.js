@@ -336,9 +336,9 @@ class editproduct extends Component {
                                 <label htmlFor="quantity"  >Số lượng</label>
                                 <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="quantity" placeholder="100" required={true} value={this.state.quantity} />
 
-                                <label htmlFor="categoryID"  >Danh mục</label>
+                                <label htmlFor="categoryId"  >Danh mục</label>
                                 <Select
-                                    name="categoryID"
+                                    name="categoryId"
                                     onChange={(e) => this.onSelectMulti(e)}
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}
