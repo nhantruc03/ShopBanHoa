@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import TableData from './table';
 import Pagination from './Pagination';
 import { Redirect } from 'react-router-dom';
-const tablerow = ['Tên', 'Đường dẫn', 'Hình ảnh','Trạng thái', 'Thao tác']
-const keydata = ['Name', 'Link', 'Image','Status']
+const tablerow = ['Tên', 'Đường dẫn', 'Hình ảnh', 'Trạng thái', 'Thao tác']
+const keydata = ['name', 'link', 'image', 'isDeleted']
 const obj = "banners"
 
 const getData = () =>
-    Axios.get('http://localhost:9000/banners/list')
+    Axios.post('/banners/getAll')
         .then((res) => res.data)
 
 class listbanner extends Component {
@@ -27,9 +27,8 @@ class listbanner extends Component {
         if (this.state.data === null) {
             getData().then((res) => {
                 this.setState({
-                    data: res
+                    data: res.data
                 });
-                console.log(this.state.data);
             })
         }
     }
@@ -89,14 +88,14 @@ class listbanner extends Component {
 
                 </div>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <div className='mt-5 text-center'>
-                <h1 className='text-primary mb-3'>Danh sách banner</h1>
-              
-                <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
+                    <h1 className='text-primary mb-3'>Danh sách banner</h1>
 
-            </div>
+                    <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
+
+                </div>
             )
         }
     }
@@ -104,7 +103,7 @@ class listbanner extends Component {
         var ketqua = [];
         if (this.state.data != null) {
             this.state.data.forEach((item) => {
-                if (item.Name.toString().toLowerCase().indexOf(this.state.search) !== -1) {
+                if (item.name.toString().toLowerCase().indexOf(this.state.search) !== -1) {
                     ketqua.push(item);
                 }
             })

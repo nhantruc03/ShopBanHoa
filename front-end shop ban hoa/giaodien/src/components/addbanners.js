@@ -4,8 +4,8 @@ import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import MultiImageInput from 'react-multiple-image-input';
 const trangthai = [
-    { value: 'true', label: 'Khả dụng' },
-    { value: 'false', label: 'Không khả dụng' }
+    { value: false, label: 'Khả dụng' },
+    { value: true, label: 'Không khả dụng' }
 ]
 
 const crop = {
@@ -18,28 +18,30 @@ class addbanners extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Name: '',
-            Link: '',
-            Image: {},
-            Status: true,
+            name: '',
+            link: '',
+            image: {},
+            isDeleted: true,
             isDone: false
         }
     }
+
+    
     onSelectStatus = (e) => {
         if (e.value === 'true') {
             this.setState({
-                Status: true
+                isDeleted: true
             })
         }
         else {
             this.setState({
-                Status: false
+                isDeleted: false
             })
         }
     }
 
     setImages = (imageUpdate) => {
-        this.setState({ Image: imageUpdate })
+        this.setState({ image: imageUpdate })
     };
 
     onChange = (e) => {
@@ -51,14 +53,14 @@ class addbanners extends Component {
         e.preventDefault();
         var data = new FormData();
 
-        data.append("Name", this.state.Name);
-        data.append("Link", this.state.Link);
-        data.append('Status', this.state.Status);
-        if (this.state.Image[0] !== null) {
+        data.append("name", this.state.name);
+        data.append("link", this.state.link);
+        data.append('isDeleted', this.state.isDeleted);
+        if (this.state.image[0] !== null) {
 
-            data.append("Image", this.state.Image[0]);
+            data.append("image", this.state.image[0]);
         }
-        Axios.post('/banners/add', data, {
+        Axios.post('/banners/', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -88,23 +90,23 @@ class addbanners extends Component {
                     <h1 className="text-center">Trang thêm Banner</h1>
                     <div className="container-fluid">
                         <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                            <label htmlFor="Name"  >Tên Banner</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Name" placeholder="Tên Banner" required={true} />
+                            <label htmlFor="name"  >Tên Banner</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên Banner" required={true} />
 
-                            <label htmlFor="Link"  >Đường dẫn</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Link" placeholder="ten-banner" />
+                            <label htmlFor="link"  >Đường dẫn</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="link" placeholder="ten-banner" />
 
-                            <label htmlFor="Image"  >Hình đại diện</label>
+                            <label htmlFor="image"  >Hình đại diện</label>
                             <MultiImageInput
                                 max={1}
                                 theme="light"
-                                images={this.state.Image}
+                                images={this.state.image}
                                 setImages={(e) => this.setImages(e)}
                                 cropConfig={{ crop, ruleOfThirds: true }}
                             />
 
-                            <label htmlFor="Status"  >Trạng thái</label>
-                            <Select onChange={(e) => this.onSelectStatus(e)} name="Status" options={trangthai} />
+                            <label htmlFor="isDeleted"  >Trạng thái</label>
+                            <Select onChange={(e) => this.onSelectStatus(e)} name="isDeleted" options={trangthai} />
                             <br />
                             <button type="submit" className="btn btn-success">Thêm</button>
                         &nbsp;

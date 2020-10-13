@@ -4,17 +4,17 @@ import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 
 const trangthai = [
-    { value: true, label: 'Khả dụng' },
-    { value: false, label: 'Không khả dụng' }
+    { value: false, label: 'Khả dụng' },
+    { value: true, label: 'Không khả dụng' }
 ]
 
 class editproduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Name: '',
-            MetaTitle: '',
-            Status: true,
+            name: '',
+            metatitle: '',
+            isDeleted: true,
             isDone: false
         }
     }
@@ -49,50 +49,35 @@ class editproduct extends Component {
         slug = slug.replace(/\@\-|\-\@|\@/gi, '');//eslint-disable-line
         //In slug ra textbox có id “slug”
         this.setState({
-            MetaTitle: slug
+            metatitle: slug
         })
         //return slug;
     }
-    getData = () =>
-        Axios.get('http://localhost:9000/categories/edit/' + this.props.match.params.id)
-            .then((res) => {
-                console.log(res.data[0])
-                this.setState({
-                    data: res.data[0]
-                })
-            })
-
     onSelectStatus = (e) => {
         this.setState({
-            Status: e.value
+            isDeleted: e.value
         })
     }
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
-        if (e.target.name === 'Name') {
+        if (e.target.name === 'name') {
             this.ChangeToSlug(e.target.value);
         }
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        var data = new FormData();
-
-        data.append("Name", this.state.Name);
-        data.append("MetaTitle", this.state.MetaTitle);
-        console.log(this.state.Status);
-        data.append('Status', this.state.Status);
+        var data= {
+            name: this.state.name,
+            metatitle: this.state.metatitle,
+            isDeleted: this.state.isDeleted
+        }
 
         console.log(data);
-        Axios.post('/categories/edit/' + this.props.match.params.id, data, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
+        Axios.put('/categories/' + this.props.match.params.id, data)
             .then(res => {
-                console.log('a');
                 this.onDone();
             })
             .catch(err => {
@@ -109,13 +94,13 @@ class editproduct extends Component {
     UNSAFE_componentWillMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('http://localhost:9000/categories/edit/' + this.props.match.params.id)
+            Axios.get('/categories/' + this.props.match.params.id)
                 .then((res) => {
-                    temp = res.data[0];
+                    temp = res.data.data;
                     this.setState({
-                        Name: temp.Name,
-                        MetaTitle: temp.MetaTitle,
-                        Status: temp.Status
+                        name: temp.name,
+                        metatitle: temp.metatitle,
+                        isDeleted: temp.isDeleted
 
                     })
                 })
@@ -134,16 +119,16 @@ class editproduct extends Component {
                     <h1 className="text-center">Trang sửa danh mục</h1>
                     <div className="container-fluid">
                         <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                            <label htmlFor="Name"  >Tên danh mục</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Name" placeholder="Tên danh mục" required={true} value={this.state.Name} />
+                            <label htmlFor="name"  >Tên danh mục</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên danh mục" required={true} value={this.state.name} />
 
-                            <label htmlFor="MetaTitle"  >Meta Title</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="MetaTitle" placeholder="ten-danh-muc" value={this.state.MetaTitle} />
+                            <label htmlFor="metatitle"  >Meta Title</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-danh-muc" value={this.state.metatitle} />
 
-                            <label htmlFor="Status"  >Trạng thái</label>
+                            <label htmlFor="isDeleted"  >Trạng thái</label>
                             <Select
                                 onChange={(e) => this.onSelectStatus(e)}
-                                value={trangthai.filter(({ value }) => value === this.state.Status)}
+                                value={trangthai.filter(({ value }) => value === this.state.isDeleted)}
                                 options={trangthai}
                             />
                             <br />

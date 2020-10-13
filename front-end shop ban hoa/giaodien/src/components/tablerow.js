@@ -16,9 +16,8 @@ class TableDataRow extends Component {
     }
 
     deleteClick = () => {
-        Axios.get('http://localhost:9000/' + this.props.obj + '/delete/' + this.props.data._id)
+        Axios.delete('/' + this.props.obj + '/' + this.props.data._id)
             .then((res) => {
-                console.log('a');
                 console.log(res.data);
             })
         this.props.onDelete(this.props.data._id);
@@ -26,13 +25,13 @@ class TableDataRow extends Component {
 
     renderData = () =>
         this.props.keydata.map((value, key) => {
-            if (value === "Status") {
+            if (value === "isDeleted") {
                 var stt;
                 if (this.props.data[value] === true) {
-                    stt = "Khả dụng";
+                    stt = "Không khả dụng";
                 }
                 else {
-                    stt = "Không khả dụng";
+                    stt = "Khả dụng";
                 }
 
                 return (
@@ -42,7 +41,7 @@ class TableDataRow extends Component {
             if (this.props.data[value]) {
                 if (this.props.data[value].includes("image")) {
                     return (
-                        <td key={key} ><img style={{ width: 150 }} src={`http://localhost:9000/anh/${this.props.data[value]}`} alt="Logo" /> </td>
+                        <td key={key} ><img style={{ width: 150 }} src={`/anh/${this.props.data[value]}`} alt="Logo" /> </td>
                     )
                 }
                 else {

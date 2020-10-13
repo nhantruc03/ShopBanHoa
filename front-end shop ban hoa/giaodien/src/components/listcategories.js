@@ -4,10 +4,10 @@ import TableData from './table';
 import Pagination from './Pagination';
 import { Redirect } from 'react-router-dom';
 const tablerow = ['Tên', 'MetaTitle', 'Trạng thái', 'Thao tác']
-const keydata = ['Name', 'MetaTitle', 'Status']
+const keydata = ['name', 'metatitle', 'isDeleted']
 const obj = "categories"
 const getData = () =>
-    Axios.get('http://localhost:9000/categories/list')
+    Axios.post('/categories/getAll')
         .then((res) => res.data)
 
 class listcategories extends Component {
@@ -27,9 +27,8 @@ class listcategories extends Component {
         if (this.state.data === null) {
             getData().then((res) => {
                 this.setState({
-                    data: res
+                    data: res.data
                 });
-                console.log(this.state.data);
             })
         }
     }
@@ -105,7 +104,7 @@ class listcategories extends Component {
         var ketqua = [];
         if (this.state.data != null) {
             this.state.data.forEach((item) => {
-                if (item.Name.toString().toLowerCase().indexOf(this.state.search) !== -1) {
+                if (item.name.toString().toLowerCase().indexOf(this.state.search) !== -1) {
                     ketqua.push(item);
                 }
             })

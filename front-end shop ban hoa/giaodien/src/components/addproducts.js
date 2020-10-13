@@ -15,8 +15,8 @@ const animatedComponents = makeAnimated();
 var CategoryID = [];
 
 const trangthai = [
-    { value: 'true', label: 'Khả dụng' },
-    { value: 'false', label: 'Không khả dụng' }
+    { value: false, label: 'Khả dụng' },
+    { value: true, label: 'Không khả dụng' }
 ]
 
 const crop = {
@@ -29,17 +29,17 @@ class addproduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Name: '',
-            MetaTitle: '',
-            Image: {},
-            MoreImages: {},
-            Detail: '',
-            Description: '',
-            Price: '',
-            PromotionPrice: '',
-            Quantity: '',
-            CategoryId: [],
-            Status: true,
+            name: '',
+            metatitle: '',
+            image: {},
+            moreimages: {},
+            detail: '',
+            description: '',
+            price: '',
+            promotionprice: '',
+            quantity: '',
+            categoryId: [],
+            isDeleted: true,
             isDone: false,
             isLoad: false
         }
@@ -76,7 +76,7 @@ class addproduct extends Component {
         slug = slug.replace(/\@\-|\-\@|\@/gi, '');//eslint-disable-line
         //In slug ra textbox có id “slug”
         this.setState({
-            MetaTitle: slug
+            metatitle: slug
         })
         //return slug;
     }
@@ -89,37 +89,37 @@ class addproduct extends Component {
             )
         }
         this.setState({
-            CategoryId: list
+            categoryId: list
         })
     }
 
     onSelectStatus = (e) => {
         if (e.value === 'true') {
             this.setState({
-                Status: true
+                isDeleted: true
             })
         }
         else {
             this.setState({
-                Status: false
+                isDeleted: false
             })
         }
     }
 
-    setImages = (imageUpdate) => {
-        this.setState({ Image: imageUpdate })
+    setimages = (imageUpdate) => {
+        this.setState({ image: imageUpdate })
     };
 
-    setMoreImages = (imageUpdate) => {
-        this.setState({ MoreImages: imageUpdate })
-        console.log(this.state.MoreImages);
+    setMoreimages = (imageUpdate) => {
+        this.setState({ moreimages: imageUpdate })
+        console.log(this.state.moreimages);
     };
 
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
-        if (e.target.name === 'Name') {
+        if (e.target.name === 'name') {
             this.ChangeToSlug(e.target.value);
         }
     }
@@ -128,38 +128,36 @@ class addproduct extends Component {
         e.preventDefault();
         var data = new FormData();
 
-        data.append("Name", this.state.Name);
-        data.append("MetaTitle", this.state.MetaTitle);
-        data.append('Detail', this.state.Detail);
-        data.append('Description', this.state.Description);
-        data.append('Price', this.state.Price);
-        data.append('PromotionPrice', this.state.PromotionPrice);
-        data.append('Quantity', this.state.Quantity);
-        data.append('Status', this.state.Status);
-        if (this.state.CategoryId !== null) {
-            for (const [key, value] of Object.entries(this.state.CategoryId)) {
-                console.log(key);
-                data.append('CategoryId', value);
-            }
+        data.append("name", this.state.name);
+        data.append("metatitle", this.state.metatitle);
+        data.append('detail', this.state.detail);
+        data.append('description', this.state.description);
+        data.append('price', this.state.price);
+        data.append('promotionprice', this.state.promotionprice);
+        data.append('quantity', this.state.quantity);
+        data.append('isDeleted', this.state.isDeleted);
+        if (this.state.categoryId !== null) {
+            data.append('categoryId',this.state.categoryId.toString())
         }
-        if (this.state.Image[0] !== null) {
+        if (this.state.image[0] !== null) {
 
-            data.append("Image", this.state.Image[0]);
+            data.append("image", this.state.image[0]);
         }
-        if (this.state.MoreImages != null) {
-            for (const [key, value] of Object.entries(this.state.MoreImages)) {
-                console.log(key);
-                data.append('MoreImages', value);
+        var temp_list=[];
+        if (this.state.moreimages != null) {
+            for (const [key, value] of Object.entries(this.state.moreimages)) {
+                console.log(value);
+                temp_list.push(value);
             }
+            data.append('moreimages',temp_list.toString());
         }
 
-        Axios.post('/products/add', data, {
+        Axios.post('/products', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
             .then(res => {
-                console.log(res);
                 this.onDone();
             })
             .catch(err => {
@@ -173,21 +171,22 @@ class addproduct extends Component {
         this.setState({
             isLoad: true
         })
-
-
         let temp = null;
-        Axios.get('http://localhost:9000/categories/listavail')
+
+        var data = {
+            isDeleted: false
+        };
+        Axios.post('/categories/getAll',data)
             .then((res) => {
-                temp = res.data;
+                temp = res.data.data;
                 CategoryID = [];
                 temp.forEach(o => {
                     var object = {
                         value: o._id,
-                        label: o.Name
+                        label: o.name
                     }
                     CategoryID.push(object);
                 })
-                console.log(CategoryID);
                 this.setState({
                     isLoad: false
                 })
@@ -218,48 +217,48 @@ class addproduct extends Component {
                         <h1 className="text-center">Trang thêm sản phẩm</h1>
                         <div className="container-fluid">
                             <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                                <label htmlFor="Name"  >Tên sản phẩm</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Name" placeholder="Tên sản phẩm" required={true} />
+                                <label htmlFor="name"  >Tên sản phẩm</label>
+                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên sản phẩm" required={true} />
 
-                                <label htmlFor="MetaTitle"  >Meta Title</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="MetaTitle" placeholder="ten-san-pham" value={this.state.MetaTitle} required={true} />
+                                <label htmlFor="metatitle"  >Meta Title</label>
+                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-san-pham" value={this.state.metatitle} required={true} />
 
-                                <label htmlFor="Image"  >Hình đại diện</label>
+                                <label htmlFor="image"  >Hình đại diện</label>
                                 <MultiImageInput
                                     max={1}
                                     theme="light"
-                                    images={this.state.Image}
-                                    setImages={(e) => this.setImages(e)}
+                                    images={this.state.image}
+                                    setImages={(e) => this.setimages(e)}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
 
-                                <label htmlFor="MoreImages"  >Hình ảnh thêm</label>
+                                <label htmlFor="moreimages"  >Hình ảnh thêm</label>
                                 <MultiImageInput
                                     max={10}
                                     theme="light"
-                                    images={this.state.MoreImages}
-                                    setImages={(e) => this.setMoreImages(e)}
+                                    images={this.state.moreimages}
+                                    setImages={(e) => this.setMoreimages(e)}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
 
-                                <label htmlFor="Detail"  >Chi tiết</label>
-                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Detail" placeholder="Chi tiết" />
+                                <label htmlFor="detail"  >Chi tiết</label>
+                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="detail" placeholder="Chi tiết" />
 
-                                <label htmlFor="Description"  >Mô tả</label>
-                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Description" placeholder="Mô tả" />
+                                <label htmlFor="description"  >Mô tả</label>
+                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="Mô tả" />
 
-                                <label htmlFor="Price"  >Giá</label>
-                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="Price" placeholder="100000" required={true} />
+                                <label htmlFor="price"  >Giá</label>
+                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="price" placeholder="100000" required={true} />
 
-                                <label htmlFor="PromotionPrice"  >Giá khuyến mãi</label>
-                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="PromotionPrice" placeholder="50000" />
+                                <label htmlFor="promotionprice"  >Giá khuyến mãi</label>
+                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="promotionprice" placeholder="50000" />
 
-                                <label htmlFor="Quantity"  >Số lượng</label>
-                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="Quantity" placeholder="100" required={true} />
+                                <label htmlFor="quantity"  >Số lượng</label>
+                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="quantity" placeholder="100" required={true} />
 
-                                <label htmlFor="CategoryID"  >Danh mục</label>
+                                <label htmlFor="categoryId"  >Danh mục</label>
                                 <Select
-                                    name="CategoryID"
+                                    name="categoryId"
                                     onChange={(e) => this.onSelectMulti(e)}
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}
@@ -268,8 +267,8 @@ class addproduct extends Component {
                                     options={CategoryID}
                                 />
 
-                                <label htmlFor="Status"  >Trạng thái</label>
-                                <Select onChange={(e) => this.onSelectStatus(e)} name="Status" options={trangthai} />
+                                <label htmlFor="isDeleted"  >Trạng thái</label>
+                                <Select onChange={(e) => this.onSelectStatus(e)} name="isDeleted" options={trangthai} />
                                 <br />
                                 <button type="submit" className="btn btn-success">Thêm</button>
                             &nbsp;

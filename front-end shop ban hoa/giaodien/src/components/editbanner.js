@@ -5,8 +5,8 @@ import { Redirect } from 'react-router-dom'
 import MultiImageInput from 'react-multiple-image-input';
 import Image from './image'
 const trangthai = [
-    { value: true, label: 'Khả dụng' },
-    { value: false, label: 'Không khả dụng' }
+    { value: false, label: 'Khả dụng' },
+    { value: true, label: 'Không khả dụng' }
 ]
 
 const crop = {
@@ -19,16 +19,16 @@ class editbanner extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            oldImage: '',
-            Name: '',
-            Link: '',
-            Image: {},
-            Status: true,
+            oldimage: '',
+            name: '',
+            link: '',
+            image: {},
+            isDeleted: true,
             isDone: false
         }
     }
     getData = () =>
-        Axios.get('http://localhost:9000/banners/edit/' + this.props.match.params.id)
+        Axios.get('/banners/' + this.props.match.params.id)
             .then((res) => {
                 console.log(res.data[0])
                 this.setState({
@@ -37,12 +37,12 @@ class editbanner extends Component {
             })
 
     setImages = (imageUpdate) => {
-        this.setState({ Image: imageUpdate })
+        this.setState({ image: imageUpdate })
     };
 
     onSelectStatus = (e) => {
         this.setState({
-            Status: e.value
+            isDeleted: e.value
         })
     }
     onChange = (e) => {
@@ -58,11 +58,11 @@ class editbanner extends Component {
         data.append("Name", this.state.Name);
         data.append("Link", this.state.MetaTitle);
         data.append('Status', this.state.Status);
-        if (this.state.Image[0] !== null) {
+        if (this.state.Image[0] != null) {
 
             data.append("Image", this.state.Image[0]);
         }
-        Axios.post('/banners/edit/' + this.props.match.params.id, data, {
+        Axios.put('/banners/' + this.props.match.params.id, data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -81,9 +81,9 @@ class editbanner extends Component {
         })
     }
     getImage = () => {
-        if (this.state.oldImage) {
+        if (this.state.oldimage) {
             return (
-                <Image remove={(e) => this.RemoveOldImage(e)} src={this.state.oldImage} />
+                <Image remove={(e) => this.RemoveOldImage(e)} src={this.state.oldimage} />
             )
         } else {
             return null;
@@ -99,14 +99,14 @@ class editbanner extends Component {
     UNSAFE_componentWillMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('http://localhost:9000/banners/edit/' + this.props.match.params.id)
+            Axios.get('/banners/' + this.props.match.params.id)
                 .then((res) => {
-                    temp = res.data[0];
+                    temp = res.data.data;
                     this.setState({
-                        Name: temp.Name,
-                        Link: temp.Link,
-                        oldImage: temp.Image,
-                        Status: temp.Status
+                        name: temp.name,
+                        link: temp.link,
+                        oldimage: temp.image,
+                        isDeleted: temp.isDeleted
 
                     })
                 })
@@ -125,17 +125,17 @@ class editbanner extends Component {
                     <h1 className="text-center">Trang sửa banner</h1>
                     <div className="container-fluid">
                         <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                            <label htmlFor="Name"  >Tên banner</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Name" placeholder="Tên danh mục" required={true} value={this.state.Name} />
+                            <label htmlFor="name"  >Tên banner</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên danh mục" required={true} value={this.state.name} />
 
-                            <label htmlFor="Link"  >Đường dẫn</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Link" placeholder="ten-danh-muc" value={this.state.Link} />
+                            <label htmlFor="link"  >Đường dẫn</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="link" placeholder="ten-danh-muc" value={this.state.link} />
 
-                            <label htmlFor="Image"  >Hình đại diện</label>
+                            <label htmlFor="image"  >Hình đại diện</label>
                             <MultiImageInput
                                 max={1}
                                 theme="light"
-                                images={this.state.Image}
+                                images={this.state.image}
                                 setImages={(e) => this.setImages(e)}
                                 cropConfig={{ crop, ruleOfThirds: true }}
                             />
@@ -143,10 +143,10 @@ class editbanner extends Component {
                                 {this.getImage()}
                             </div>
 
-                            <label htmlFor="Status"  >Trạng thái</label>
+                            <label htmlFor="isDeleted"  >Trạng thái</label>
                             <Select
                                 onChange={(e) => this.onSelectStatus(e)}
-                                value={trangthai.filter(({ value }) => value === this.state.Status)}
+                                value={trangthai.filter(({ value }) => value === this.state.isDeleted)}
                                 options={trangthai}
                             />
                             <br />

@@ -3,17 +3,17 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 const trangthai = [
-    { value: 'true', label: 'Khả dụng' },
-    { value: 'false', label: 'Không khả dụng' }
+    { value: false, label: 'Khả dụng' },
+    { value: true, label: 'Không khả dụng' }
 ]
 
 class addproduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Name: '',
-            MetaTitle: '',
-            Status: true,
+            name: '',
+            metatitle: '',
+            isDeleted: true,
             isDone: false
         }
     }
@@ -49,19 +49,19 @@ class addproduct extends Component {
         slug = slug.replace(/\@\-|\-\@|\@/gi, '');//eslint-disable-line
         //In slug ra textbox có id “slug”
         this.setState({
-            MetaTitle:slug
+            metatitle:slug
         })
         //return slug;
     }
     onSelectStatus = (e) => {
         if (e.value === 'true') {
             this.setState({
-                Status: true
+                isDeleted: true
             })
         }
         else {
             this.setState({
-                Status: false
+                isDeleted: false
             })
         }
     }
@@ -70,26 +70,22 @@ class addproduct extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-        if(e.target.name=== 'Name'){
+        if(e.target.name=== 'name'){
             this.ChangeToSlug(e.target.value);
         }
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        var data = new FormData();
+        var data ={
+            name: this.state.name,
+            metatitle: this.state.metatitle,
+            isDeleted: this.state.isDeleted
+        };
 
-        data.append("Name", this.state.Name);
-        data.append("MetaTitle",this.state.MetaTitle);
-        data.append('Status',this.state.Status);
-       
-        Axios.post('/categories/add', data, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
+        
+        Axios.post('/categories/add', data)
             .then(res => {
-                console.log(res);
                 this.onDone();
             })
             .catch(err => {
@@ -115,14 +111,14 @@ class addproduct extends Component {
                     <h1 className="text-center">Trang thêm sản phẩm</h1>
                     <div className="container-fluid">
                         <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                            <label htmlFor="Name"  >Tên sản phẩm</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Name" placeholder="Tên sản phẩm" required={true} />
+                            <label htmlFor="name"  >Tên sản phẩm</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên sản phẩm" required={true} />
 
-                            <label htmlFor="MetaTitle"  >Meta Title</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="MetaTitle" placeholder="ten-san-pham" />
+                            <label htmlFor="metatitle"  >Meta Title</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-san-pham" />
 
-                            <label htmlFor="Status"  >Trạng thái</label>
-                            <Select onChange={(e) => this.onSelectStatus(e)} name="Status" options={trangthai} />
+                            <label htmlFor="isDeleted"  >Trạng thái</label>
+                            <Select onChange={(e) => this.onSelectStatus(e)} name="isDeleted" options={trangthai} />
                             <br />
                             <button type="submit" className="btn btn-success">Thêm</button>
                         &nbsp;

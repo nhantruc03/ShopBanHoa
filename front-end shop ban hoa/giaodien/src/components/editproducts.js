@@ -6,15 +6,11 @@ import { Redirect } from 'react-router-dom'
 import MultiImageInput from 'react-multiple-image-input';
 import Image from './image'
 const animatedComponents = makeAnimated();
-// const CategoryID = [
-//     { value: '1231232123', label: 'Hoa' },
-//     { value: '343445', label: 'Bình' },
-//     { value: '221212', label: 'blablabla' }
-// ]
+
 var CategoryID = [];
 const trangthai = [
-    { value: true, label: 'Khả dụng' },
-    { value: false, label: 'Không khả dụng' }
+    { value: false, label: 'Khả dụng' },
+    { value: true, label: 'Không khả dụng' }
 ]
 
 const crop = {
@@ -26,19 +22,19 @@ class editproduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            oldImage: '',
-            oldMoreImages: [],
-            Name: '',
-            MetaTitle: '',
-            Image: {},
-            MoreImages: {},
-            Detail: '',
-            Description: '',
-            Price: '',
-            PromotionPrice: '',
-            Quantity: '',
-            CategoryId: [],
-            Status: true,
+            oldimage: '',
+            oldmoreimages: [],
+            name: '',
+            metatitle: '',
+            image: {},
+            moreimages: {},
+            detail: '',
+            description: '',
+            price: '',
+            promotionprice: '',
+            quantity: '',
+            categoryId: [],
+            isDeleted: true,
             isDone: false,
             isLoad: true
         }
@@ -75,19 +71,12 @@ class editproduct extends Component {
         slug = slug.replace(/\@\-|\-\@|\@/gi, '');//eslint-disable-line
         //In slug ra textbox có id “slug”
         this.setState({
-            MetaTitle: slug
+            metatitle: slug
         })
         //return slug;
     }
 
-    getData = () =>
-        Axios.get('http://localhost:9000/products/edit/' + this.props.match.params.id)
-            .then((res) => {
-                console.log(res.data[0])
-                this.setState({
-                    data: res.data[0]
-                })
-            })
+
     onSelectMulti = (e) => {
         var list = [];
         if (e != null) {
@@ -96,36 +85,36 @@ class editproduct extends Component {
             )
         }
         this.setState({
-            CategoryId: list
+            categoryId: list
         })
     }
 
     onSelectStatus = (e) => {
         if (e.value) {
             this.setState({
-                Status: true
+                isDeleted: true
             })
         }
         else {
             this.setState({
-                Status: false
+                isDeleted: false
             })
         }
     }
 
     setImages = (imageUpdate) => {
-        this.setState({ Image: imageUpdate })
+        this.setState({ image: imageUpdate })
     };
 
     setMoreImages = (imageUpdate) => {
-        this.setState({ MoreImages: imageUpdate })
+        this.setState({ moreimages: imageUpdate })
     };
 
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
-        if (e.target.name === 'Name') {
+        if (e.target.name === 'name') {
             this.ChangeToSlug(e.target.value);
         }
     }
@@ -134,47 +123,48 @@ class editproduct extends Component {
         e.preventDefault();
         var data = new FormData();
 
-        data.append("Name", this.state.Name);
-        data.append("MetaTitle", this.state.MetaTitle);
-        data.append('Detail', this.state.Detail);
-        data.append('Description', this.state.Description);
-        data.append('Price', this.state.Price);
-        data.append('PromotionPrice', this.state.PromotionPrice);
-        data.append('Quantity', this.state.Quantity);
-        data.append('Status', this.state.Status);
-        if (this.state.CategoryId !== null) {
-            for (const [key, value] of Object.entries(this.state.CategoryId)) {
-                console.log(key);
-                data.append('CategoryId', value);
-            }
-        }
-        if (this.state.Image[0] !== null) {
+        data.append("name", this.state.name);
+        data.append("metatitle", this.state.metatitle);
+        data.append('detail', this.state.detail);
+        data.append('description', this.state.description);
+        data.append('price', this.state.price);
+        data.append('promotionprice', this.state.promotionprice);
+        data.append('quantity', this.state.quantity);
+        data.append('isDeleted', this.state.isDeleted);
 
-            data.append("Image", this.state.Image[0]);
+        if (this.state.categoryId != null) {
+            data.append('categoryId', this.state.categoryId.toString());
         }
-        if (this.state.MoreImages != null) {
-            for (const [key, value] of Object.entries(this.state.MoreImages)) {
+
+        // 1 image
+        if (this.state.image[0] != null) {
+            data.append("image", this.state.image[0]);
+        }
+        if (this.state.oldimage != null) {
+            data.append("oldimage", this.state.oldimage)
+        }
+
+        // multiple images
+        var temp_list = []
+        if (this.state.moreimages != null) {
+            for (const [key, value] of Object.entries(this.state.moreimages)) {
                 console.log(key);
-                data.append('MoreImages', value);
+                temp_list.push(value)
             }
+            data.append('moreimages', temp_list.toString());
         }
-        if (this.state.oldImage !== null) {
-            data.append("OldImage", this.state.oldImage)
+
+        if (this.state.oldmoreimages != null) {
+            console.log(this.state.oldmoreimages)
+            data.append('oldmoreimages', this.state.oldmoreimages.toString());
         }
-        if (this.state.oldMoreImages != null) {
-            this.state.oldMoreImages.forEach((value) => {
-                console.log(value);
-                data.append('OldMoreImages', value);
-            })
-        }
-        console.log(data);
-        Axios.post('/products/edit/' + this.props.match.params.id, data, {
+
+        Axios.put('/products/' + this.props.match.params.id, data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
             .then(res => {
-                console.log(res);
                 this.onDone();
             })
             .catch(err => {
@@ -191,21 +181,21 @@ class editproduct extends Component {
 
     RemoveOldImage = (e) => {
         this.setState({
-            oldImage: null
+            oldimage: null
         })
     }
 
     RemoveOldMoreImages = (e) => {
         this.setState({
-            oldMoreImages: this.state.oldMoreImages.filter(im => im !== e)
+            oldmoreimages: this.state.oldmoreimages.filter(im => im !== e)
         })
 
     }
 
     getImage = () => {
-        if (this.state.oldImage) {
+        if (this.state.oldimage) {
             return (
-                <Image remove={(e) => this.RemoveOldImage(e)} src={this.state.oldImage} />
+                <Image remove={(e) => this.RemoveOldImage(e)} src={this.state.oldimage} />
             )
         } else {
             return null;
@@ -217,7 +207,7 @@ class editproduct extends Component {
 
     getoldMoreImages = () => {
         return (
-            this.state.oldMoreImages.map((value, key) => (
+            this.state.oldmoreimages.map((value, key) => (
                 <Image key={key} src={value} remove={(e) => this.RemoveOldMoreImages(e)} />
             ))
         )
@@ -231,49 +221,52 @@ class editproduct extends Component {
         })
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('http://localhost:9000/products/edit/' + this.props.match.params.id)
+            Axios.get('/products/' + this.props.match.params.id)
                 .then((res) => {
-                    temp = res.data[0];
-
+                    temp = res.data.data;
                     this.setState({
-                        Name: temp.Name,
-                        MetaTitle: temp.MetaTitle,
-                        Detail: temp.Detail,
-                        Description: temp.Description,
-                        oldImage: temp.Image,
-                        oldMoreImages: temp.MoreImages,
-                        Price: temp.Price,
-                        Quantity: temp.Quantity,
-                        Status: temp.Status,
-                        CategoryId: temp.CategoryId
+                        name: temp.name,
+                        metatitle: temp.metatitle,
+                        detail: temp.detail,
+                        description: temp.description,
+                        oldimage: temp.image,
+                        oldmoreimages: temp.moreimages,
+                        price: temp.price,
+                        quantity: temp.quantity,
+                        isDeleted: temp.isDeleted,
+                        categoryId: temp.categoryId
 
                     })
                 })
                 .then(() => {
-                    if (temp.PromotionPrice === null) {
+                    if (temp.promotionprice === null) {
                         this.setState({
-                            PromotionPrice: ''
+                            promotionprice: ''
                         })
                     } else {
                         this.setState({
-                            PromotionPrice: temp.PromotionPrice
+                            promotionprice: temp.promotionprice
                         })
                     }
                 })
 
             var temp2 = null;
-            Axios.get('http://localhost:9000/categories/listavail')
+
+            var data = {
+                isDeleted: false
+            }
+
+            Axios.post('/categories/getAll', data)
                 .then((res) => {
-                    temp2 = res.data;
+                    temp2 = res.data.data;
                     CategoryID = [];
                     temp2.forEach(o => {
                         var object = {
                             value: o._id,
-                            label: o.Name
+                            label: o.name
                         }
                         CategoryID.push(object);
                     })
-                    console.log(CategoryID);
                     this.setState({
                         isLoad: false
                     })
@@ -297,17 +290,17 @@ class editproduct extends Component {
                         <h1 className="text-center">Trang sửa sản phẩm</h1>
                         <div className="container-fluid">
                             <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                                <label htmlFor="Name"  >Tên sản phẩm</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Name" placeholder="Tên sản phẩm" required={true} value={this.state.Name} />
+                                <label htmlFor="name"  >Tên sản phẩm</label>
+                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên sản phẩm" required={true} value={this.state.name} />
 
-                                <label htmlFor="MetaTitle"  >Meta Title</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="MetaTitle" placeholder="ten-san-pham" value={this.state.MetaTitle} />
+                                <label htmlFor="metaTitle"  >Meta Title</label>
+                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-san-pham" value={this.state.metatitle} />
 
-                                <label htmlFor="Image"  >Hình đại diện</label>
+                                <label htmlFor="image"  >Hình đại diện</label>
                                 <MultiImageInput
                                     max={1}
                                     theme="light"
-                                    images={this.state.Image}
+                                    images={this.state.image}
                                     setImages={(e) => this.setImages(e)}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
@@ -315,11 +308,11 @@ class editproduct extends Component {
                                     {this.getImage()}
                                 </div>
 
-                                <label htmlFor="MoreImages"  >Hình ảnh thêm</label>
+                                <label htmlFor="moreimages"  >Hình ảnh thêm</label>
                                 <MultiImageInput
                                     max={10}
                                     theme="light"
-                                    images={this.state.MoreImages}
+                                    images={this.state.moreimages}
                                     setImages={(e) => this.setMoreImages(e)}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
@@ -328,36 +321,36 @@ class editproduct extends Component {
                                     {this.getoldMoreImages()}
                                 </div>
 
-                                <label htmlFor="Detail"  >Chi tiết</label>
-                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Detail" placeholder="Chi tiết" value={this.state.Detail} />
+                                <label htmlFor="detail"  >Chi tiết</label>
+                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="detail" placeholder="Chi tiết" value={this.state.detail} />
 
-                                <label htmlFor="Description"  >Mô tả</label>
-                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="Description" placeholder="Mô tả" value={this.state.Description} />
+                                <label htmlFor="description"  >Mô tả</label>
+                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="Mô tả" value={this.state.description} />
 
-                                <label htmlFor="Price"  >Giá</label>
-                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="Price" placeholder="100000" required={true} value={this.state.Price} />
+                                <label htmlFor="price"  >Giá</label>
+                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="price" placeholder="100000" required={true} value={this.state.price} />
 
-                                <label htmlFor="PromotionPrice"  >Giá khuyến mãi</label>
-                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="PromotionPrice" placeholder="50000" value={this.state.PromotionPrice} />
+                                <label htmlFor="promotionprice"  >Giá khuyến mãi</label>
+                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="promotionprice" placeholder="50000" value={this.state.promotionprice} />
 
-                                <label htmlFor="Quantity"  >Số lượng</label>
-                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="Quantity" placeholder="100" required={true} value={this.state.Quantity} />
+                                <label htmlFor="quantity"  >Số lượng</label>
+                                <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="quantity" placeholder="100" required={true} value={this.state.quantity} />
 
-                                <label htmlFor="CategoryID"  >Danh mục</label>
+                                <label htmlFor="categoryID"  >Danh mục</label>
                                 <Select
-                                    name="CategoryID"
+                                    name="categoryID"
                                     onChange={(e) => this.onSelectMulti(e)}
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}
-                                    value={CategoryID.filter(({ value, label }) => this.state.CategoryId.includes(value))}
+                                    value={CategoryID.filter(({ value, label }) => this.state.categoryId.includes(value))}
                                     isMulti
                                     options={CategoryID}
                                 />
 
-                                <label htmlFor="Status"  >Trạng thái</label>
+                                <label htmlFor="isDeleted"  >Trạng thái</label>
                                 <Select
                                     onChange={(e) => this.onSelectStatus(e)}
-                                    value={trangthai.filter(({ value }) => value === this.state.Status)}
+                                    value={trangthai.filter(({ value }) => value === this.state.isDeleted)}
                                     options={trangthai}
                                 />
                                 <br />
