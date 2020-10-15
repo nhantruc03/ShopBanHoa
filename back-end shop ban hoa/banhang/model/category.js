@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const category = new mongoose.Schema(
     {
+        categorycontentsId:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'categorycontents',
+            index:true,
+            required:true
+        },
         name: {
             type: String,
             index: true,

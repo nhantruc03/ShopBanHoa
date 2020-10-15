@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var fs = require('fs');
-var mime = require('mime');
-var isEmpty = require('lodash.isempty');
 const productController = require("../controllers/product");
+
+
 
 router.post("/", productController.create);
 router.get("/:id", productController.get);

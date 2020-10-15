@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const router = require('express').Router()
+const { isAdmin } = require("../services/checkAdmin")
+const { authenticateToken } = require("../services/authenticationToken")
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const { create } = require('../controllers/users/create')
+const { get } = require('../controllers/users/get')
+const { getAll } = require('../controllers/users/getAll')
+const { update } = require('../controllers/users/update')
+const { _delete } = require('../controllers/users/delete')
+const { login } = require('../controllers/users/login')
 
-module.exports = router;
+router.post("/", create)
+router.get("/:id", get)
+router.get("/", getAll)
+router.put("/:id", update)
+router.delete("/:id", _delete)
+router.post("/login", login)
+
+module.exports = router

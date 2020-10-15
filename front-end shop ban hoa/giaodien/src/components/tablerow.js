@@ -58,7 +58,7 @@ class TableDataRow extends Component {
     render() {
         if (this.state.onEdit) {
             return (
-                <Redirect to={"/edit" + this.props.obj + "/" + this.props.data._id} />
+                <Redirect to={"/admin/edit" + this.props.obj + "/" + this.props.data._id} />
             )
         }
         else {

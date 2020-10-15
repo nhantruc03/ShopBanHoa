@@ -12,7 +12,7 @@ class sidebar extends Component {
                         <div className="sidebar-brand-icon rotate-n-15">
                             <i className="fas fa-laugh-wink" />
                         </div>
-                        <div className="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                        <div className="sidebar-brand-text mx-3">Shop bán hoa</div>
                     </a>
                     {/* Divider */}
                     <hr className="sidebar-divider" />
@@ -27,18 +27,30 @@ class sidebar extends Component {
                         <Navbar.Toggle style={{ width: 60 }} aria-controls="sanpham" > <i className="fas  fa-briefcase" /></Navbar.Toggle>
                         <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="sanpham">
                             <Nav className="mr-auto">
-                                <NavLink style={{ color: "#4e73df" }} className="link" to="/listproducts" >Xem danh sách sản phẩm</NavLink>
-                                <NavLink style={{ color: "#4e73df" }} className="link" to="/listcategories" >Xem danh sách danh mục</NavLink>
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listproducts" >Danh sách sản phẩm</NavLink>
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listcategories" >Danh sách danh mục</NavLink>
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listcategorycontents" >Danh sách loại danh mục</NavLink>
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
-
+                    <hr className="sidebar-divider" />
+                    <Navbar expand="false" style={{ width: "100%", color: "white" }}>
+                        Quản lý tin tức
+                        <Navbar.Toggle style={{ width: 60 }} aria-controls="tintuc" > <i className="fas  fa-newspaper" /></Navbar.Toggle>
+                        <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="tintuc">
+                            <Nav className="mr-auto">
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listnews" >Danh sách tinh tức</NavLink>
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listnewscategories" >Danh sách danh mục tin</NavLink>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>
+                    <hr className="sidebar-divider" />
                     <Navbar expand="false" style={{ width: "100%", color: "white" }}>
                         Quản lý chung
                         <Navbar.Toggle style={{ width: 60 }} aria-controls="common" > <i className="fas  fa-bars" /></Navbar.Toggle>
                         <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="common">
                             <Nav className="mr-auto">
-                                <NavLink style={{ color: "#4e73df" }} className="link" to="/listbanners" >Xem danh sách banner</NavLink>
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listbanners" >Xem danh sách banner</NavLink>
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>

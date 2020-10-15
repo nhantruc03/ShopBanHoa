@@ -9,8 +9,9 @@ exports.create = async (req, res, next) => {
     try {
         const name = req.body.name;
         const metatitle = req.body.metatitle;
+        const categorycontentsId = req.body.categorycontentsId;
         // Check not enough property
-        if (isEmpty(name) || isEmpty(metatitle)) {
+        if (isEmpty(name) || isEmpty(metatitle) || isEmpty(categorycontentsId)) {
             return res.status(406).json({
                 success: false,
                 error: "Not enough property"
@@ -29,7 +30,8 @@ exports.create = async (req, res, next) => {
                     ...pick(
                         req.body,
                         "name",
-                        "metatitle"
+                        "metatitle",
+                        "categorycontentsId"
                     )
                 }
             ],
@@ -100,24 +102,24 @@ exports.getAll = async (req, res, next) => {
     const page = Number(req.query.page); // page index
     const limit = Number(req.query.limit); // limit docs per page
     try {
-        const categoryId = req.body.CategorycategoriesId;
-
         let Categorys;
         let query = {
-            ...pick(req.body, "name", "metatitle"),
+            ...pick(req.body, "name", "metatitle","categorycontentsId"),
             isDeleted: false
         };
 
         if (!page || !limit) {
             Categorys = await Category.find(query)
                 .select(
-                    "name metatitle isDeleted"
-                );
+                    "name metatitle categorycontentsId isDeleted"
+                )
+                .populate("categorycontentsId","name");
         } else {
             Categorys = await Category.find(query)
                 .select(
-                    "name metatitle isDeleted"
+                    "name metatitle categorycontentsId isDeleted"
                 )
+                .populate("categorycontentsId","name")
                 .skip(limit * (page - 1))
                 .limit(limit);
         }
@@ -143,6 +145,7 @@ exports.update = async (req, res, next) => {
                     req.body,
                     "name",
                     "metatitle",
+                    "categorycontentsId",
                     "isDeleted"
                 )
             },

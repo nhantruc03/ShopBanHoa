@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
 
 class Pagination extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         pageNumbers: []
-    //     }
-    //     for (let i = 1; i <= Math.ceil(this.props.totalPosts / this.props.postsPerPage); i++) {
-    //         this.state.pageNumbers.push(i);
-    //     }
-    // }
-
-
-
     renderRow = () => {
         return (
             this.props.totalPosts.map(number => (
@@ -22,7 +10,6 @@ class Pagination extends Component {
                     </button>
                 </li>
             ))
-
         )
     }
     render() {

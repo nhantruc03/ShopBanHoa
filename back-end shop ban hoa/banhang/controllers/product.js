@@ -4,6 +4,9 @@ const { startSession } = require("mongoose");
 const { commitTransactions, abortTransactions } = require("../services/transaction");
 const { json } = require("body-parser");
 const { storeImage } = require('../services/storeimage');
+
+
+
 exports.create = async (req, res, next) => {
     let sessions = [];
     try {
