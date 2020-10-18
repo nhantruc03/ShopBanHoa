@@ -1,20 +1,22 @@
-class Auth{
-    constructor(){
-        this.authenticated=false
+class Auth {
+    constructor() {
+        this.authenticated = false
+        this.authenticatedAdmin = false
     }
 
-    login(cb){
-        this.authenticated=true
-        cb();
+    loginAdmin(role) {
+        if (role === "admin") {
+            this.authenticatedAdmin = true
+        }
     }
 
-    logout(cb){
-        this.authenticated=false
-        cb();
+    logoutAdmin(cb) {
+        this.authenticatedAdmin = false
+
     }
 
-    isAuthenticated(){
-        return this.authenticated;
+    isAuthenticatedAdmin() {
+        return this.authenticatedAdmin;
     }
 }
 

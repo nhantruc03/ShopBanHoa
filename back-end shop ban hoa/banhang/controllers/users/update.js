@@ -8,8 +8,7 @@ const update = async (req, res) => {
   try {
     const queryOld = { 
       $or: [
-        {phoneNumber: req.body.phoneNumber},
-        {username: req.body.phoneNumber},
+        {username: req.body.username},
       ],
       isDeleted: false
     }

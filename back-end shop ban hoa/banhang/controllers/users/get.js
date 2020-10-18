@@ -4,7 +4,7 @@ const { isAdmin } = require("../../services/checkAdmin")
 const get = async (req, res) => {
   try {
     // Check owner:  not admin && not owner => out
-    if ( req.user.role !== "admin" && req.user._id !== req.params.id ) {
+    if ( req.query.role !== "admin" && req.body._id !== req.params.id ) {
       return res.status(406).json({
         success: false,
         error: "Can not access others user information"

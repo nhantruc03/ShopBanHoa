@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
+// import { Route } from 'react-router-dom'
 import Listproducts from '../components/areaadmin/product/listproducts'
 import Addproducts from '../components/areaadmin/product/addproducts'
 import Editproducts from '../components/areaadmin/product/editproducts'
@@ -18,33 +18,42 @@ import Editnewscategories from '../components/areaadmin/newscategories/editnewsc
 import Listnews from '../components/areaadmin/news/listnews'
 import Addnews from '../components/areaadmin/news/addnews'
 import Editnews from '../components/areaadmin/news/editnews'
+import Listuser from '../components/areaadmin/users/listusers'
+import Addusers from '../components/areaadmin/users/addusers'
+import Editusers from '../components/areaadmin/users/editusers'
+
+import {SecureRouteAdmin} from '../router/secureRoute'
 class router extends Component {
     render() {
         return (
             <div>
-                <Route exact path="/admin/listproducts" component={Listproducts} />
-                <Route exact path="/admin/addproducts" component={Addproducts} />
-                <Route exact path="/admin/editproducts/:id" component={Editproducts} />
+                <SecureRouteAdmin exact path="/admin/listproducts" component={Listproducts} />
+                <SecureRouteAdmin exact path="/admin/addproducts" component={Addproducts} />
+                <SecureRouteAdmin exact path="/admin/editproducts/:id" component={Editproducts} />
 
-                <Route exact path="/admin/listcategories" component={Listcategories} />
-                <Route exact path="/admin/editcategories/:id" component={Editcategories} />
-                <Route exact path="/admin/addcategories" component={Addcategories} />
+                <SecureRouteAdmin exact path="/admin/listcategories" component={Listcategories} />
+                <SecureRouteAdmin exact path="/admin/editcategories/:id" component={Editcategories} />
+                <SecureRouteAdmin exact path="/admin/addcategories" component={Addcategories} />
 
-                <Route exact path="/admin/listbanners" component={Listbanners} />
-                <Route exact path="/admin/editbanners/:id" component={Editbanners} />
-                <Route exact path="/admin/addbanners" component={Addbanners} />
+                <SecureRouteAdmin exact path="/admin/listbanners" component={Listbanners} />
+                <SecureRouteAdmin exact path="/admin/editbanners/:id" component={Editbanners} />
+                <SecureRouteAdmin exact path="/admin/addbanners" component={Addbanners} />
 
-                <Route exact path="/admin/listcategorycontents" component={Listcategorycontents} />
-                <Route exact path="/admin/editcategorycontents/:id" component={Editcategorycontents} />
-                <Route exact path="/admin/addcategorycontents" component={Addcategorycontents} />
+                <SecureRouteAdmin exact path="/admin/listcategorycontents" component={Listcategorycontents} />
+                <SecureRouteAdmin exact path="/admin/editcategorycontents/:id" component={Editcategorycontents} />
+                <SecureRouteAdmin exact path="/admin/addcategorycontents" component={Addcategorycontents} />
 
-                <Route exact path="/admin/listnewscategories" component={Listnewscategories} />
-                <Route exact path="/admin/editnewscategories/:id" component={Editnewscategories} />
-                <Route exact path="/admin/addnewscategories" component={Addnewscategories} />
+                <SecureRouteAdmin exact path="/admin/listnewscategories" component={Listnewscategories} />
+                <SecureRouteAdmin exact path="/admin/editnewscategories/:id" component={Editnewscategories} />
+                <SecureRouteAdmin exact path="/admin/addnewscategories" component={Addnewscategories} />
 
-                <Route exact path="/admin/listnews" component={Listnews} />
-                <Route exact path="/admin/editnews/:id" component={Editnews} />
-                <Route exact path="/admin/addnews" component={Addnews} />
+                <SecureRouteAdmin exact path="/admin/listnews" component={Listnews} />
+                <SecureRouteAdmin exact path="/admin/editnews/:id" component={Editnews} />
+                <SecureRouteAdmin exact path="/admin/addnews" component={Addnews} />
+
+                <SecureRouteAdmin exact path="/admin/listusers" component={Listuser} />
+                <SecureRouteAdmin exact path="/admin/editusers/:id" component={Editusers} />
+                <SecureRouteAdmin exact path="/admin/addusers" component={Addusers} />
 
                 
             </div>
