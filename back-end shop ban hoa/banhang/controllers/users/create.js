@@ -8,16 +8,16 @@ const { commitTransactions, abortTransactions } = require('../../services/transa
 const create = async (req, res) => {
   let sessions = []
   try {
-    const query = { 
+    const query = {
       $or: [
-        {phoneNumber: req.body.phoneNumber},
-        {username: req.body.phoneNumber},
+        { phoneNumber: req.body.phoneNumber },
+        { username: req.body.username },
       ],
       isDeleted: false
     } // for oldDocs
 
     // Handle data
-    const { error, body} = handleBody(req.body) // for newDoc
+    const { error, body } = handleBody(req.body) // for newDoc
     if (error) {
       return res.status(406).json({
         success: false,
@@ -34,20 +34,20 @@ const create = async (req, res) => {
     if (body.password != null) {
       body.password = await bcrypt.hashSync(body.password, 10);
     }
+    const newDoc = await Users.create(
+      [body],
+      { session: session }
+    );
+
 
     // Access DB
-    const [oldDocs, newDoc] = await Promise.all([
-      Users.find(query),
-      Users.create(
-        [body],
-        { session: session }
-      )
-    ])
-    
+    const oldDocs = await Users.find(query,null,{session})
+
+
     // Check duplicate
-    if (oldDocs.length > 0) {
+    if (oldDocs.length > 1) {
       await abortTransactions(sessions)
-      return res.status(406).json({
+      return res.status(409).json({
         success: false,
         error: "Duplicate data"
       })

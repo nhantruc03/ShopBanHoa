@@ -4,13 +4,14 @@ import TableDataRow from './tablerow';
 class TableData extends Component {
 
     mappingDataUser = () => this.props.data.map((value, key) => (
-
         <TableDataRow
             obj={this.props.obj}
             onDelete={(e)=>this.props.onDelete(e)}
             key={key}
             keydata={this.props.keydata}
             data={value}
+            review={this.props.review}
+            noaction={this.props.noaction}
         />
     ))
 

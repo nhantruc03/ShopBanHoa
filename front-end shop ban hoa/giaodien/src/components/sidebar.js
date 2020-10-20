@@ -44,6 +44,16 @@ class sidebar extends Component {
                     </Navbar>
                     <hr className="sidebar-divider" />
                     <Navbar expand="false" style={{ width: "100%", color: "white" }}>
+                        Quản lý hóa đơn
+                        <Navbar.Toggle style={{ width: 60 }} aria-controls="hoadon" > <i className="fas  fa-briefcase" /></Navbar.Toggle>
+                        <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="hoadon">
+                            <Nav className="mr-auto">
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listorders" >Danh sách hóa đơn</NavLink>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>
+                    <hr className="sidebar-divider" />
+                    <Navbar expand="false" style={{ width: "100%", color: "white" }}>
                         Quản lý tin tức
                         <Navbar.Toggle style={{ width: 60 }} aria-controls="tintuc" > <i className="fas  fa-newspaper" /></Navbar.Toggle>
                         <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="tintuc">

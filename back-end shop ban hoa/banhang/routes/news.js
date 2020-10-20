@@ -1,13 +1,18 @@
 var express = require('express');
 var router = express.Router();
-const newsController = require("../controllers/news");
+
+const { create } = require('../controllers/news/create')
+const { get } = require('../controllers/news/get')
+const { getAll } = require('../controllers/news/getAll')
+const { update } = require('../controllers/news/update')
+const { _delete } = require('../controllers/news/delete')
 
 
 
-router.post("/", newsController.create);
-router.get("/:id", newsController.get);
-router.post("/getAll", newsController.getAll);
-router.put("/:id", newsController.update);
-router.delete("/:id", newsController.delete);
+router.post("/", create);
+router.get("/:id", get);
+router.post("/getAll", getAll);
+router.put("/:id", update);
+router.delete("/:id", _delete);
 
 module.exports = router;

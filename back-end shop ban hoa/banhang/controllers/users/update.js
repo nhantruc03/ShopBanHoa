@@ -6,16 +6,16 @@ const { commitTransactions, abortTransactions } = require('../../services/transa
 const update = async (req, res) => {
   let sessions = []
   try {
-    const queryOld = { 
+    const queryOld = {
       $or: [
-        {username: req.body.username},
+        { username: req.body.username },
       ],
       isDeleted: false
     }
     const queryUpdate = { _id: req.params.id, isDeleted: false }
 
     // Handle data
-    const { error, body} = handleBody(req.body) // for newDoc
+    const { error, body } = handleBody(req.body) // for newDoc
     if (error) {
       return res.status(406).json({
         success: false,
@@ -27,18 +27,17 @@ const update = async (req, res) => {
     let session = await startSession();
     session.startTransaction();
     sessions.push(session);
+    const updated = await Users.findOneAndUpdate(
+      queryUpdate,
+      body,
+      { session, new: true }
+    );
 
-    const [oldDocs, updated] = await Promise.all([
-      Users.find(queryOld),
-      Users.findOneAndUpdate(
-        queryUpdate,
-        body,
-        { session, new: true }
-      )
-    ])
-    
+
+    const oldDocs = await Users.find(queryOld, null, { session });
+
     // Check duplicate
-    if (oldDocs.length > 0) {
+    if (oldDocs.length > 1) {
       await abortTransactions(sessions)
       return res.status(406).json({
         success: false,

@@ -1,12 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var isEmpty = require('lodash.isempty');
-const bannerController = require("../controllers/banner");
 
-router.post("/", bannerController.create);
-router.get("/:id", bannerController.get);
-router.post("/getAll", bannerController.getAll);
-router.put("/:id", bannerController.update);
-router.delete("/:id", bannerController.delete);
+const { create } = require('../controllers/banner/create')
+const { get } = require('../controllers/banner/get')
+const { getAll } = require('../controllers/banner/getAll')
+const { update } = require('../controllers/banner/update')
+const { _delete } = require('../controllers/banner/delete')
+
+router.post("/", create);
+router.get("/:id", get);
+router.post("/getAll", getAll);
+router.put("/:id", update);
+router.delete("/:id", _delete);
 
 module.exports = router;

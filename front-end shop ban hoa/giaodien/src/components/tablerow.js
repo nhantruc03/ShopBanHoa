@@ -5,7 +5,8 @@ class TableDataRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            onEdit: false
+            onEdit: false,
+            onView: false
         }
     }
 
@@ -38,11 +39,21 @@ class TableDataRow extends Component {
                     <td key={key} > {stt}</td>
                 )
             }
+            if (value.includes('Id')) {
+                return <td key={key}>{this.props.data[value].name}</td>
+            }
             if (this.props.data[value]) {
-                if (this.props.data[value].includes("image")) {
-                    return (
-                        <td key={key} ><img style={{ width: 150 }} src={`/anh/${this.props.data[value]}`} alt="Logo" /> </td>
-                    )
+                if (isNaN(this.props.data[value])) {
+                    if (this.props.data[value].includes("image")) {
+                        return (
+                            <td key={key} ><img style={{ width: 150 }} src={`/anh/${this.props.data[value]}`} alt="Logo" /> </td>
+                        )
+                    }
+                    else {
+                        return (
+                            <td key={key} > { this.props.data[value]}</td>
+                        )
+                    }
                 }
                 else {
                     return (
@@ -55,10 +66,46 @@ class TableDataRow extends Component {
             }
         })
 
+    viewClick = () => {
+        this.setState({
+            onView: true
+        })
+    }
+    renderAction = () => {
+        if (this.props.noaction) {
+            
+        } else {
+            if (this.props.review) {
+                return (
+                    <td>
+                        <div className="btn-group">
+                            <div onClick={() => this.viewClick()} className="btn btn-warning"><i className="fa fa-edit" />Xem</div>
+                            <div onClick={() => this.deleteClick()} className="btn btn-danger xoa"> <i className="fa fa-minus" />Xóa</div>
+                        </div>
+                    </td>
+                )
+            } else {
+                return (
+                    <td>
+                        <div className="btn-group">
+                            <div onClick={() => this.editClick()} className="btn btn-warning"><i className="fa fa-edit" />Sửa</div>
+                            <div onClick={() => this.deleteClick()} className="btn btn-danger xoa"> <i className="fa fa-minus" />Xóa</div>
+                        </div>
+                    </td>
+                )
+            }
+        }
+    }
+
     render() {
         if (this.state.onEdit) {
             return (
                 <Redirect to={"/admin/edit" + this.props.obj + "/" + this.props.data._id} />
+            )
+        }
+        else if (this.state.onView) {
+            return (
+                <Redirect to={"/admin/" + this.props.obj + "/" + this.props.data._id} />
             )
         }
         else {
@@ -66,12 +113,9 @@ class TableDataRow extends Component {
 
                 <tr>
                     { this.renderData()}
-                    < td >
-                        <div className="btn-group">
-                            <div onClick={() => this.editClick()} className="btn btn-warning"><i className="fa fa-edit" />Sửa</div>
-                            <div onClick={() => this.deleteClick()} className="btn btn-danger xoa"> <i className="fa fa-minus" />Xóa</div>
-                        </div>
-                    </td >
+
+                    {this.renderAction()}
+
                 </tr >
             );
         }

@@ -21,7 +21,8 @@ import Editnews from '../components/areaadmin/news/editnews'
 import Listuser from '../components/areaadmin/users/listusers'
 import Addusers from '../components/areaadmin/users/addusers'
 import Editusers from '../components/areaadmin/users/editusers'
-
+import Order from '../components/areaadmin/order/listorders'
+import OrderDetails from '../components/areaadmin/order/orderdetails'
 import {SecureRouteAdmin} from '../router/secureRoute'
 class router extends Component {
     render() {
@@ -55,7 +56,8 @@ class router extends Component {
                 <SecureRouteAdmin exact path="/admin/editusers/:id" component={Editusers} />
                 <SecureRouteAdmin exact path="/admin/addusers" component={Addusers} />
 
-                
+                <SecureRouteAdmin exact path="/admin/orders/:id" component={OrderDetails} />
+                <SecureRouteAdmin exact path="/admin/listorders" component={Order} />
             </div>
         );
     }

@@ -1,5 +1,4 @@
 const Users = require('../../model/users')
-const { isAdmin } = require("../../services/checkAdmin")
 
 const get = async (req, res) => {
   try {
