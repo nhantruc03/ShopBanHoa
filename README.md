@@ -1,2 +1,2 @@
 # ShopBanHoa
-MEAN stack
+MEAN stack - with A in ReAct xD
