@@ -49,7 +49,6 @@ class addbanners extends Component {
             }
         })
             .then(res => {
-                console.log(res);
                 this.onDone();
             })
             .catch(err => {

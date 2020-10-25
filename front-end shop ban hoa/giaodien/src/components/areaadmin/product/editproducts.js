@@ -110,7 +110,6 @@ class editproduct extends Component {
         }
 
         if (this.state.oldmoreimages != null) {
-            console.log(this.state.oldmoreimages)
             data.append('oldmoreimages', this.state.oldmoreimages.toString());
         }
 

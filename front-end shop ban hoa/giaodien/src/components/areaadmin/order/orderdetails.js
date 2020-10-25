@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import Search from '../../search';
 import TableData from '../../table';
 const tablerow = ['Tên sản phẩm', 'Số lượng', 'Tổng']
 const keydata = ['productId', 'quantity', 'price']
@@ -8,7 +9,6 @@ const obj = "order-details"
 const getData = (id) =>
     Axios.post('/order-details/getAll', { orderId: id })
         .then((res) => {
-            console.log(res.data);
             return res.data;
         })
 
@@ -17,11 +17,11 @@ class listorders extends Component {
         super(props);
         this.state = {
             data: null,
+            SearchData: null,
             total: 0,
             currentPage: 1,
             postsPerPage: 10,
-            listPage: [],
-            search: ''
+            listPage: []
         }
     }
 
@@ -29,7 +29,8 @@ class listorders extends Component {
         if (this.state.data === null) {
             getData(this.props.match.params.id).then((res) => {
                 this.setState({
-                    data: res.data
+                    data: res.data,
+                    SearchData: res.data
                 });
                 this.getTotal();
             })
@@ -42,7 +43,11 @@ class listorders extends Component {
                 currentPage: pageNumber
             });
     }
-
+    getSearchData = (data) => {
+        this.setState({
+            SearchData: data
+        })
+    }
     onDelete = (e) => {
         this.setState({
             data: this.state.data.filter(o => o._id !== e)
@@ -53,21 +58,21 @@ class listorders extends Component {
             [e.target.name]: e.target.value
         })
     }
-    getlistpage = (ketqua) => {
+    getlistpage = (SearchData) => {
         var listpage = [];
-        for (let i = 1; i <= Math.ceil(ketqua.length / this.state.postsPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(SearchData.length / this.state.postsPerPage); i++) {
             listpage.push(i);
         }
         return listpage;
     }
 
-    printData = (ketqua) => {
+    printData = (SearchData) => {
         if (this.state.data !== null) {
             return (
                 <div className='mt-5 text-center'>
                     <h1 className='text-primary mb-3'>Chi tiết hóa đơn</h1>
-                    <input onChange={(e) => this.onChange(e)} name="search" id="search" style={{ textAlign: "center" }} className="form-control" type="text" placeholder="Tìm kiếm" />
-                    <TableData obj={obj} dataRow={tablerow} data={ketqua} keydata={keydata} onDelete={(e) => this.onDelete(e)} noaction={true} />
+                    <Search targetParent="productId" target="name" data={this.state.data} getSearchData={(e)=> this.getSearchData(e)}/>
+                    <TableData obj={obj} dataRow={tablerow} data={SearchData} keydata={keydata} onDelete={(e) => this.onDelete(e)} noaction={true} />
                 </div>
             )
         }
@@ -99,18 +104,10 @@ class listorders extends Component {
                 <Redirect to="/admin/listorders" />
             )
         } else {
-            var ketqua = [];
-            if (this.state.data != null) {
-                this.state.data.forEach((item) => {
-                    if (item.productId.name.toString().toLowerCase().indexOf(this.state.search) !== -1) {
-                        ketqua.push(item);
-                    }
-                })
-            }
             return (
                 <div>
                     <div className="container-fluid">
-                        {this.printData(ketqua)}
+                        {this.printData(this.state.SearchData)}
                         {this.renderTotal()}
                         <button onClick={() => this.onDone()} className="btn btn-warning">Quay về</button>
                         <br />

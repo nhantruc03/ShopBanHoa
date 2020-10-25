@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
+import Search from '../../search';
 const tablerow = ['Tên', 'MetaTitle', 'Ảnh đại diện', 'Thao tác']
 const keydata = ['name', 'metatitle', 'image']
 const obj = "news"
-
-
 
 const getData = () =>
     Axios.post('/news/getAll')
@@ -18,10 +17,10 @@ class listproducts extends Component {
         super(props);
         this.state = {
             data: null,
+            SearchData: null,
             currentPage: 1,
             postsPerPage: 10,
             listPage: [],
-            search: '',
             onAdd: false
         }
     }
@@ -29,19 +28,25 @@ class listproducts extends Component {
     UNSAFE_componentWillMount() {
         if (this.state.data === null) {
             getData().then((res) => {
-                console.log(res)
                 this.setState({
-                    data: res.data
+                    data: res.data,
+                    SearchData: res.data
                 });
             })
         }
     }
 
-    getCurData = (ketqua) => {
+    getCurData = (SearchData) => {
         var indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
         var indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
-        return ketqua.slice(indexOfFirstPost, indexOfLastPost);
+        return SearchData.slice(indexOfFirstPost, indexOfLastPost);
 
+    }
+
+    getSearchData = (data) => {
+        this.setState({
+            SearchData: data
+        })
     }
 
     paginate = (pageNumber) => {
@@ -68,63 +73,45 @@ class listproducts extends Component {
         })
     }
 
-    getlistpage = (ketqua) => {
+    getlistpage = (SearchData) => {
         var listpage = [];
-        for (let i = 1; i <= Math.ceil(ketqua.length / this.state.postsPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(SearchData.length / this.state.postsPerPage); i++) {
             listpage.push(i);
         }
         return listpage;
     }
 
-    printData = (ketqua) => {
+    printData = (SearchData) => {
         if (this.state.data !== null) {
             return (
                 <div className='mt-5 text-center'>
                     <h1 className='text-primary mb-3'>Danh sách tin tức</h1>
-                    <input onChange={(e) => this.onChange(e)} name="search" id="search" style={{ textAlign: "center" }} className="form-control" type="text" placeholder="Tìm kiếm" />
-
-                    <TableData obj={obj} dataRow={tablerow} data={this.getCurData(ketqua)} keydata={keydata} onDelete={(e) => this.onDelete(e)}
-                    />
-
-
-                    <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(ketqua)} paginate={(e) =>
-                        this.paginate(e)}
-                    />
+                    <Search target="name" data={this.state.data} getSearchData={(e) => this.getSearchData(e)} />
+                    <TableData obj={obj} dataRow={tablerow} data={this.getCurData(SearchData)} keydata={keydata} onDelete={(e) => this.onDelete(e)}/>
+                    <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(SearchData)} paginate={(e) =>this.paginate(e)}/>
                     <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm
             </div>
                 </div>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <div className='mt-5 text-center'>
-                <h1 className='text-primary mb-3'>Danh sách tin tức</h1>
-              
-                <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
+                    <h1 className='text-primary mb-3'>Danh sách tin tức</h1>
 
-            </div>
+                    <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
+
+                </div>
             )
         }
     }
 
-
-
     render() {
-        var ketqua = [];
-        if (this.state.data != null) {
-            this.state.data.forEach((item) => {
-                if (item.name.toString().toLowerCase().indexOf(this.state.search) !== -1) {
-                    ketqua.push(item);
-                }
-            })
-        }
-
         if (!this.state.onAdd) {
             return (
                 <div>
                     <div className="container-fluid">
-                        {this.printData(ketqua)}
+                        {this.printData(this.state.SearchData)}
                     </div>
-
                 </div>
             );
         }

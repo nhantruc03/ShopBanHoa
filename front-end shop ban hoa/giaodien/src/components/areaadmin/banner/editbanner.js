@@ -30,7 +30,6 @@ class editbanner extends Component {
     getData = () =>
         Axios.get('/banners/' + this.props.match.params.id)
             .then((res) => {
-                console.log(res.data[0])
                 this.setState({
                     data: res.data[0]
                 })
@@ -68,7 +67,6 @@ class editbanner extends Component {
             }
         })
             .then(res => {
-                console.log('a');
                 this.onDone();
             })
             .catch(err => {

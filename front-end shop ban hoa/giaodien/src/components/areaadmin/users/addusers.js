@@ -42,8 +42,6 @@ class addusers extends Component {
             password: this.state.password,
             role: this.role
         };
-
-
         Axios.post('/users', data)
             .then(res => {
                 this.onDone();
@@ -90,7 +88,6 @@ class addusers extends Component {
                             <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="username" placeholder="Tài khoản" required={true} />
                             <label htmlFor="password"  >Mật khẩu</label>
                             <input onChange={(e) => this.onChange(e)} type="password" className="form-control" name="password" placeholder="Mật khẩu" required={true} />
-
                             <label htmlFor="role"  >Chức vụ</label>
                             <Select
                                 onChange={(e) => this.onSelect(e)}

@@ -36,7 +36,6 @@ class editusers extends Component {
             phoneNumber: this.state.phoneNumber,
             role: this.state.role
         }
-        console.log(data);
         Axios.put('/users/' + this.props.match.params.id, data)
             .then(res => {
                 this.onDone();
@@ -93,7 +92,6 @@ class editusers extends Component {
                             <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="address" placeholder="Địa chỉ" required={true}  value={this.state.address}/>
                             <label htmlFor="phoneNumber"  >Số điện thoại</label>
                             <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="phoneNumber" placeholder="Số điện thoại" required={true} value={this.state.phoneNumber}/>
-
                             <label htmlFor="role"  >Chức vụ</label>
                             <Select
                                 onChange={(e) => this.onSelect(e)}
