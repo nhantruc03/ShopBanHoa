@@ -19,7 +19,7 @@ class TableData extends Component {
         this.props.dataRow.map((value, key) => (
             <th key={key}>{value}</th>
         ))
-
+        
     render() {
         return (
             <div className="col mt-2">

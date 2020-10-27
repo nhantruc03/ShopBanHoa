@@ -15,14 +15,17 @@ const getAll = async (req, res) => {
       Categorycontentss = await Categorycontents.find(query)
         .select(
           "name metatitle isDeleted"
-        );
+        )
+        .sort({ createdAt: -1 });
     } else {
       Categorycontentss = await Categorycontents.find(query)
         .select(
           "name metatitle isDeleted"
         )
         .skip(limit * (page - 1))
-        .limit(limit);
+        .limit(limit)
+        .sort({ createdAt: -1 });
+
     }
 
     return res.status(200).json({ success: true, data: Categorycontentss });

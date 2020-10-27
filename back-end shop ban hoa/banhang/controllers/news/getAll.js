@@ -17,7 +17,8 @@ const getAll = async (req, res) => {
         .select(
           "name metatitle description image newscategoryId isDeleted"
         )
-        .populate("newscategoryId", "name");
+        .populate("newscategoryId", "name")
+        .sort({ createdAt: -1 });;
     } else {
       Newss = await News.find(query)
         .select(
@@ -25,7 +26,8 @@ const getAll = async (req, res) => {
         )
         .populate("newscategoryId", "name")
         .skip(limit * (page - 1))
-        .limit(limit);
+        .limit(limit)
+        .sort({ createdAt: -1 });;
     }
 
     return res.status(200).json({ success: true, data: Newss });

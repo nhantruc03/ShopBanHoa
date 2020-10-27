@@ -256,6 +256,7 @@ class editproduct extends Component {
                                     theme="light"
                                     images={this.state.image}
                                     setImages={(e) => this.setImages(e)}
+                                    allowCrop={false}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
                                 <div>
@@ -268,6 +269,7 @@ class editproduct extends Component {
                                     theme="light"
                                     images={this.state.moreimages}
                                     setImages={(e) => this.setMoreImages(e)}
+                                    allowCrop={false}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
 

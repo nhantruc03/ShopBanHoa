@@ -14,15 +14,13 @@ const getAll = async (req, res) => {
     if (!page || !limit) {
       Products = await Product.find(query)
         .select(
-          "name metatitle detail description price promotionprice quantity image moreimages isDeleted"
+          "name metatitle detail price promotionprice image categoryId isDeleted"
         )
-        .populate("categoryId", "name");
     } else {
       Products = await Product.find(query)
         .select(
-          "name metatitle detail description price promotionprice quantity image moreimages isDeleted"
+          "name metatitle detail price promotionprice image categoryId isDeleted"
         )
-        .populate("categoryId", "name")
         .skip(limit * (page - 1))
         .limit(limit);
     }

@@ -2,8 +2,6 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import auth from "./auth";
 
-
-
 export const SecureRouteAdmin = (props) => {
   // this.props.history.push(this.props.path)
   return (

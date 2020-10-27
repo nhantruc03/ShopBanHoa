@@ -173,6 +173,7 @@ class addproduct extends Component {
                                     theme="light"
                                     images={this.state.image}
                                     setImages={(e) => this.setimages(e)}
+                                    allowCrop={false}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
 
@@ -182,11 +183,12 @@ class addproduct extends Component {
                                     theme="light"
                                     images={this.state.moreimages}
                                     setImages={(e) => this.setMoreimages(e)}
+                                    allowCrop={false}
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
 
                                 <label htmlFor="detail"  >Chi tiết</label>
-                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="detail" placeholder="Chi tiết" />
+                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="detail" placeholder="Chi tiết" required={true}/>
 
                                 <label htmlFor="description"  >Mô tả</label>
                                 {/* <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="Mô tả" /> */}

@@ -7,7 +7,7 @@ const getAll = async (req, res) => {
   try {
     let Orders;
     let query = {
-      ...pick(req.body, "customerId", "shipname","shipmobile","shipaddress","shipemail"),
+      ...pick(req.body, "customerId", "shipname", "shipmobile", "shipaddress", "shipemail"),
       isDeleted: false
     };
 
@@ -26,6 +26,8 @@ const getAll = async (req, res) => {
         .skip(limit * (page - 1))
         .limit(limit);
     }
+
+   
 
     return res.status(200).json({ success: true, data: Orders });
   } catch (error) {
