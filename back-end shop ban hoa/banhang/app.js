@@ -36,6 +36,7 @@ app.use('/newscategories',require('./routes/newscategory'));
 app.use('/news',require('./routes/news'));
 app.use('/orders',require('./routes/order'));
 app.use('/order-details',require('./routes/orderdetail'));
+app.use('/contacts',require('./routes/contacts'));
 
 app.post("/uploads", (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {

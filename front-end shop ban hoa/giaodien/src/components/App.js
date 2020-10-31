@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import './../css/App.css';
-import Routing from '../router/bigroutermodule';
+import Routing from '../router/routermodule';
 import { BrowserRouter as Router } from 'react-router-dom'
+import ScrollToTop from '../router/ScrollToTop';
 
 class App extends Component {
   render() {
     return (
       <Router>
-         <Routing />
+        <ScrollToTop>
+          <Routing />
+        </ScrollToTop>
       </Router>
     );
   }

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 
 class sidemenu extends Component {
+    handleClick = (e)=>{
+        e.preventDefault();
+        this.props.handleSideBar();
+    }
     render() {
         return (
-            <div className="side">
-                <a href="/#" className="close-side"><i className="fa fa-times" /></a>
+            <div className={`side ${this.props.sideBar}`}>
+                <a href="/#" onClick={(e)=>this.handleClick(e)} className="close-side"><i className="fa fa-times" /></a>
                 <li className="cart-box">
                     <ul className="cart-list">
                         <li>

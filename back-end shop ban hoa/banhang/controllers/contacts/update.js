@@ -1,34 +1,33 @@
-const Order = require('../../model/order')
+const Contact = require('../../model/contacts')
 const { isEmpty, pick } = require('lodash');
 const update = async (req, res) => {
   try {
 
-    const updateOrder = await Order.findOneAndUpdate(
+    const updateContact = await Contact.findOneAndUpdate(
       { _id: req.params.id, isDeleted: false },
       {
         ...pick(
           req.body,
-          "customerId",
-          "shipname",
-          "shipmobile",
-          "shipaddress",
-          "shipemail"
+          "name",
+          "email",
+          "subject",
+          "message",
+          "isDeleted"
         )
       },
       { new: true }
     );
 
-    if (isEmpty(updateOrder)) {
+    if (isEmpty(updateContact)) {
       return res.status(406).json({
         success: false,
         error: "Updated failed"
       });
     }
 
-
     return res.status(200).json({
       success: true,
-      data: updateOrder
+      data: updateContact
     });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });

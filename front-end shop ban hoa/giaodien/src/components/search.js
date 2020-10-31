@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Search extends Component {
     onChange = (e) => {
-        console.log(this.props.targetParent)
         var ketqua = [];
         if (this.props.data != null) {
             this.props.data.forEach((item) => {

@@ -1,39 +1,35 @@
-const Order = require("../../model/order")
+const Contact = require("../../model/contacts")
 const { pick, isEmpty } = require("lodash");
 const create = async (req, res) => {
   try {
-    const customerId = req.body.customerId;
-    const shipname = req.body.shipname;
-    const shipmobile = req.body.shipmobile;
-    const shipaddress = req.body.shipaddress;
-    const shipemail = req.body.shipemail;
-
+    const name = req.body.name;
+    const email = req.body.email;
+    const subject = req.body.subject;
+    const message = req.body.message
     // Check not enough property
-    if (isEmpty(customerId) || isEmpty(shipname) || isEmpty(shipmobile) || isEmpty(shipaddress) || isEmpty(shipemail)) {
+    if (isEmpty(name) || isEmpty(email) || isEmpty(subject) || isEmpty(message)) {
       return res.status(406).json({
         success: false,
         error: "Not enough property"
       });
     }
-
+    
     //Create
-    const newOrder = await Order.create(
+    const newContact = await Contact.create(
       [
         {
           ...pick(
             req.body,
-            "customerId",
-            "shipname",
-            "shipmobile",
-            "shipaddress",
-            "shipemail"
+            "name",
+            "email",
+            "subject",
+            "message"
           )
         }
-      ],
-      { session: session }
+      ]
     );
 
-    if (isEmpty(newOrder)) {
+    if (isEmpty(newContact)) {
       return res.status(406).json({
         success: false,
         error: "Created failed"
@@ -42,7 +38,7 @@ const create = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      data: newOrder[0]
+      data: newContact[0]
     });
   } catch (error) {
     return res.status(500).json({
