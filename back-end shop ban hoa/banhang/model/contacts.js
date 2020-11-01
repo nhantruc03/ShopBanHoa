@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Categorycontents = new mongoose.Schema(
+const Contacts = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -19,7 +19,7 @@ const Categorycontents = new mongoose.Schema(
         message:{
             type:String,
             index:true,
-            required
+            required:true
         },
         isDeleted: {
             type: Boolean,
@@ -30,4 +30,4 @@ const Categorycontents = new mongoose.Schema(
     },
     { timestamps: true }
 );
-module.exports = mongoose.model('categorycontents', Categorycontents);
+module.exports = mongoose.model('contacts', Contacts);

@@ -3,6 +3,10 @@ import { NavLink } from 'react-router-dom';
 import SideMenu from './sidemenu';
 
 class maintop extends Component {
+    handleClick = (e) => {
+        e.preventDefault();
+        this.props.handleSideBar()
+    }
     render() {
         return (
             <header className="main-header">
@@ -42,7 +46,7 @@ class maintop extends Component {
                             <ul>
                                 <li className="search"><a href="/#"><i className="fa fa-search" /></a></li>
                                 <li className="side-menu">
-                                    <a href="/#">
+                                    <a onClick={(e) => this.handleClick(e)} href="/#">
                                         <i className="fa fa-shopping-bag" />
                                         <span className="badge">3</span>
                                     </a>
@@ -52,7 +56,7 @@ class maintop extends Component {
                         {/* End Atribute Navigation */}
                     </div>
                     {/* Start Side Menu */}
-                    <SideMenu />
+                    <SideMenu sideBar={this.props.sideBar} handleSideBar={()=>this.props.handleSideBar()}/>
                     {/* End Side Menu */}
                 </nav>
                 {/* End Navigation */}
