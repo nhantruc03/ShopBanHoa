@@ -4,8 +4,12 @@ import NumberFormat from 'react-number-format';
 import Breadcumsection from '../breadcumsection';
 const bc = [
     {
-        name: "Liên hệ",
-        link: "/contact"
+        name: "Cửa hàng",
+        link: "/shop"
+    },
+    {
+        name: "sản phẩm",
+        link: "/shop"
     }
 ]
 class productdetails extends Component {

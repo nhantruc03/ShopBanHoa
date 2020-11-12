@@ -14,8 +14,8 @@ class filtersection extends Component {
 
     onChange = (e) => {
         var ketqua = [];
-        if (this.props.products != null) {
-            this.props.products.forEach((item) => {
+        if (this.props.news != null) {
+            this.props.news.forEach((item) => {
                 if (item["name"].toString().toLowerCase().indexOf(e.target.value) !== -1) {
                     ketqua.push(item);
                 }

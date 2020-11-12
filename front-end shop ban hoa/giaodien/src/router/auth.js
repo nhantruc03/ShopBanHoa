@@ -1,22 +1,30 @@
 class Auth {
     constructor() {
-        this.authenticated = false
         this.authenticatedAdmin = false
     }
 
-    loginAdmin(role) {
-        if (role === "admin") {
+    loginAdmin(data) {
+        localStorage.setItem('login', JSON.stringify(data));
+        if (data.role === "admin") {
             this.authenticatedAdmin = true
         }
     }
 
     logoutAdmin(cb) {
+        localStorage.removeItem('login')
         this.authenticatedAdmin = false
-
     }
 
     isAuthenticatedAdmin() {
-        return this.authenticatedAdmin;
+        try {
+            var test = localStorage.getItem('login');
+            var obj = JSON.parse(test);
+            this.loginAdmin(obj);
+            return this.authenticatedAdmin;
+        } catch (e) {
+            this.authenticatedAdmin = false
+            return this.authenticatedAdmin;
+        }
     }
 }
 

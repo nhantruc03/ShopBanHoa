@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class news extends Component {
     render() {
@@ -18,7 +19,7 @@ class news extends Component {
                             <h3>{this.props.data.name}</h3>
                         </div>
                         <ul className="option-blog">
-                            <li><a href="/#"><i className="fas fa-eye" /></a></li>
+                            <li><Link className="nav-link link" to={`/news-details/${this.props.data.metatitle}.${this.props.data._id}`} ><i className="fas fa-eye" /></Link></li>
                         </ul>
                     </div>
                 </div>

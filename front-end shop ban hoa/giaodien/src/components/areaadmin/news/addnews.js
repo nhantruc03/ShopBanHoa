@@ -25,6 +25,7 @@ class addproduct extends Component {
             name: '',
             metatitle: '',
             image: {},
+            content: '',
             description: '',
             newscategoryId: [],
             isDone: false,
@@ -65,6 +66,7 @@ class addproduct extends Component {
 
         data.append("name", this.state.name);
         data.append("metatitle", this.state.metatitle);
+        data.append('content', this.state.content);
         data.append('description', this.state.description);
         if (this.state.newscategoryId !== null) {
             data.append('newscategoryId', this.state.newscategoryId.toString())
@@ -121,7 +123,7 @@ class addproduct extends Component {
     handleCkeditorState = (event, editor) => {
         const data = editor.getData();
         this.setState({
-            description: data
+            content: data
         })
     }
 
@@ -147,6 +149,9 @@ class addproduct extends Component {
                                 <label htmlFor="metatitle"  >Meta Title</label>
                                 <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-tin-tuc" value={this.state.metatitle} required={true} />
 
+                                <label htmlFor="description"  >Mô tả</label>
+                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="mo-ta" value={this.state.description} required={true} />
+
                                 <label htmlFor="image"  >Hình đại diện</label>
                                 <MultiImageInput
                                     max={1}
@@ -156,7 +161,7 @@ class addproduct extends Component {
                                     cropConfig={{ crop, ruleOfThirds: true }}
                                 />
 
-                                <label htmlFor="description"  >Mô tả</label>
+                                <label htmlFor="content"  >Nội dung</label>
                                 <CKEditor
                                     editor={ClassicEditor}
                                     onInit={editor => {

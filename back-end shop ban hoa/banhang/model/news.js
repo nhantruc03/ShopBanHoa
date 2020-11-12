@@ -17,6 +17,11 @@ const News = new mongoose.Schema(
             index: true,
             required: true
         },
+        content: {
+            type: String,
+            index: true,
+            required: true
+        },
         image: {
             type: String,
             index: true,

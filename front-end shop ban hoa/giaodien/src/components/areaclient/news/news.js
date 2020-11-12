@@ -2,21 +2,21 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import Pagination from '../../Pagination';
 import Filtersection from './filtersection';
-import Productsection from './productsection';
 import Breadcumsection from '../breadcumsection';
+import News from './news_row';
 const bc = [
     {
-        name: "Cửa hàng",
-        link: "/shop"
+        name: "Danh sách tin tức",
+        link: "/"
     }
 ]
-class shop extends Component {
+class news extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: [],
-            filterproducts: [],
-            contents: [],
+            data: [],
+            filternews: [],
+            newscategories: [],
             currentPage: 1,
             postsPerPage: 10,
             listPage: [],
@@ -26,26 +26,26 @@ class shop extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
-        const [products, contents] = await Promise.all([
-            Axios.post('/products/getAll')
+        const [data, newscategories] = await Promise.all([
+            Axios.post('/news/getAll')
                 .then((res) => {
                     return (
                         res.data.data
                     )
                 }),
-            Axios.post('/categorycontents/getAll')
+            Axios.post('/newscategories/getAll')
                 .then((res) => {
                     return (
                         res.data.data
                     )
                 })
         ]);
-        if (products !== null && contents !== null) {
+        if (data !== null && newscategories !== null) {
             if (this._isMounted) {
                 this.setState({
-                    products: products,
-                    filterproducts: products,
-                    contents: contents
+                    data: data,
+                    filternews: data,
+                    newscategories: newscategories
                 })
             }
         }
@@ -78,27 +78,31 @@ class shop extends Component {
     }
 
     getFilterData = (id) => {
+        console.log(id)
         var temp = [];
         if (id === "All") {
-            temp = this.state.products;
+            temp = this.state.data;
         } else {
-            this.state.products.forEach((value) => {
-                if (value.categoryId.includes(id)) {
+            this.state.data.forEach((value) => {
+                if (value.newscategoryId.includes(id)) {
                     temp.push(value)
                 }
             })
         }
         this.setState({
-            filterproducts: temp
+            filternews: temp
         })
     }
 
-    getSearchData = (data) => {
+
+    getSearchData = (data) =>{
         this.setState({
-            filterproducts: data
+            filternews: data
         })
     }
-
+    renderData = () => this.state.filternews.map((value, key) => (
+        <News data={value} key={key} />
+    ))
     render() {
         return (
             <div>
@@ -107,10 +111,22 @@ class shop extends Component {
                 <div className="shop-box-inner">
                     <div className="container">
                         <div className="row">
-                            <Productsection data={this.getCurData(this.state.filterproducts)} />
-                            <Filtersection getSearchData={(e) => this.getSearchData(e)} products={this.state.products} data={this.state.contents} getFilterData={(e) => this.getFilterData(e)} />
+                            <div className="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                                <div className="right-product-box">
+                                    <div className="product-categorie-box">
+                                        <div className="tab-content">
+                                            <div role="tabpanel" className="tab-pane fade show active" id="grid-view">
+                                                <div className="row">
+                                                    {this.renderData()}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <Filtersection getSearchData={(e)=> this.getSearchData(e)} news={this.state.data} data={this.state.newscategories} getFilterData={(e) => this.getFilterData(e)} />
                         </div>
-                        <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(this.state.filterproducts)} paginate={(e) => this.paginate(e)} />
+                        <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(this.state.filternews)} paginate={(e) => this.paginate(e)} />
                     </div>
                 </div>
                 {/* End Shop Page */}
@@ -119,4 +135,4 @@ class shop extends Component {
     }
 }
 
-export default shop;
+export default news;

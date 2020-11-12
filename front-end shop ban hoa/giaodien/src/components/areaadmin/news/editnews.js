@@ -29,6 +29,7 @@ class editproduct extends Component {
             name: '',
             metatitle: '',
             image: {},
+            content: '',
             description: '',
             newscategoryId: [],
             isDeleted: true,
@@ -70,6 +71,7 @@ class editproduct extends Component {
 
         data.append("name", this.state.name);
         data.append("metatitle", this.state.metatitle);
+        data.append('content', this.state.content);
         data.append('description', this.state.description);
 
         if (this.state.newscategoryId != null) {
@@ -133,10 +135,11 @@ class editproduct extends Component {
                     this.setState({
                         name: temp.name,
                         metatitle: temp.metatitle,
-                        description: temp.description,
+                        content: temp.content,
                         oldimage: temp.image,
                         isDeleted: temp.isDeleted,
-                        newscategoryId: temp.newscategoryId
+                        newscategoryId: temp.newscategoryId,
+                        description: temp.description
 
                     })
                 })
@@ -168,7 +171,7 @@ class editproduct extends Component {
     handleCkeditorState = (event, editor) => {
         const data = editor.getData();
         this.setState({
-            description: data
+            content: data
         })
     }
     render() {
@@ -193,6 +196,9 @@ class editproduct extends Component {
                                 <label htmlFor="metaTitle"  >Meta Title</label>
                                 <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-tin-tuc" value={this.state.metatitle} />
 
+                                <label htmlFor="description"  >Mô tả</label>
+                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="ten-tin-tuc" value={this.state.description} />
+
                                 <label htmlFor="image"  >Hình đại diện</label>
                                 <MultiImageInput
                                     max={1}
@@ -205,7 +211,7 @@ class editproduct extends Component {
                                     {this.getImage()}
                                 </div>
 
-                                <label htmlFor="description"  >Mô tả</label>
+                                <label htmlFor="content"  >Nội dung</label>
                                 <CKEditor
                                     editor={ClassicEditor}
                                     onInit={editor => {
@@ -219,11 +225,11 @@ class editproduct extends Component {
                                             }
                                         }
                                     }
-                                    data={this.state.description}
+                                    data={this.state.content}
                                     onChange={this.handleCkeditorState}
                                 />
 
-                                <label htmlFor="newscategoryId"  >Danh mục</label>
+                                <label htmlFor="newscategoryId">Danh mục</label>
                                 <Select
                                     name="newscategoryId"
                                     onChange={(e) => this.onSelectMulti(e)}

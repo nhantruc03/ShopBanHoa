@@ -28,7 +28,7 @@ class login extends Component {
         Axios.post('/users/login', data)
             .then(res => {
                 if (res.data.success === true) {
-                    auth.loginAdmin(res.data.data.role);
+                    auth.loginAdmin(res.data.data);
                 }
                 if(auth.isAuthenticatedAdmin()===true)
                 {
