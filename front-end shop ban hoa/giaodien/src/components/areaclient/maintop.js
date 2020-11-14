@@ -25,7 +25,7 @@ class maintop extends Component {
                         <div className="collapse navbar-collapse" id="navbar-menu">
                             <ul className="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                                 <li className="nav-item active"><NavLink className="nav-link link" to="/" >Trang chủ</NavLink></li>
-                                <li className="nav-item"><a className="nav-link" href="about.html">About Us</a></li>
+                                <li className="nav-item"><NavLink className="nav-link arrow link" to="/documents.about-us.5fafa9bd577b6b3c50af73c6" >About us</NavLink></li>
                                 <li className="nav-item"><NavLink className="nav-link arrow link" to="/shop" >Cửa hàng</NavLink></li>
                                 <li className="nav-item"><NavLink className="nav-link arrow link" to="/news" >Tin tức</NavLink></li>
                                 <li className="nav-item"><NavLink className="nav-link link" to="/contact" >Liên hệ</NavLink></li>

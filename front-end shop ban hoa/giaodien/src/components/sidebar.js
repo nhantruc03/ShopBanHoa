@@ -76,7 +76,15 @@ class sidebar extends Component {
 
                     <hr className="sidebar-divider" />
 
-
+                    <Navbar expand="false" style={{ width: "100%", color: "white" }}>
+                        Quản lý tài liệu
+                        <Navbar.Toggle style={{ width: 60 }} aria-controls="document" > <i className="fas  fa-bars" /></Navbar.Toggle>
+                        <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="document">
+                            <Nav className="mr-auto">
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listdocuments" >Xem danh sách tài liệu</NavLink>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>
 
 
 

@@ -1,6 +1,47 @@
 import React, { Component } from 'react';
-
+import Axios from 'axios';
+import Document from './document_item';
 class footer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        }
+    }
+    async componentDidMount() {
+
+        
+        this._isMounted = true;
+        const [data] = await Promise.all([
+            Axios.post('/documents/getAll')
+                .then((res) => {
+                    return (
+                        res.data.data
+                    )
+                })
+        ]);
+        console.log(data)
+        if (data !== null) {
+            if (this._isMounted) {
+                this.setState({
+                    data: data
+                })
+            }
+        }
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    renderDocument = () => this.state.data.map((value, key) => (
+        <Document
+            key={key}
+            data={value}
+        />
+    ))
+
+     
+
     render() {
         return (
             <div>
@@ -57,12 +98,7 @@ class footer extends Component {
                                     <div className="footer-link">
                                         <h4>Information</h4>
                                         <ul>
-                                            <li><a href="/#">About Us</a></li>
-                                            <li><a href="/#">Customer Service</a></li>
-                                            <li><a href="/#">Our Sitemap</a></li>
-                                            <li><a href="/#">Terms &amp; Conditions</a></li>
-                                            <li><a href="/#">Privacy Policy</a></li>
-                                            <li><a href="/#">Delivery Information</a></li>
+                                            {this.renderDocument()}
                                         </ul>
                                     </div>
                                 </div>

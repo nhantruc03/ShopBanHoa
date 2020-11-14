@@ -3,15 +3,11 @@ import React, { Component } from 'react';
 import Breadcumsection from '../breadcumsection';
 const bc = [
     {
-        name: "Danh sách tin tức",
-        link: "/news"
-    },
-    {
-        name: "Tin tức",
-        link: "/shop"
+        name: "Tài liệu",
+        link: "/"
     }
 ]
-class newsdetails extends Component {
+class document extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,17 +15,16 @@ class newsdetails extends Component {
         }
     }
     async componentDidMount() {
-
+        console.log(this.props.match.params.id)
         this._isMounted = true;
         const [data] = await Promise.all([
-            Axios.get('/news/' + this.props.match.params.id)
+            Axios.get('/documents/' + this.props.match.params.id)
                 .then((res) => {
                     return (
                         res.data.data
                     )
                 })
         ]);
-        console.log(data)
         if (data !== null) {
             if (this._isMounted) {
                 this.setState({
@@ -42,18 +37,33 @@ class newsdetails extends Component {
         this._isMounted = false;
     }
 
+    async componentWillReceiveProps(newprop){
+        this._isMounted = true;
+        const [data] = await Promise.all([
+            Axios.get('/documents/' + newprop.match.params.id)
+                .then((res) => {
+                    return (
+                        res.data.data
+                    )
+                })
+        ]);
+        if (data !== null) {
+            if (this._isMounted) {
+                this.setState({
+                    data: data
+                })
+            }
+        }
+    }
+
     render() {
         return (
             <div>
-                {/* Start All Title Box */}
                 <Breadcumsection data={bc} />
-                {/* End All Title Box */}
-                {/* Start Shop Detail  */}
                 <div className="shop-detail-box-main">
                     <div className="container">
                         <div className="row" >
                             <h1 style={{ fontWeight: "bold" }}>{this.state.data.name}</h1>
-                            <img className="d-block" style={{ width: '100%' }} src={`/anh/${this.state.data.image}`} alt="anh" />
                         </div>
                         <div className="row my-5">
                             <div
@@ -64,11 +74,10 @@ class newsdetails extends Component {
                         </div>
                     </div>
                 </div>
-                {/* End Cart */}
             </div>
         );
 
     }
 }
 
-export default newsdetails;
+export default document;

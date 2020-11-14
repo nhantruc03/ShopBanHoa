@@ -11,10 +11,6 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 const animatedComponents = makeAnimated();
 
 var CategoryID = [];
-// const trangthai = [
-//     { value: false, label: 'Khả dụng' },
-//     { value: true, label: 'Không khả dụng' }
-// ]
 
 const crop = {
     unit: '%',

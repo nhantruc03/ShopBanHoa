@@ -11,27 +11,32 @@ class page extends Component {
         }
     }
 
-    handleOnClick = () =>{
-        if(this.state.sideBar === ''){
+    handleOnClick = () => {
+        if (this.state.sideBar === '') {
             this.setState({
                 sideBar: 'on'
             })
-        }else{
+        } else {
             this.setState({
                 sideBar: ''
             })
         }
     }
 
+    click = (e) => {
+        e.preventDefault();
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth' })
+    }
+
     render() {
         return (
             <React.Fragment>
                 <Top />
-                <MainTop handleSideBar={()=>this.handleOnClick()}  sideBar={this.state.sideBar}/>
+                <MainTop handleSideBar={() => this.handleOnClick()} sideBar={this.state.sideBar} />
                 <SearchBar />
                 {this.props.children}
                 <Footer />
-                <a href="/#" id="back-to-top" title="Back to top" style={{ display: 'inline-block' }}>↑</a>
+                <a onClick={(e) => this.click(e)} href="/#" id="back-to-top" title="Back to top" style={{ display: 'inline-block' }}>↑</a>
             </React.Fragment>
         );
     }

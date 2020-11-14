@@ -36,6 +36,10 @@ import { Route } from 'react-router-dom';
 import adminlogin from '../components/areaadmin/login';
 import newsdetails from '../components/areaclient/newsdetails/newsdetails';
 import news from '../components/areaclient/news/news';
+import listdocument from '../components/areaadmin/document/listdocument';
+import editdocument from '../components/areaadmin/document/editdocument';
+import adddocument from '../components/areaadmin/document/adddocument';
+import document from '../components/areaclient/document/document';
 class router extends Component {
     render() {
         return (
@@ -68,6 +72,10 @@ class router extends Component {
                 <SecureRouteAdmin exact path="/admin/editusers/:id" component={Editusers} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/addusers" component={Addusers} layout={Admin} />
 
+                <SecureRouteAdmin exact path="/admin/listdocuments" component={listdocument} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editdocuments/:id" component={editdocument} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/adddocuments" component={adddocument} layout={Admin} />
+
                 <SecureRouteAdmin exact path="/admin/orders/:id" component={OrderDetails} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/listorders" component={Order} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin" component={Listproducts} layout={Admin} />
@@ -78,6 +86,7 @@ class router extends Component {
                 <AppRoute exact path="/shop" component={Shop} layout={Client} />
                 <AppRoute exact path="/news-details/:meta.:id" component={newsdetails} layout={Client} />
                 <AppRoute exact path="/news" component={news} layout={Client} />
+                <AppRoute exact path="/documents.:name.:id" component={document} layout={Client} />
 
                 <Route exact path="/admin/login" component={adminlogin} />
             </div>
