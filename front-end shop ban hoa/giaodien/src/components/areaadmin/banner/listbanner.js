@@ -4,12 +4,17 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
+import {AUTH} from '../../env'
 const tablerow = ['Tên', 'Đường dẫn', 'Hình ảnh', 'Trạng thái', 'Thao tác']
 const keydata = ['name', 'link', 'image', 'isDeleted']
 const obj = "banners"
 
 const getData = () =>
-    Axios.post('/banners/getAll')
+    Axios.post('/banners/getAll', {
+        headers: {
+            'Authorization': { AUTH }.AUTH
+        }
+    })
         .then((res) => res.data)
 
 class listbanner extends Component {
@@ -62,7 +67,8 @@ class listbanner extends Component {
 
     onDelete = (e) => {
         this.setState({
-            data: this.state.data.filter(o => o._id !== e)
+            data: this.state.data.filter(o => o._id !== e),
+            SearchData: this.state.data.filter(o => o._id !== e)
         })
     }
     onChange = (e) => {

@@ -4,12 +4,17 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
+import {AUTH} from '../../env'
 const tablerow = ['Tên', 'MetaTitle', 'Ảnh đại diện', 'Thao tác']
 const keydata = ['name', 'metatitle', 'image']
 const obj = "news"
 
 const getData = () =>
-    Axios.post('/news/getAll')
+    Axios.post('/news/getAll', {
+        headers: {
+            'Authorization': { AUTH }.AUTH
+        }
+    })
         .then((res) => res.data)
 
 class listproducts extends Component {
@@ -64,7 +69,8 @@ class listproducts extends Component {
 
     onDelete = (e) => {
         this.setState({
-            data: this.state.data.filter(o => o._id !== e)
+            data: this.state.data.filter(o => o._id !== e),
+            SearchData: this.state.data.filter(o => o._id !== e)
         })
     }
     onChange = (e) => {

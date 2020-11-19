@@ -10,7 +10,7 @@ class breadcumsection extends Component {
     rederData = () => this.props.data.map((value, i, arr) => {
         if (arr.length - 1 === i) {
             return (
-                <li key={i} className="breadcrumb-item active"><NavLink style={{ color: "black" }} className="link" to={value.link} >{value.name}</NavLink></li>
+                <li key={i} className="breadcrumb-item active">{value.name}</li>
             )
         } else {
             return (

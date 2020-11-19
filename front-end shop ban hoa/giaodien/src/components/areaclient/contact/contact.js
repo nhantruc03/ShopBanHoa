@@ -1,12 +1,50 @@
+import Axios from 'axios';
 import React, { Component } from 'react';
 import Breadcumsection from '../breadcumsection';
-const bc=[
+import { AUTH } from '../../env';
+const bc = [
     {
-        name:"Liên hệ",
-        link:"/contact"
+        name: "Liên hệ",
+        link: "/contact"
     }
 ]
 class contact extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: '',
+            email: '',
+            subject: '',
+            message: ''
+        }
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        var data = {
+            name: this.state.name,
+            email: this.state.email,
+            subject: this.state.subject,
+            message: this.state.message
+        }
+
+        Axios.post('/contacts', data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+    onChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
     render() {
         return (
             <div>
@@ -21,29 +59,29 @@ class contact extends Component {
                                 <div className="contact-form-right">
                                     <h2>Liên hệ</h2>
                                     <p>Nếu bạn có thắc mắc hay có yêu cầu gì hãy liên hệ với chúng tôi qua những thông tin dưới đây.</p>
-                                    <form id="contactForm">
+                                    <form id="contactForm" onSubmit={(e) => this.onSubmit(e)}>
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control" id="name" name="name" placeholder="Tên của bạn" required data-error="Vui lòng nhập tên" />
+                                                    <input onChange={(e)=>this.onChange(e)} type="text" className="form-control" id="name" name="name" placeholder="Tên của bạn" required data-error="Vui lòng nhập tên" />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <input type="text" placeholder="Your Email" id="email" className="form-control" name="email" required data-error="Vui lòng nhập email" />
+                                                    <input onChange={(e)=>this.onChange(e)} type="email" placeholder="Your Email" id="email" className="form-control" name="email" required data-error="Vui lòng nhập email" />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control" id="subject" name="subject" placeholder="Tiêu đề" required data-error="Vui lòng nhập tiê đề" />
+                                                    <input onChange={(e)=>this.onChange(e)} type="text" className="form-control" id="subject" name="subject" placeholder="Tiêu đề" required data-error="Vui lòng nhập tiê đề" />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <textarea className="form-control" id="message" placeholder="Nội dung" rows={4} data-error="Vui lòng nhập nội dung" required defaultValue={""} />
+                                                    <textarea onChange={(e)=>this.onChange(e)} className="form-control" id="message" name="message" placeholder="Nội dung" rows={4} data-error="Vui lòng nhập nội dung" required defaultValue={""} />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                                 <div className="submit-button text-center">

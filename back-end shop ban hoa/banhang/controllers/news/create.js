@@ -2,7 +2,7 @@ const News = require("../../model/news")
 const { startSession } = require('mongoose')
 const { commitTransactions, abortTransactions } = require('../../services/transaction');
 const { pick, isEmpty } = require("lodash");
-const {storeImage} = require('../../services/storeimage');
+const { storeImage } = require('../../services/storeimage');
 const create = async (req, res) => {
   let sessions = [];
   try {
@@ -11,9 +11,10 @@ const create = async (req, res) => {
     const description = req.body.description;
     const image = req.body.image;
     const newscategoryId = req.body.newscategoryId;
+    const content = req.body.content;
 
     // Check not enough property
-    if (isEmpty(name) || isEmpty(metatitle) || isEmpty(description) || isEmpty(image) || isEmpty(newscategoryId)) {
+    if (isEmpty(name) || isEmpty(metatitle) || isEmpty(description) || isEmpty(image) || isEmpty(newscategoryId) || isEmpty(content)) {
       return res.status(406).json({
         success: false,
         error: "Not enough property"
@@ -40,6 +41,7 @@ const create = async (req, res) => {
             "name",
             "metatitle",
             "description",
+            "content"
           ),
           newscategoryId: newscategoryId_arr,
           image: filename

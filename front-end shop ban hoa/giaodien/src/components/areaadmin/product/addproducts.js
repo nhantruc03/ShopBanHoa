@@ -7,6 +7,7 @@ import MultiImageInput from 'react-multiple-image-input';
 import { ChangeToSlug } from '../../../services/convertoslug'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
+import {AUTH} from '../../env'
 const animatedComponents = makeAnimated();
 
 var CategoryID = [];
@@ -96,7 +97,8 @@ class addproduct extends Component {
 
         Axios.post('/products', data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': {AUTH}.AUTH
             }
         })
             .then(res => {
@@ -115,7 +117,11 @@ class addproduct extends Component {
         var data = {
             isDeleted: false
         };
-        Axios.post('/categories/getAll', data)
+        Axios.post('/categories/getAll', data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then((res) => {
                 temp = res.data.data;
                 CategoryID = [];

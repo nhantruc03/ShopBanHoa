@@ -8,6 +8,7 @@ import Image from '../../image'
 import { ChangeToSlug } from '../../../services/convertoslug'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
+import {AUTH} from '../../env'
 const animatedComponents = makeAnimated();
 
 var CategoryID = [];
@@ -115,7 +116,8 @@ class editproduct extends Component {
 
         Axios.put('/products/' + this.props.match.params.id, data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': {AUTH}.AUTH
             }
         })
             .then(res => {
@@ -169,7 +171,11 @@ class editproduct extends Component {
         })
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/products/' + this.props.match.params.id)
+            Axios.get('/products/' + this.props.match.params.id, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then((res) => {
                     temp = res.data.data;
                     this.setState({
@@ -204,7 +210,11 @@ class editproduct extends Component {
                 isDeleted: false
             }
 
-            Axios.post('/categories/getAll', data)
+            Axios.post('/categories/getAll', data, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then((res) => {
                     temp2 = res.data.data;
                     CategoryID = [];

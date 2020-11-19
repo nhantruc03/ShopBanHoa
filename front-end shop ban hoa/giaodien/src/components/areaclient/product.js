@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NumberFormat from 'react-number-format';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 class product extends Component {
     renderType = () => {
         if (this.props.data.promotionprice !== null) {
@@ -32,6 +32,11 @@ class product extends Component {
         }
     }
 
+    onAddToCart = (e) => {
+        e.preventDefault();
+        this.props.onAddToCart(this.props.data);
+    }
+
     render() {
         return (
             <div className={`col-lg-3 col-md-6 special-grid best-seller ${this.props.type}`}>
@@ -42,8 +47,8 @@ class product extends Component {
                         </div>
                         <img src={`/anh/${this.props.data.image}`} className="img-fluid" alt="asdf" />
                         <div className="mask-icon">
-                            <NavLink className="nav-link link" to={`/product-details/${this.props.data.metatitle}.${this.props.data._id}`} ><i className="fas fa-eye" /></NavLink>
-                            <a className="cart" href="/#">Thêm vào giỏ hàng</a>
+                            <Link className="nav-link link" to={`/product-details.${this.props.data.metatitle}.${this.props.data._id}`} ><i className="fas fa-eye" /></Link>
+                            <a onClick={(e) => this.onAddToCart(e)} className="cart" href="/#">Thêm vào giỏ hàng</a>
                         </div>
                     </div>
                     <div className="why-text">

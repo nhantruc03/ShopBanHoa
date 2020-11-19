@@ -29,8 +29,7 @@ const create = async (req, res) => {
             "shipemail"
           )
         }
-      ],
-      { session: session }
+      ]
     );
 
     if (isEmpty(newOrder)) {

@@ -1,4 +1,5 @@
 const OrderDetail = require("../../model/orderdetail")
+const Product = require("../../model/product")
 const { startSession } = require('mongoose')
 const { commitTransactions, abortTransactions } = require('../../services/transaction');
 const { pick, isEmpty } = require("lodash");
@@ -9,9 +10,8 @@ const create = async (req, res) => {
     const orderId = req.body.orderId;
     const quantity = req.body.quantity;
     const price = req.body.price;
-
     // Check not enough property
-    if (isEmpty(productId) || isEmpty(orderId) || isEmpty(quantity) || !price) {
+    if (isEmpty(productId) || isEmpty(orderId) || !quantity || !price) {
       return res.status(406).json({
         success: false,
         error: "Not enough property"
@@ -46,6 +46,24 @@ const create = async (req, res) => {
         error: "Created failed"
       });
     }
+
+    const updateProduct = await Product.findOneAndUpdate(
+      { _id: productId, isDeleted: false },
+      {
+        $inc: { 'quantity': -quantity }
+      },
+      { session, new: true }
+    );
+
+    if (isEmpty(updateProduct) || updateProduct.quantity < 0) {
+      await abortTransactions(sessions);
+      return res.status(406).json({
+        success: false,
+        error: "out of stock"
+      });
+    }
+
+
     // check exist
     const oldOrderdetails = await OrderDetail.find({
       orderId: orderId,

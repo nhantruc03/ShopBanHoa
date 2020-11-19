@@ -47,6 +47,18 @@
   display: inline;
 }
 
+span.float-right {
+  font-size: xxx-large;
+}
+
+a.btn.btn-default.hvr-hover.btn-cart {
+  background-color: #b0b435;
+  width: 100%;
+}
+
+span.result {
+  font-size: smaller;
+}
 /*!
  * Font Awesome Free 5.13.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)

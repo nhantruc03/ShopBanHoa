@@ -2,8 +2,8 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import Pagination from '../../Pagination';
 import Filtersection from './filtersection';
-import Productsection from './productsection';
 import Breadcumsection from '../breadcumsection';
+import ProductsContainer from '../../../container/ProductsContainer';
 const bc = [
     {
         name: "Cửa hàng",
@@ -77,19 +77,25 @@ class shop extends Component {
             });
     }
 
-    getFilterData = (data) => {
+    getFilterData = (id) => {
         var temp = [];
-        if (data === "All") {
+        if (id === "All") {
             temp = this.state.products;
         } else {
             this.state.products.forEach((value) => {
-                if (value.categoryId.includes(data)) {
+                if (value.categoryId.includes(id)) {
                     temp.push(value)
                 }
             })
         }
         this.setState({
             filterproducts: temp
+        })
+    }
+
+    getSearchData = (data) => {
+        this.setState({
+            filterproducts: data
         })
     }
 
@@ -101,8 +107,9 @@ class shop extends Component {
                 <div className="shop-box-inner">
                     <div className="container">
                         <div className="row">
-                            <Productsection data={this.getCurData(this.state.filterproducts)} />
-                            <Filtersection data={this.state.contents} getFilterData={(e) => this.getFilterData(e)} />
+                            {/* <Productsection data={this.getCurData(this.state.filterproducts)} /> */}
+                            <ProductsContainer data={this.getCurData(this.state.filterproducts)}/>
+                            <Filtersection getSearchData={(e) => this.getSearchData(e)} products={this.state.products} data={this.state.contents} getFilterData={(e) => this.getFilterData(e)} />
                         </div>
                         <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(this.state.filterproducts)} paginate={(e) => this.paginate(e)} />
                     </div>

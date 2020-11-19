@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import MultiImageInput from 'react-multiple-image-input';
 import Image from '../../image'
+import{AUTH}from './../../env'
 // const trangthai = [
 //     { value: false, label: 'Khả dụng' },
 //     { value: true, label: 'Không khả dụng' }
@@ -28,7 +29,11 @@ class editbanner extends Component {
         }
     }
     getData = () =>
-        Axios.get('/banners/' + this.props.match.params.id)
+        Axios.get('/banners/' + this.props.match.params.id, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then((res) => {
                 this.setState({
                     data: res.data[0]
@@ -39,11 +44,6 @@ class editbanner extends Component {
         this.setState({ image: imageUpdate })
     };
 
-    // onSelectStatus = (e) => {
-    //     this.setState({
-    //         isDeleted: e.value
-    //     })
-    // }
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -63,7 +63,8 @@ class editbanner extends Component {
         }
         Axios.put('/banners/' + this.props.match.params.id, data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': {AUTH}.AUTH
             }
         })
             .then(res => {
@@ -97,7 +98,11 @@ class editbanner extends Component {
     UNSAFE_componentWillMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/banners/' + this.props.match.params.id)
+            Axios.get('/banners/' + this.props.match.params.id, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then((res) => {
                     temp = res.data.data;
                     this.setState({

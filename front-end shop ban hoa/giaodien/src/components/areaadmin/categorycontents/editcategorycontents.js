@@ -2,7 +2,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
-
+import {AUTH} from '../../env'
 class editcategorycontent extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +31,11 @@ class editcategorycontent extends Component {
             metatitle: this.state.metatitle,
             isDeleted: this.state.isDeleted
         }
-        Axios.put('/categorycontents/' + this.props.match.params.id, data)
+        Axios.put('/categorycontents/' + this.props.match.params.id, data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 this.onDone();
             })
@@ -49,7 +53,11 @@ class editcategorycontent extends Component {
     componentDidMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/categorycontents/' + this.props.match.params.id)
+            Axios.get('/categorycontents/' + this.props.match.params.id, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then((res) => {
                     temp = res.data.data;
                     this.setState({

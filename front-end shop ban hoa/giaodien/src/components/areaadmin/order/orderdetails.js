@@ -3,11 +3,16 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
 import TableData from '../../table';
+import {AUTH} from '../../env'
 const tablerow = ['Tên sản phẩm', 'Số lượng', 'Tổng']
 const keydata = ['productId', 'quantity', 'price']
 const obj = "order-details"
 const getData = (id) =>
-    Axios.post('/order-details/getAll', { orderId: id })
+    Axios.post('/order-details/getAll', { orderId: id }, {
+        headers: {
+            'Authorization': { AUTH }.AUTH
+        }
+    })
         .then((res) => {
             return res.data;
         })

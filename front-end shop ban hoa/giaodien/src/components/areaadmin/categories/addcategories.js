@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
+import {AUTH} from '../../env'
 var CategorycontentsID = [];
 class addcategory extends Component {
     constructor(props) {
@@ -41,7 +42,11 @@ class addcategory extends Component {
         };
 
 
-        Axios.post('/categories', data)
+        Axios.post('/categories', data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 this.onDone();
             })
@@ -65,7 +70,11 @@ class addcategory extends Component {
         var data = {
             isDeleted: false
         };
-        Axios.post('/categorycontents/getAll', data)
+        Axios.post('/categorycontents/getAll', data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then((res) => {
                 temp = res.data.data;
                 CategorycontentsID = [];

@@ -15,19 +15,17 @@ const getAll = async (req, res) => {
     if (!page || !limit) {
       Newss = await News.find(query)
         .select(
-          "name metatitle description image newscategoryId isDeleted"
+          "name metatitle description image newscategoryId isDeleted content"
         )
-        .populate("newscategoryId", "name")
-        .sort({ createdAt: -1 });;
+        .sort({ createdAt: -1 });
     } else {
       Newss = await News.find(query)
         .select(
-          "name metatitle description image newscategoryId isDeleted"
+          "name metatitle description image newscategoryId isDeleted content"
         )
-        .populate("newscategoryId", "name")
         .skip(limit * (page - 1))
         .limit(limit)
-        .sort({ createdAt: -1 });;
+        .sort({ createdAt: -1 });
     }
 
     return res.status(200).json({ success: true, data: Newss });

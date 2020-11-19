@@ -30,7 +30,8 @@ const update = async (req, res) => {
           req.body,
           "name",
           "metatitle",
-          "description"
+          "description",
+          "content"
         ),
         newscategoryId: newscategoryId_arr,
         image: filename

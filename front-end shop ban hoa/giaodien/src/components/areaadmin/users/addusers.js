@@ -2,6 +2,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
+import {AUTH} from '../../env'
 var Roles = [
     { value: 'admin', label: 'Quản trị viên' },
     { value: 'client', label: 'Khách hàng' }
@@ -42,7 +43,11 @@ class addusers extends Component {
             password: this.state.password,
             role: this.role
         };
-        Axios.post('/users', data)
+        Axios.post('/users', data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 this.onDone();
             })

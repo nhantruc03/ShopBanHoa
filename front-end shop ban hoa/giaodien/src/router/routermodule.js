@@ -34,48 +34,66 @@ import Productdetails from '../components/areaclient/productdetails/productdetai
 import Shop from '../components/areaclient/shop/shop';
 import { Route } from 'react-router-dom';
 import adminlogin from '../components/areaadmin/login';
+import newsdetails from '../components/areaclient/newsdetails/newsdetails';
+import news from '../components/areaclient/news/news';
+import listdocument from '../components/areaadmin/document/listdocument';
+import editdocument from '../components/areaadmin/document/editdocument';
+import adddocument from '../components/areaadmin/document/adddocument';
+import document from '../components/areaclient/document/document';
+import cart from '../components/areaclient/cart/cart';
+import login from '../components/areaclient/login/login';
+import { SecureRouteClient } from './secureRouteClient';
 class router extends Component {
     render() {
         return (
             <div>
-                <SecureRouteAdmin exact path="/admin/listproducts" component={Listproducts} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/addproducts" component={Addproducts} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/editproducts/:id" component={Editproducts} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listproducts" component={Listproducts} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/addproducts" component={Addproducts} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editproducts/:id" component={Editproducts} layout={Admin} />
 
-                <SecureRouteAdmin exact path="/admin/listcategories" component={Listcategories} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/editcategories/:id" component={Editcategories} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/addcategories" component={Addcategories} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listcategories" component={Listcategories} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editcategories/:id" component={Editcategories} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/addcategories" component={Addcategories} layout={Admin} />
 
-                <SecureRouteAdmin exact path="/admin/listbanners" component={Listbanners} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/editbanners/:id" component={Editbanners} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/addbanners" component={Addbanners} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listbanners" component={Listbanners} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editbanners/:id" component={Editbanners} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/addbanners" component={Addbanners} layout={Admin} />
 
-                <SecureRouteAdmin exact path="/admin/listcategorycontents" component={Listcategorycontents} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/editcategorycontents/:id" component={Editcategorycontents} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/addcategorycontents" component={Addcategorycontents} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listcategorycontents" component={Listcategorycontents} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editcategorycontents/:id" component={Editcategorycontents} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/addcategorycontents" component={Addcategorycontents} layout={Admin} />
 
-                <SecureRouteAdmin exact path="/admin/listnewscategories" component={Listnewscategories} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/editnewscategories/:id" component={Editnewscategories} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/addnewscategories" component={Addnewscategories} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listnewscategories" component={Listnewscategories} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editnewscategories/:id" component={Editnewscategories} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/addnewscategories" component={Addnewscategories} layout={Admin} />
 
-                <SecureRouteAdmin exact path="/admin/listnews" component={Listnews} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/editnews/:id" component={Editnews} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/addnews" component={Addnews} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listnews" component={Listnews} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editnews/:id" component={Editnews} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/addnews" component={Addnews} layout={Admin} />
 
-                <SecureRouteAdmin exact path="/admin/listusers" component={Listuser} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/editusers/:id" component={Editusers} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/addusers" component={Addusers} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listusers" component={Listuser} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editusers/:id" component={Editusers} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/addusers" component={Addusers} layout={Admin} />
 
-                <SecureRouteAdmin exact path="/admin/orders/:id" component={OrderDetails} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin/listorders" component={Order} layout={Admin}/>
-                <SecureRouteAdmin exact path="/admin" component={Listproducts} layout={Admin}/>
+                <SecureRouteAdmin exact path="/admin/listdocuments" component={listdocument} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/editdocuments/:id" component={editdocument} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/adddocuments" component={adddocument} layout={Admin} />
+
+                <SecureRouteAdmin exact path="/admin/orders/:id" component={OrderDetails} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/listorders" component={Order} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin" component={Listproducts} layout={Admin} />
 
                 <AppRoute exact path="/" component={Home} layout={Client} />
-                <AppRoute exact path="/contact" component={Contact} layout={Client} />
-                <AppRoute exact path="/product-details/:meta.:id" component={Productdetails} layout={Client} />
+                <SecureRouteClient exact path="/contact" component={Contact} layout={Client} />
+                <AppRoute exact path="/product-details.:meta.:id" component={Productdetails} layout={Client} />
                 <AppRoute exact path="/shop" component={Shop} layout={Client} />
+                <AppRoute exact path="/news-details.:meta.:id" component={newsdetails} layout={Client} />
+                <AppRoute exact path="/news" component={news} layout={Client} />
+                <AppRoute exact path="/documents.:name.:id" component={document} layout={Client} />
+                <SecureRouteClient exact path="/cart" component={cart} layout={Client} />
+                <AppRoute exact path="/login" component={login} layout={Client} />
 
-                <Route exact path="/admin/login" component={adminlogin}/>
+                <Route exact path="/admin/login" component={adminlogin} />
             </div>
 
         );

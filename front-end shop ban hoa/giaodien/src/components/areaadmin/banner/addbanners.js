@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import MultiImageInput from 'react-multiple-image-input';
+import {AUTH} from './../../env';
 // const trangthai = [
 //     { value: false, label: 'Khả dụng' },
 //     { value: true, label: 'Không khả dụng' }
@@ -45,7 +46,8 @@ class addbanners extends Component {
         }
         Axios.post('/banners/', data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': { AUTH }.AUTH
             }
         })
             .then(res => {
