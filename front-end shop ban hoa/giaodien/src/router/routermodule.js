@@ -40,6 +40,9 @@ import listdocument from '../components/areaadmin/document/listdocument';
 import editdocument from '../components/areaadmin/document/editdocument';
 import adddocument from '../components/areaadmin/document/adddocument';
 import document from '../components/areaclient/document/document';
+import cart from '../components/areaclient/cart/cart';
+import login from '../components/areaclient/login/login';
+import { SecureRouteClient } from './secureRouteClient';
 class router extends Component {
     render() {
         return (
@@ -81,12 +84,14 @@ class router extends Component {
                 <SecureRouteAdmin exact path="/admin" component={Listproducts} layout={Admin} />
 
                 <AppRoute exact path="/" component={Home} layout={Client} />
-                <AppRoute exact path="/contact" component={Contact} layout={Client} />
-                <AppRoute exact path="/product-details/:meta.:id" component={Productdetails} layout={Client} />
+                <SecureRouteClient exact path="/contact" component={Contact} layout={Client} />
+                <AppRoute exact path="/product-details.:meta.:id" component={Productdetails} layout={Client} />
                 <AppRoute exact path="/shop" component={Shop} layout={Client} />
-                <AppRoute exact path="/news-details/:meta.:id" component={newsdetails} layout={Client} />
+                <AppRoute exact path="/news-details.:meta.:id" component={newsdetails} layout={Client} />
                 <AppRoute exact path="/news" component={news} layout={Client} />
                 <AppRoute exact path="/documents.:name.:id" component={document} layout={Client} />
+                <SecureRouteClient exact path="/cart" component={cart} layout={Client} />
+                <AppRoute exact path="/login" component={login} layout={Client} />
 
                 <Route exact path="/admin/login" component={adminlogin} />
             </div>

@@ -2,6 +2,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
+import {AUTH} from '../../env'
 var Roles = [
     { value: 'admin', label: 'Quản trị viên' },
     { value: 'client', label: 'Khách hàng' }
@@ -36,7 +37,11 @@ class editusers extends Component {
             phoneNumber: this.state.phoneNumber,
             role: this.state.role
         }
-        Axios.put('/users/' + this.props.match.params.id, data)
+        Axios.put('/users/' + this.props.match.params.id, data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 this.onDone();
             })
@@ -57,6 +62,10 @@ class editusers extends Component {
             Axios.get('/users/' + this.props.match.params.id, {
                 params: {
                     role: 'admin'
+                }
+            }, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
                 }
             })
                 .then((res) => {

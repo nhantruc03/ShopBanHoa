@@ -7,7 +7,7 @@ const login = async (req, res) => {
   try {
     // Check username is exist
     const user = await Users.findOne({ username: req.body.username, isDeleted: false }).select(
-      "password _id role"
+      "password _id role name"
     );
     if (user == null) {
       return res.json({ success: false, error: "Login failed" });
@@ -29,7 +29,8 @@ const login = async (req, res) => {
     const data = {
       token: token,
       role: user.role,
-      id: user._id
+      id: user._id,
+      name: user.name
     }
 
     return res.status(200).json({ success: isLogin, data: data });

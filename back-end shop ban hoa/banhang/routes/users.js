@@ -9,11 +9,11 @@ const { update } = require('../controllers/users/update')
 const { _delete } = require('../controllers/users/delete')
 const { login } = require('../controllers/users/login')
 
-router.post("/", create)
+router.post("/",authenticateToken, create)
 router.get("/:id", get)
 router.get("/", getAll)
-router.put("/:id", update)
-router.delete("/:id", _delete)
+router.put("/:id",authenticateToken, update)
+router.delete("/:id",authenticateToken, _delete)
 router.post("/login", login)
 
 module.exports = router

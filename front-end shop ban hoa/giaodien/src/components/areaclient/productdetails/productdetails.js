@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
 import NumberFormat from 'react-number-format';
+import { connect } from 'react-redux';
+import { actAddToCart } from '../../../actions';
 import Breadcumsection from '../breadcumsection';
 const bc = [
     {
@@ -16,8 +18,16 @@ class productdetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {}
+            data: {},
+            quantity: 0
         }
+    }
+    onChange = (e) => {
+        console.log(e)
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+        console.log(this.state.quantity)
     }
     async componentDidMount() {
 
@@ -53,11 +63,15 @@ class productdetails extends Component {
     renderImage = () => {
         if (this.state.data.moreimages) {
             return this.state.data.moreimages.map((value, key) =>
-                <div className="carousel-item"> <img className="d-block w-100" src={`/anh/${value}`} alt={key} key={key} /> </div>
+                <div key={key} className="carousel-item"> <img className="d-block w-100" src={`/anh/${value}`} alt={key} key={key} /> </div>
             )
         }
     }
 
+    onAddToCart = (e) => {
+        e.preventDefault();
+        this.props.onAddToCart(this.state.data, Number(this.state.quantity));
+    }
     render() {
         return (
             <div>
@@ -94,15 +108,15 @@ class productdetails extends Component {
                                     <ul>
                                         <li>
                                             <div className="form-group quantity-box">
-                                                <label className="control-label">Số lượng</label>
-                                                <input className="form-control" defaultValue={0} min={0} max={20} type="number" />
+                                                <label htmlFor="quantity" className="control-label">Số lượng</label>
+                                                <input onChange={(e) => this.onChange(e)} className="form-control" name="quantity" defaultValue={0} min={0} max={20} type="number" />
                                             </div>
                                         </li>
                                     </ul>
                                     <div className="price-box-bar">
                                         <div className="cart-and-bay-btn">
-                                            <a className="btn hvr-hover btn-success" data-fancybox-close href="/#">Mua ngay</a>
-                                            <a className="btn hvr-hover btn-success" data-fancybox-close href="/#">Thêm vào giỏ hàng</a>
+                                            {/* <a className="btn hvr-hover btn-success" data-fancybox-close href="/#">Mua ngay</a> */}
+                                            <a onClick={(e) => this.onAddToCart(e)} className="btn hvr-hover btn-success" data-fancybox-close href="/#">Thêm vào giỏ hàng</a>
                                         </div>
                                     </div>
                                 </div>
@@ -130,4 +144,15 @@ class productdetails extends Component {
     }
 }
 
-export default productdetails;
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onAddToCart: (product, quantity) => {
+            if (quantity > 0) {
+                dispatch(actAddToCart(product, quantity))
+            }
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(productdetails);

@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(busboyBodyParser());
 app.use(helmet());
 app.use(cors());
+const { authenticateToken } = require("./services/authenticationToken")
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -32,33 +33,33 @@ app.use('/products', require('./routes/product'));
 app.use('/categories', require('./routes/category'));
 app.use('/banners', require('./routes/banner'));
 app.use('/categorycontents', require('./routes/categorycontent'));
-app.use('/newscategories',require('./routes/newscategory'));
-app.use('/news',require('./routes/news'));
-app.use('/orders',require('./routes/order'));
-app.use('/order-details',require('./routes/orderdetail'));
-app.use('/contacts',require('./routes/contacts'));
-app.use('/documents',require('./routes/documents'));
+app.use('/newscategories', require('./routes/newscategory'));
+app.use('/news', require('./routes/news'));
+app.use('/orders', authenticateToken, require('./routes/order'));
+app.use('/order-details', authenticateToken, require('./routes/orderdetail'));
+app.use('/contacts', require('./routes/contacts'));
+app.use('/documents', require('./routes/documents'));
 
 app.post("/uploads", (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send('No files were uploaded.');
-    }
-    
-    let sampleFile = req.files.upload;
-    let extension = mime.extension(sampleFile.mimetype);
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        let filename = uniqueSuffix + '-image.' + extension;
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv('./anh/'+filename, function(err) {
-      if (err)
-        return res.status(500).send(err);
-        res.status(200).json({
-          uploaded: true,
-          url:
-            "http://localhost:9000/anh/"+filename,
-        });
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  let sampleFile = req.files.upload;
+  let extension = mime.extension(sampleFile.mimetype);
+  const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+  let filename = uniqueSuffix + '-image.' + extension;
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('./anh/' + filename, function (err) {
+    if (err)
+      return res.status(500).send(err);
+    res.status(200).json({
+      uploaded: true,
+      url:
+        "http://localhost:9000/anh/" + filename,
     });
-  
+  });
+
 })
 
 mongoose

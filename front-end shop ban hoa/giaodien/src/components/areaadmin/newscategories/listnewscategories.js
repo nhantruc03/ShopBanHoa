@@ -4,11 +4,16 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
+import {AUTH} from '../../env'
 const tablerow = ['Tên', 'MetaTitle', 'Trạng thái', 'Thao tác']
 const keydata = ['name', 'metatitle', 'isDeleted']
 const obj = "newscategories"
 const getData = () =>
-    Axios.post('/newscategories/getAll')
+    Axios.post('/newscategories/getAll', {
+        headers: {
+            'Authorization': { AUTH }.AUTH
+        }
+    })
         .then((res) => res.data)
 
 class listcategorycontent extends Component {
@@ -61,7 +66,8 @@ class listcategorycontent extends Component {
 
     onDelete = (e) => {
         this.setState({
-            data: this.state.data.filter(o => o._id !== e)
+            data: this.state.data.filter(o => o._id !== e),
+            SearchData: this.state.data.filter(o => o._id !== e)
         })
     }
     onChange = (e) => {

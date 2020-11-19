@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
+import {AUTH} from '../../env'
 class editdocument extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +31,11 @@ class editdocument extends Component {
         data.append("link", this.state.link);
         data.append('content', this.state.content);
 
-        Axios.put('/documents/' + this.props.match.params.id, data)
+        Axios.put('/documents/' + this.props.match.params.id, data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 this.onDone();
             })
@@ -51,7 +56,11 @@ class editdocument extends Component {
         })
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/documents/' + this.props.match.params.id)
+            Axios.get('/documents/' + this.props.match.params.id, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then((res) => {
                     temp = res.data.data;
                     this.setState({

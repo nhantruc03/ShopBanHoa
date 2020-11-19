@@ -8,6 +8,7 @@ import Image from '../../image'
 import { ChangeToSlug } from '../../../services/convertoslug'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
+import {AUTH} from '../../env'
 const animatedComponents = makeAnimated();
 
 var CategoryID = [];
@@ -84,7 +85,8 @@ class editproduct extends Component {
 
         Axios.put('/news/' + this.props.match.params.id, data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': {AUTH}.AUTH
             }
         })
             .then(res => {

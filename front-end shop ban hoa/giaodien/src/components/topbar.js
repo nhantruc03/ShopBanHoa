@@ -9,7 +9,7 @@ class topbar extends Component {
         }
     }
     logout = () => {
-        auth.logoutAdmin();
+        auth.logout();
         this.setState({
             logout: true
         })

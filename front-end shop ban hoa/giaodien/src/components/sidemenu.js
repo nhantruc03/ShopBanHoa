@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
-class sidebar extends Component {
+class sidemenu extends Component {
     render() {
         return (
             <div>
                 <div className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                     {/* Sidebar - Brand */}
-                    <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                    <Link className=" sidebar-brand d-flex align-items-center justify-content-centerlink" to={`/admin`} >
                         <div className="sidebar-brand-icon rotate-n-15">
                             <i className="fas fa-laugh-wink" />
                         </div>
                         <div className="sidebar-brand-text mx-3">Shop bán hoa</div>
-                    </a>
+                    </Link>
+
                     {/* Divider */}
                     <hr className="sidebar-divider" />
                     {/* Heading */}
@@ -94,4 +95,4 @@ class sidebar extends Component {
         );
     }
 }
-export default sidebar;
+export default sidemenu;

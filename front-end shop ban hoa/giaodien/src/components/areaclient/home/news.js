@@ -19,7 +19,7 @@ class news extends Component {
                             <h3>{this.props.data.name}</h3>
                         </div>
                         <ul className="option-blog">
-                            <li><Link className="nav-link link" to={`/news-details/${this.props.data.metatitle}.${this.props.data._id}`} ><i className="fas fa-eye" /></Link></li>
+                            <li><Link className="nav-link link" to={`/news-details.${this.props.data.metatitle}.${this.props.data._id}`} ><i className="fas fa-eye" /></Link></li>
                         </ul>
                     </div>
                 </div>

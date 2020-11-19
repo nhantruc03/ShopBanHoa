@@ -4,11 +4,16 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
+import {AUTH} from '../../env'
 const tablerow = ['Tên', 'Địa chỉ', 'Điện thoại', 'Chức vụ','Thao tác']
 const keydata = ['name', 'address', 'phoneNumber', 'role']
 const obj = "users"
 const getData = () =>
-    Axios.get('/users')
+    Axios.get('/users', {
+        headers: {
+            'Authorization': { AUTH }.AUTH
+        }
+    })
         .then((res) => res.data)
 
 class listusers extends Component {
@@ -62,7 +67,8 @@ class listusers extends Component {
 
     onDelete = (e) => {
         this.setState({
-            data: this.state.data.filter(o => o._id !== e)
+            data: this.state.data.filter(o => o._id !== e),
+            SearchData: this.state.data.filter(o => o._id !== e)
         })
     }
     onChange = (e) => {

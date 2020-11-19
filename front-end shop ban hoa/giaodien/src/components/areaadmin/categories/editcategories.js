@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
+import {AUTH} from '../../env'
 var CategorycontentsID = [];
 class editcategory extends Component {
     constructor(props) {
@@ -38,7 +39,11 @@ class editcategory extends Component {
             categorycontentsId:this.state.categorycontentsId
         }
 
-        Axios.put('/categories/' + this.props.match.params.id, data)
+        Axios.put('/categories/' + this.props.match.params.id, data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 this.onDone();
             })
@@ -56,7 +61,11 @@ class editcategory extends Component {
     componentDidMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/categories/' + this.props.match.params.id)
+            Axios.get('/categories/' + this.props.match.params.id, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then((res) => {
                     temp = res.data.data;
                     this.setState({
@@ -72,7 +81,11 @@ class editcategory extends Component {
                 isDeleted: false
             }
 
-            Axios.post('/categorycontents/getAll', data)
+            Axios.post('/categorycontents/getAll', data, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then((res) => {
                     temp2 = res.data.data;
                     CategorycontentsID = [];

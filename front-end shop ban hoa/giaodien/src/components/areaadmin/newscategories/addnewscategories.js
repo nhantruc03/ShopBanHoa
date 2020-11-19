@@ -2,7 +2,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
-
+import {AUTH} from '../../env'
 class addcategorycontent extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +32,11 @@ class addcategorycontent extends Component {
         };
 
 
-        Axios.post('/newscategories', data)
+        Axios.post('/newscategories', data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 this.onDone();
             })

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Product from '../product';
-
+// import { connect } from 'react-redux';
 class productsection extends Component {
 
-    renderData = () => this.props.data.map((value,key)=>(
-        <Product data={value} key={key}/>
+    renderData = (data) => data.map((value, key) => (
+        <Product data={value} key={key} />
     ))
 
     render() {
@@ -15,7 +15,7 @@ class productsection extends Component {
                         <div className="tab-content">
                             <div role="tabpanel" className="tab-pane fade show active" id="grid-view">
                                 <div className="row">
-                                    {this.renderData()}
+                                    {this.props.children}
                                 </div>
                             </div>
                         </div>
@@ -26,4 +26,12 @@ class productsection extends Component {
     }
 }
 
-export default productsection;
+// const mapStateToProps = state => {
+//     return {
+//         products: state.products
+//     }
+// }
+
+// export default connect(mapStateToProps, null)(productsection);
+
+export default productsection

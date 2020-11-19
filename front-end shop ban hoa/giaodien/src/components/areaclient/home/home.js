@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
-import Categoriessection from './categoriessection';
 import Newssection from './newssection';
 
 import Productsection from './productsection';
@@ -58,7 +57,7 @@ class home extends Component {
         return (
             <div>
                 <Slider />
-                <Categoriessection data={this.state.contents} />
+                {/* <Categoriessection data={this.state.contents} /> */}
                 <Productsection data={this.state.products} />
                 <Newssection data={this.state.news} />
             </div>

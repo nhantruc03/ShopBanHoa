@@ -18,7 +18,7 @@ class news_row extends Component {
                         <div>
                             {this.props.data.description}
                         </div>
-                        <Link className="btn mt-2" style={{ color: "black" }} to={`/news-details/${this.props.data.metatitle}.${this.props.data._id}`}>{`<<Xem tin tức>>`}</Link>
+                        <Link className="btn mt-2" style={{ color: "black" }} to={`/news-details.${this.props.data.metatitle}.${this.props.data._id}`}>{`<<Xem tin tức>>`}</Link>
                     </div>.
                 </div>
             </div>
