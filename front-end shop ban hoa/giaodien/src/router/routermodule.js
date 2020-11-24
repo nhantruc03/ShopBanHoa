@@ -43,6 +43,8 @@ import document from '../components/areaclient/document/document';
 import cart from '../components/areaclient/cart/cart';
 import login from '../components/areaclient/login/login';
 import { SecureRouteClient } from './secureRouteClient';
+import report from '../components/areaadmin/report/report';
+import personal from '../components/areaadmin/personal/personal';
 class router extends Component {
     render() {
         return (
@@ -58,6 +60,9 @@ class router extends Component {
                 <SecureRouteAdmin exact path="/admin/listbanners" component={Listbanners} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/editbanners/:id" component={Editbanners} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/addbanners" component={Addbanners} layout={Admin} />
+
+                <SecureRouteAdmin exact path="/admin/report" component={report} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/personal" component={personal} layout={Admin} />
 
                 <SecureRouteAdmin exact path="/admin/listcategorycontents" component={Listcategorycontents} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/editcategorycontents/:id" component={Editcategorycontents} layout={Admin} />

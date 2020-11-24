@@ -8,6 +8,7 @@ import { actUpdateFromCart } from '../../../actions';
 import * as types from './../../../constants/Message';
 import Cartitem from './cartitem';
 import Breadcumsection from '../breadcumsection';
+import {AUTH} from '../../env';
 const bc = [
     {
         name: "Giỏ hàng",
@@ -65,7 +66,11 @@ class cart extends Component {
 
         console.log(data)
 
-        var curOrder = await Axios.post('/orders', data)
+        var curOrder = await Axios.post('/orders', data, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then(res => {
                 return (
                     res.data.data._id
@@ -93,7 +98,11 @@ class cart extends Component {
                 }
             }
             console.log(data)
-            await Axios.post('/order-details', data)
+            await Axios.post('/order-details', data,{
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
                 .then(res => {
                     console.log(res.data.data);
                 })

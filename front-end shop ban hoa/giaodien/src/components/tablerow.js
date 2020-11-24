@@ -50,9 +50,17 @@ class TableDataRow extends Component {
                         )
                     }
                     else {
-                        return (
-                            <td key={key} > { this.props.data[value]}</td>
-                        )
+                        if (this.isdate(this.props.data[value])) {
+                            var temp = new Date(this.props.data[value]);
+                            return (
+                                <td key={key} > { temp.toLocaleDateString()}</td>
+                            )
+                        } else {
+                            return (
+                                <td key={key} > { this.props.data[value]}</td>
+                            )
+                        }
+
                     }
                 }
                 else {
@@ -66,6 +74,16 @@ class TableDataRow extends Component {
             }
         })
 
+    isdate = (val) => {
+        try {
+            val = val.replaceAll(" ", "");
+            var d = new Date(val);
+            return !isNaN(d.valueOf());
+        } catch {
+            return false
+        }
+    }
+
     viewClick = () => {
         this.setState({
             onView: true
@@ -73,7 +91,7 @@ class TableDataRow extends Component {
     }
     renderAction = () => {
         if (this.props.noaction) {
-            
+
         } else {
             if (this.props.review) {
                 return (

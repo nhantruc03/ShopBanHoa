@@ -3,12 +3,12 @@ const Users = require('../../model/users')
 const get = async (req, res) => {
   try {
     // Check owner:  not admin && not owner => out
-    if ( req.query.role !== "admin" && req.body._id !== req.params.id ) {
-      return res.status(406).json({
-        success: false,
-        error: "Can not access others user information"
-      })
-    }
+    // if ( req.query.role !== "admin" && req.body._id !== req.params.id ) {
+    //   return res.status(406).json({
+    //     success: false,
+    //     error: "Can not access others user information"
+    //   })
+    // }
 
     const query = { _id: req.params.id, isDeleted: false }
 
