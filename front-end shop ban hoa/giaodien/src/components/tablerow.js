@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
-class TableDataRow extends Component {
+import {AUTH} from './env';
+class TableDataRow extends  Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +18,11 @@ class TableDataRow extends Component {
     }
 
     deleteClick = () => {
-        Axios.delete('/' + this.props.obj + '/' + this.props.data._id)
+        Axios.delete('/' + this.props.obj + '/' + this.props.data._id, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then((res) => {
                 console.log(res.data);
             })
@@ -50,9 +55,17 @@ class TableDataRow extends Component {
                         )
                     }
                     else {
-                        return (
-                            <td key={key} > { this.props.data[value]}</td>
-                        )
+                        if (this.isdate(this.props.data[value])) {
+                            var temp = new Date(this.props.data[value]);
+                            return (
+                                <td key={key} > { temp.toLocaleDateString()}</td>
+                            )
+                        } else {
+                            return (
+                                <td key={key} > { this.props.data[value]}</td>
+                            )
+                        }
+
                     }
                 }
                 else {
@@ -66,6 +79,16 @@ class TableDataRow extends Component {
             }
         })
 
+    isdate = (val) => {
+        try {
+            val = val.replaceAll(" ", "");
+            var d = new Date(val);
+            return !isNaN(d.valueOf());
+        } catch {
+            return false
+        }
+    }
+
     viewClick = () => {
         this.setState({
             onView: true
@@ -73,7 +96,7 @@ class TableDataRow extends Component {
     }
     renderAction = () => {
         if (this.props.noaction) {
-            
+
         } else {
             if (this.props.review) {
                 return (

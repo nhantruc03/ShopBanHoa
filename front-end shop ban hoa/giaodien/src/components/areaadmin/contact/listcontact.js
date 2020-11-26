@@ -5,11 +5,10 @@ import Pagination from '../../Pagination';
 import Search from '../../search';
 import { AUTH } from '../../env'
 // import { Redirect } from 'react-router-dom';
-const tablerow = ['Tên người đặt', 'Tên người nhận', 'Số điện thoại người nhận', 'Địa chị người nhận', 'email', 'Thao tác']
-const keydata = ['customerId', 'shipname', 'shipmobile', 'shipaddress', 'shipemail']
-const obj = "orders"
-
-class listorders extends Component {
+const tablerow = ['Tên người gửi', 'Email người gửi', 'tiêu đề', 'Thao tác']
+const keydata = ['name', 'email', 'subject']
+const obj = "contacts"
+class listcontact extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,7 +23,7 @@ class listorders extends Component {
     async componentDidMount() {
         this._isMounted = true;
         const [orders] = await Promise.all([
-            Axios.post('/orders/getAll', {},{
+            Axios.post('/contacts/getAll', {},{
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -89,8 +88,8 @@ class listorders extends Component {
         if (this.state.data !== null) {
             return (
                 <div className='mt-5 text-center'>
-                    <h1 className='text-primary mb-3'>Danh sách hóa đơn</h1>
-                    <Search target="shipname" data={this.state.data} getSearchData={(e) => this.getSearchData(e)} />
+                    <h1 className='text-primary mb-3'>Danh sách yêu cầu</h1>
+                    <Search target="name" data={this.state.data} getSearchData={(e) => this.getSearchData(e)} />
                     <TableData obj={obj} dataRow={tablerow} data={this.getCurData(SearchData)} keydata={keydata} onDelete={(e) => this.onDelete(e)} review={true} />
                     <Pagination
                         postsPerPage={this.state.postsPerPage}
@@ -114,4 +113,5 @@ class listorders extends Component {
 
     }
 }
-export default listorders;
+
+export default listcontact;

@@ -55,6 +55,16 @@ class sidemenu extends Component {
                     </Navbar>
                     <hr className="sidebar-divider" />
                     <Navbar expand="false" style={{ width: "100%", color: "white" }}>
+                        Quản lý yêu cầu
+                        <Navbar.Toggle style={{ width: 60 }} aria-controls="yeucau" > <i className="fas  fa-briefcase" /></Navbar.Toggle>
+                        <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="yeucau">
+                            <Nav className="mr-auto">
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listcontacts" >Danh sách yêu cầu</NavLink>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>
+                    <hr className="sidebar-divider" />
+                    <Navbar expand="false" style={{ width: "100%", color: "white" }}>
                         Quản lý tin tức
                         <Navbar.Toggle style={{ width: 60 }} aria-controls="tintuc" > <i className="fas  fa-newspaper" /></Navbar.Toggle>
                         <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="tintuc">
@@ -66,11 +76,11 @@ class sidemenu extends Component {
                     </Navbar>
                     <hr className="sidebar-divider" />
                     <Navbar expand="false" style={{ width: "100%", color: "white" }}>
-                        Quản lý chung
+                        Thống kê
                         <Navbar.Toggle style={{ width: 60 }} aria-controls="common" > <i className="fas  fa-bars" /></Navbar.Toggle>
                         <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="common">
                             <Nav className="mr-auto">
-                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/listbanners" >Xem danh sách banner</NavLink>
+                                <NavLink style={{ color: "#4e73df" }} className="link" to="/admin/report" >Xem thống kê</NavLink>
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>

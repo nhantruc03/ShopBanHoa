@@ -74,13 +74,13 @@ class footer extends Component {
                                         <h3>Social Media</h3>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                         <ul>
-                                            <li><a href="/#"><i className="fab fa-facebook" aria-hidden="true" />f</a></li>
-                                            <li><a href="/#"><i className="fab fa-twitter" aria-hidden="true" />f</a></li>
-                                            <li><a href="/#"><i className="fab fa-linkedin" aria-hidden="true" />f</a></li>
-                                            <li><a href="/#"><i className="fab fa-google-plus" aria-hidden="true" />f</a></li>
-                                            <li><a href="/#"><i className="fa fa-rss" aria-hidden="true" />f</a></li>
-                                            <li><a href="/#"><i className="fab fa-pinterest-p" aria-hidden="true" />f</a></li>
-                                            <li><a href="/#"><i className="fab fa-whatsapp" aria-hidden="true" />f</a></li>
+                                            <li><a href="/#"><i className="fab fa-facebook" aria-hidden="true" /></a></li>
+                                            <li><a href="/#"><i className="fab fa-twitter" aria-hidden="true" /></a></li>
+                                            <li><a href="/#"><i className="fab fa-linkedin" aria-hidden="true" /></a></li>
+                                            <li><a href="/#"><i className="fab fa-google-plus" aria-hidden="true" /></a></li>
+                                            <li><a href="/#"><i className="fa fa-rss" aria-hidden="true" /></a></li>
+                                            <li><a href="/#"><i className="fab fa-pinterest-p" aria-hidden="true" /></a></li>
+                                            <li><a href="/#"><i className="fab fa-whatsapp" aria-hidden="true" /></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -124,8 +124,8 @@ class footer extends Component {
                 </footer>
 
                 <div className="footer-copyright">
-                    <p className="footer-company">All Rights Reserved. © 2018 <a href="/#">ThewayShop</a> Design By :
-                    <a href="https://html.design/">html design</a></p>
+                    <p className="footer-company">All Rights Reserved. © 2020 <a href="/#">FlowerShop</a>
+                    <a href="https://html.design/"></a></p>
                 </div>
             </div>
         );

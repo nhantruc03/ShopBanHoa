@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import Search from '../../search';
 import TableData from '../../table';
 import {AUTH} from '../../env'
-const tablerow = ['Tên sản phẩm', 'Số lượng', 'Tổng']
+const tablerow = ['Tên sản phẩm', 'Số lượng', 'Giá']
 const keydata = ['productId', 'quantity', 'price']
 const obj = "order-details"
 const getData = (id) =>
@@ -30,9 +30,11 @@ class listorders extends Component {
         }
     }
 
-    UNSAFE_componentWillMount() {
+    async componentDidMount() {
+        this._isMounted = true;
         if (this.state.data === null) {
             getData(this.props.match.params.id).then((res) => {
+                
                 this.setState({
                     data: res.data,
                     SearchData: res.data
@@ -40,6 +42,10 @@ class listorders extends Component {
                 this.getTotal();
             })
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     paginate = (pageNumber) => {

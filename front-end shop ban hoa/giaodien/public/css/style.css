@@ -637,13 +637,15 @@
      transform: perspective(1px) translateZ(0);
      box-shadow: 0 0 1px rgba(0, 0, 0, 0);
      position: relative;
-     background: #b0b435;
+     background: #222221 !important;
      -webkit-transition-property: color;
      transition-property: color;
      -webkit-transition-duration: 0.3s;
      transition-duration: 0.3s;
      border-radius: 0;
      box-shadow: none;
+     border: 1px solid #b0b435 !important;
+     color: #fff !important;
 }
  .hvr-hover::after {
     content: "";
@@ -919,6 +921,9 @@
      margin: 0 auto;
      text-align: center;
      display: block;
+     height: 250px;
+     object-fit: cover;
+     width: 100%;
 }
  .type-lb{
      position: absolute;

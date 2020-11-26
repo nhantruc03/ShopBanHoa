@@ -14,15 +14,15 @@ const getAll = async (req, res) => {
     if (!page || !limit) {
       OrderDetails = await OrderDetail.find(query)
         .select(
-          "productId orderId quantity price"
+          "productId orderId quantity price createdAt"
         )
-        .populate({ path: "productId", select: ["name","promotionprice"] });
+        .populate({ path: "productId", select: ["name"] });
     } else {
       OrderDetails = await OrderDetail.find(query)
         .select(
-          "productId orderId quantity price"
+          "productId orderId quantity price createdAt"
         )
-        .populate({ path: "productId", select: ["price", "name","promotionprice"] })
+        .populate({ path: "productId", select: ["price"] })
         .skip(limit * (page - 1))
         .limit(limit);
     }

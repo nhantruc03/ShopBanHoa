@@ -14,12 +14,9 @@ class page extends Component {
                         <div id="content-wrapper" className="d-flex flex-column">
                             <Topbar />
                             {this.props.children}
-                            <Footer />
+                            {/* <Footer /> */}
                         </div>
                     </div>
-                    <a className="scroll-to-top rounded" href="#page-top">
-                        <i className="fas fa-angle-up"></i>
-                    </a>
                 </div>
             </React.Fragment>
         );

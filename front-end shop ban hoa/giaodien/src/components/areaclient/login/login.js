@@ -68,7 +68,11 @@ class login extends Component {
 
                             <br />
                             {this.handleFail()}
-                            <button style={{ float: "right" }} type="submit" className="btn btn-success">Đăng nhập</button>
+                            <div className="submit-button text-center">
+                                <button className="btn hvr-hover btn-success" id="submit" type="submit">Đăng nhập</button>
+                                <div id="msgSubmit" className="h3 text-center hidden" />
+                                <div className="clearfix" />
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ class contact extends Component {
             }
         })
             .then(res => {
-                console.log(res)
+                console.log(res.data)
             })
             .catch(err => {
                 console.log(err);
@@ -55,7 +55,7 @@ class contact extends Component {
                 <div className="contact-box-main">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-8 col-sm-12">
+                            <div className="col-lg-12 col-sm-12">
                                 <div className="contact-form-right">
                                     <h2>Liên hệ</h2>
                                     <p>Nếu bạn có thắc mắc hay có yêu cầu gì hãy liên hệ với chúng tôi qua những thông tin dưới đây.</p>
@@ -94,7 +94,7 @@ class contact extends Component {
                                     </form>
                                 </div>
                             </div>
-                            <div className="col-lg-4 col-sm-12">
+                            {/* <div className="col-lg-4 col-sm-12">
                                 <div className="contact-info-left">
                                     <h2>CONTACT INFO</h2>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc tristique purus turpis. Maecenas vulputate. </p>
@@ -110,7 +110,7 @@ class contact extends Component {
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

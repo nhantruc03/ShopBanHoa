@@ -36,7 +36,7 @@ class page extends Component {
                 <SearchBar />
                 {this.props.children}
                 <Footer />
-                <a onClick={(e) => this.click(e)} href="/#" id="back-to-top" title="Back to top" style={{ display: 'inline-block' }}>↑</a>
+                <a onClick={(e) => this.click(e)} href="/#" id="back-to-top" title="Back to top" style={{ display: 'inline-block' }}><span>↑</span></a>
             </React.Fragment>
         );
     }
