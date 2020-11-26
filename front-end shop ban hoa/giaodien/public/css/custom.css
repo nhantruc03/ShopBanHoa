@@ -1,2 +1,106 @@
 
 /** ADD YOUR AWESOME CODES HERE **/
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+ul.cart-list > li.total {
+    /* background-color:linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1)) !important; */
+    background-color:rgba(173, 173, 157,0.5);
+    padding-bottom: 15px !important;
+}
+span.float-right {
+    padding-top: 20px !important;
+    font-size: 30px !important;
+}
+ul.cart-list {
+    border-radius: 5px !important;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 50px !important;
+
+}
+.attr-nav > ul > li > a span.badge {
+    position: absolute;
+    top: 50%;
+    margin-top: -23px;
+    right: 5px;
+    font-size: 16px !important;
+    padding: 0;
+    width: 15px;
+    height: 15px;
+    padding-top: 2px;
+}
+.footer-link ul li a::before {
+    /* font-family: FontAwesome; */
+    content: "" !important;
+    position: absolute;
+    left: 5px;
+    line-height: 35px;
+    font-size: 16px;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+}
+strong span.brand{
+    color: #b0b435;
+    font-weight: 700;
+    font-size: 4rem;
+    font-family: 'Great Vibes', cursive;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+.navbar-brand img{
+    height: 110px;
+    object-fit: cover;
+}
+.btn-new{
+    margin-top: 20px;
+    width: 200px !important;
+}
+p.new,
+p.sale{
+    width: 100px;
+    text-align: center;
+}
+#back-to-top{
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    transition: all .3s;
+}
+#back-to-top:hover{
+    background: #111 !important;
+}
+#back-to-top span{
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s;
+    font-size: 20px;
+}
+#back-to-top:hover span{
+    margin-top: 5px;
+}
+ul.cart-list > li > a.photo img{
+    border-radius: 3px !important;
+}
+i.fas.fa-eye{
+    top: 40% !important;
+}
+.news-img img{
+    border-radius: 5px;
+}
+.navbar-collapse
+{
+    transition: all .5s ease;
+}
+.collapse{
+    transition: all .5s ease;
+}
+.all-title-box {
+    background: url(../images/about-picture.jpg) no-repeat center center !important;
+    background-position: center;
+    background-size: cover;
+   
+}

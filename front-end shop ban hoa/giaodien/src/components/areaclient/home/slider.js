@@ -11,7 +11,7 @@ class slider extends Component {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <h1 className="m-b-20"><strong>Chào mừng bạn đến với <br /> Freshshop</strong></h1>
+                                        <h1 className="m-b-20"><strong>Chào mừng bạn đến với <br /> <span className="brand">Flower Shop</span></strong></h1>
                                         {/* <p className="m-b-40">See how your users experience your website in realtime or view <br /> trends to see any changes in performance over time.</p> */}
                                         {/* <p><a className="btn hvr-hover" href="/#">Shop New</a></p> */}
                                     </div>
