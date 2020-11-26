@@ -7,7 +7,7 @@ class news_row extends Component {
             <div className="row">
                 <div className="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                     <div className="products-single fix">
-                        <div className="box-img-hover">
+                        <div className="box-img-hover news-img">
                             <img src={`anh/${this.props.data.image}`} className="img-fluid" alt="anh" />
                         </div>
                     </div>
@@ -18,7 +18,8 @@ class news_row extends Component {
                         <div>
                             {this.props.data.description}
                         </div>
-                        <Link className="btn mt-2" style={{ color: "black" }} to={`/news-details.${this.props.data.metatitle}.${this.props.data._id}`}>{`<<Xem tin tức>>`}</Link>
+                        {/* <Link className="btn mt-2" style={{ color: "black" }} to={`/news-details.${this.props.data.metatitle}.${this.props.data._id}`}>{`<<Xem tin tức>>`}</Link> */}
+                        <Link className="btn btn-default hvr-hover btn-cart btn-new" style={{ color: "black" }} to={`/news-details.${this.props.data.metatitle}.${this.props.data._id}`}>{`<<Xem tin tức>>`}</Link>
                     </div>.
                 </div>
             </div>

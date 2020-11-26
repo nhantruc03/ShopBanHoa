@@ -8,10 +8,15 @@
 		 padding-left: 10px;
 		 padding-right: 30px;
     }
+
 }
  @media (min-width: 768px) and (max-width: 991px) {
      nav.navbar.bootsnav .navbar-header{
          width: 100%;
+    }
+    .products-box{
+        /* background-color: red !important; */
+        min-height: auto;
     }
      .navbar-light .navbar-toggler{
          border-color: #b0b435;
@@ -71,6 +76,10 @@
     }
      .right-phone-box{
          display: none;
+    }
+    .special-list{
+        /* background-color: yellow ; */
+        min-height: 100vh;
     }
 }
 /* mobile or only mobile */
