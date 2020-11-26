@@ -64,7 +64,6 @@ class cart extends Component {
             shipemail: this.state.shipemail
         }
 
-        console.log(data)
 
         var curOrder = await Axios.post('/orders', data, {
             headers: {
@@ -80,7 +79,7 @@ class cart extends Component {
                 console.log(err);
             })
 
-
+        let list_temp = [];
         this.props.cart.forEach(async (value) => {
             if (value.product.promotionprice === null) {
                 data = {
@@ -97,19 +96,20 @@ class cart extends Component {
                     price: Number(value.product.promotionprice)
                 }
             }
-            console.log(data)
-            await Axios.post('/order-details', data,{
-                headers: {
-                    'Authorization': { AUTH }.AUTH
-                }
-            })
-                .then(res => {
-                    console.log(res.data.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            list_temp.push(data);
+            
         })
+        await Axios.post('/order-details', list_temp,{
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
+            .then(res => {
+                console.log(res.data.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
         this.setState({
             done: true
         })

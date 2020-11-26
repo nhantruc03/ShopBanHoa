@@ -45,6 +45,8 @@ import login from '../components/areaclient/login/login';
 import { SecureRouteClient } from './secureRouteClient';
 import report from '../components/areaadmin/report/report';
 import personal from '../components/areaadmin/personal/personal';
+import listcontact from '../components/areaadmin/contact/listcontact';
+import contact from '../components/areaadmin/contact/contact';
 class router extends Component {
     render() {
         return (
@@ -52,6 +54,9 @@ class router extends Component {
                 <SecureRouteAdmin exact path="/admin/listproducts" component={Listproducts} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/addproducts" component={Addproducts} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/editproducts/:id" component={Editproducts} layout={Admin} />
+
+                <SecureRouteAdmin exact path="/admin/listcontacts" component={listcontact} layout={Admin} />
+                <SecureRouteAdmin exact path="/admin/contacts/:id" component={contact} layout={Admin} />
 
                 <SecureRouteAdmin exact path="/admin/listcategories" component={Listcategories} layout={Admin} />
                 <SecureRouteAdmin exact path="/admin/editcategories/:id" component={Editcategories} layout={Admin} />

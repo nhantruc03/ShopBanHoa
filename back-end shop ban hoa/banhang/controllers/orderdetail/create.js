@@ -2,19 +2,17 @@ const OrderDetail = require("../../model/orderdetail")
 const Product = require("../../model/product")
 const { startSession } = require('mongoose')
 const { commitTransactions, abortTransactions } = require('../../services/transaction');
-const { pick, isEmpty } = require("lodash");
+const { pick, isEmpty, isArray } = require("lodash");
+// const { update } = require("../../model/orderdetail");
 const create = async (req, res) => {
   let sessions = [];
   try {
-    const productId = req.body.productId;
-    const orderId = req.body.orderId;
-    const quantity = req.body.quantity;
-    const price = req.body.price;
-    // Check not enough property
-    if (isEmpty(productId) || isEmpty(orderId) || !quantity || !price) {
+
+    // If not array, return
+    if (isArray(req.body) !== true) {
       return res.status(406).json({
         success: false,
-        error: "Not enough property"
+        error: "You must be pass an array"
       });
     }
 
@@ -23,23 +21,23 @@ const create = async (req, res) => {
     session.startTransaction();
     sessions.push(session);
 
+    // Prepare data
+    let array = req.body.map(e =>
+      pick(e,
+        "productId",
+        "orderId",
+        "quantity",
+        "price"
+      )
+    )
+
     //Create
-    const newOrderDetail = await OrderDetail.create(
-      [
-        {
-          ...pick(
-            req.body,
-            "productId",
-            "orderId",
-            "quantity",
-            "price"
-          )
-        }
-      ],
+    const newOrderDetail = await OrderDetail.insertMany(
+      array,
       { session: session }
     );
 
-    if (isEmpty(newOrderDetail)) {
+    if (isEmpty(newOrderDetail) || newOrderDetail.length != array.length) {
       await abortTransactions(sessions);
       return res.status(406).json({
         success: false,
@@ -47,15 +45,53 @@ const create = async (req, res) => {
       });
     }
 
-    const updateProduct = await Product.findOneAndUpdate(
-      { _id: productId, isDeleted: false },
-      {
-        $inc: { 'quantity': -quantity }
-      },
-      { session, new: true }
-    );
+    // Check exist
+    let findOrderdetailMethods = []
+    array.forEach(element => {
+      findOrderdetailMethods.push(
+        OrderDetail.find({
+          orderId: element.orderId,
+          productId: element.productId,
+          price: element.price,
+          isDeleted: false
+        }, null, { session })
+      )
+    })
+    let oldOrderDetail = await Promise.all(findOrderdetailMethods)
 
-    if (isEmpty(updateProduct) || updateProduct.quantity < 0) {
+    let checkExist = false;
+    oldOrderDetail.forEach(e => {
+      if (e.length > 1) {
+        checkFail = true
+      }
+    })
+    if (checkExist) {
+      await abortTransactions(sessions);
+      return res.status(409).json({
+        success: false,
+        error: "This OrderDetail is already exist"
+      });
+    }
+
+
+    // update quantity
+    let updateQuantityMethods = []
+    array.forEach(element => {
+      updateQuantityMethods.push(
+        Product.findOneAndUpdate(
+          { _id: element.productId, isDeleted: false },
+          {
+            $inc: { 'quantity': -(element.quantity) }
+          },
+          { session, new: true }
+        )
+      )
+    })
+    // update quantity
+    let updatedQuantity = await Promise.all(updateQuantityMethods)
+
+    // check quantity
+    if (isEmpty(updatedQuantity) || updatedQuantity.length !== array.length) {
       await abortTransactions(sessions);
       return res.status(406).json({
         success: false,
@@ -63,22 +99,6 @@ const create = async (req, res) => {
       });
     }
 
-
-    // check exist
-    const oldOrderdetails = await OrderDetail.find({
-      orderId: orderId,
-      productId: productId,
-      isDeleted: false
-    }, null, { session });
-
-
-    if (oldOrderdetails.length > 1) {
-      await abortTransactions(sessions);
-      return res.status(406).json({
-        success: false,
-        error: "This Prescriptiondetails is already exist"
-      });
-    }
     // Done
     await commitTransactions(sessions);
 

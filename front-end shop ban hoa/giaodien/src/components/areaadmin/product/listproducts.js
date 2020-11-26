@@ -24,7 +24,7 @@ class listproducts extends Component {
             data: null,
             SearchData: null,
             currentPage: 1,
-            postsPerPage: 10,
+            postsPerPage: 4,
             listPage: [],
             onAdd: false
         }
@@ -96,6 +96,7 @@ class listproducts extends Component {
                     <TableData obj={obj} dataRow={tablerow} data={this.getCurData(SearchData)} keydata={keydata} onDelete={(e) => this.onDelete(e)}/>
                     <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(SearchData)} paginate={(e) => this.paginate(e)}/>
                     <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm
+                
             </div>
                 </div>
             )

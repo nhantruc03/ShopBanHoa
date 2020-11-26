@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
-class TableDataRow extends Component {
+import {AUTH} from './env';
+class TableDataRow extends  Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +18,11 @@ class TableDataRow extends Component {
     }
 
     deleteClick = () => {
-        Axios.delete('/' + this.props.obj + '/' + this.props.data._id)
+        Axios.delete('/' + this.props.obj + '/' + this.props.data._id, {
+            headers: {
+                'Authorization': { AUTH }.AUTH
+            }
+        })
             .then((res) => {
                 console.log(res.data);
             })
