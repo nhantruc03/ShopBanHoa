@@ -8,7 +8,8 @@ import { actUpdateFromCart } from '../../../actions';
 import * as types from './../../../constants/Message';
 import Cartitem from './cartitem';
 import Breadcumsection from '../breadcumsection';
-import {AUTH} from '../../env';
+import { trackPromise } from 'react-promise-tracker';
+import { AUTH } from '../../env';
 const bc = [
     {
         name: "Giỏ hàng",
@@ -48,9 +49,47 @@ class cart extends Component {
                 )
             })
         }
-        return result;
+        else {
+            result = (<tr>
+                <td rowSpan="6">
+                    {result}
+                </td>
+            </tr>)
+        }
+        return result
     }
 
+    async componentDidMount() {
+        const login = localStorage.getItem('login');
+        const obj = JSON.parse(login);
+
+        this._isMounted = true;
+        const [user] = await trackPromise(Promise.all([
+            Axios.get('/users/' + obj.id, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
+                .then((res) =>
+                    res.data.data
+                )
+        ]));
+
+
+        if (user !== null) {
+            console.log(user)
+            if (this._isMounted) {
+                this.setState({
+                    shipname: user.name,
+                    shipaddress: user.address,
+                    shipmobile: user.phoneNumber
+                })
+            }
+        }
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
     onSubmit = async (e) => {
         e.preventDefault();
@@ -97,22 +136,30 @@ class cart extends Component {
                 }
             }
             list_temp.push(data);
-            
+
         })
-        await Axios.post('/order-details', list_temp,{
+        await trackPromise(Axios.post('/order-details', list_temp, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
         })
             .then(res => {
-                console.log(res.data.data);
+                console.log(res.data)
             })
             .catch(err => {
                 console.log(err);
             })
-        this.setState({
-            done: true
-        })
+        )
+        var h = document.getElementById("beforeend");
+        h.insertAdjacentHTML("beforeEnd", '<p className="textcolor" style="font-size: xxx-large;font-weight: bold;color:#b0b435;">Mua hàng thành công</p>');
+        setTimeout(() => {
+            h.querySelector(':last-child').remove();
+            localStorage.removeItem('CART')
+            this.setState({
+                done: true
+            })
+        }, 2000);
+
     }
 
     render() {
@@ -151,18 +198,22 @@ class cart extends Component {
                                 <div className="col-lg-12 col-sm-12">
                                     <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
                                         <label htmlFor="shipname"  >Tên người nhận</label>
-                                        <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="shipname" placeholder="Eg. ADSV..." required />
+                                        <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="shipname" value={this.state.shipname} placeholder="Eg. ADSV..." required />
                                         <label htmlFor="shipmobile"  >Số điện thoại người nhận</label>
-                                        <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="shipmobile" placeholder="Eg. 0904434.." required />
+                                        <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="shipmobile" value={this.state.shipmobile} placeholder="Eg. 0904434.." required />
                                         <label htmlFor="shipaddress"  >Địa chỉ người nhận</label>
-                                        <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="shipaddress" placeholder="Eg. 34/ABC" required />
+                                        <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="shipaddress" value={this.state.shipaddress} placeholder="Eg. 34/ABC" required />
                                         <label htmlFor="shipemail"  >Email người nhận</label>
-                                        <input onChange={(e) => this.onChange(e)} type="email" className="form-control" name="shipemail" placeholder="Eg. abc@gmail.com" required />
+                                        <input onChange={(e) => this.onChange(e)} type="email" className="form-control" name="shipemail" value={this.state.shipemail} placeholder="Eg. abc@gmail.com" required />
+
                                         <div className="update-box pt-2">
                                             <input defaultValue="Update Cart" type="submit" />
                                         </div>
                                     </form>
                                 </div>
+                            </div>
+                            <div className="beforeend text-center" id="beforeend">
+                                
                             </div>
                         </div>
                     </div>

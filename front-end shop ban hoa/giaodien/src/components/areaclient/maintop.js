@@ -26,14 +26,14 @@ class maintop extends Component {
                     <div className="container">
                         {/* Start Header Navigation */}
                         <div className="navbar-header">
-                            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="/navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                            <button onClick={()=>{this.props.handleMenu()}} className="navbar-toggler" type="button" data-toggle="collapse" data-target="/navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                                 <i className="fa fa-bars" />
                             </button>
                             <a className="navbar-brand" href="/"><img src="images/logo1.png" className="logo" alt="" /></a>
                         </div>
                         {/* End Header Navigation */}
                         {/* Collect the nav links, forms, and other content for toggling */}
-                        <div className="collapse navbar-collapse" id="navbar-menu">
+                        <div  className={`collapse navbar-collapse ${this.props.Menu}`} id="navbar-menu">
                             <ul className="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                                 <li className="nav-item active"><NavLink className="nav-link link" to="/" >Trang chủ</NavLink></li>
                                 <li className="nav-item"><NavLink className="nav-link arrow link" to="/documents.about-us.5fafa9bd577b6b3c50af73c6" >About us</NavLink></li>

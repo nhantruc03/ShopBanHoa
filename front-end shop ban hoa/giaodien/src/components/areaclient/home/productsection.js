@@ -7,7 +7,7 @@ class productsection extends Component {
         <Product
             key={key}
             data={value}
-            onAddToCart={(product)=>this.props.onAddToCart(product)}
+            onAddToCart={(product) => this.props.onAddToCart(product)}
         />
     )
 
@@ -22,7 +22,7 @@ class productsection extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="row special-list">
+                    <div className="row">
                         {this.rennderData()}
                     </div>
                 </div>

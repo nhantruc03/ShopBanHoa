@@ -41,7 +41,9 @@ class top extends Component {
     renderData = () => {
         if (this.state.name !== '') {
             return (
-                <li><a href="/#"><i className="fa fa-user s_color" /> {this.state.name}</a></li>
+                <li>
+                    <Link className="link" to={`/personal`} ><i className="fa fa-user s_color" /> {this.state.name}</Link>
+                </li>
 
             )
         }

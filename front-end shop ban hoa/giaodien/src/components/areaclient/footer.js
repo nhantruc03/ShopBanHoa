@@ -20,7 +20,6 @@ class footer extends Component {
                     )
                 })
         ]);
-        console.log(data)
         if (data !== null) {
             if (this._isMounted) {
                 this.setState({

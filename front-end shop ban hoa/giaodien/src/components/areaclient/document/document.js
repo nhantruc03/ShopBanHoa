@@ -15,7 +15,6 @@ class document extends Component {
         }
     }
     async componentDidMount() {
-        console.log(this.props.match.params.id)
         this._isMounted = true;
         const [data] = await Promise.all([
             Axios.get('/documents/' + this.props.match.params.id)
@@ -37,7 +36,7 @@ class document extends Component {
         this._isMounted = false;
     }
 
-    async componentWillReceiveProps(newprop){
+    async componentWillReceiveProps_UNSAFE(newprop){
         this._isMounted = true;
         const [data] = await Promise.all([
             Axios.get('/documents/' + newprop.match.params.id)

@@ -2,6 +2,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import Breadcumsection from '../breadcumsection';
 import { AUTH } from '../../env';
+import { trackPromise } from 'react-promise-tracker';
 const bc = [
     {
         name: "Liên hệ",
@@ -19,7 +20,7 @@ class contact extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = {
             name: this.state.name,
@@ -28,7 +29,7 @@ class contact extends Component {
             message: this.state.message
         }
 
-        Axios.post('/contacts', data, {
+        await trackPromise(Axios.post('/contacts', data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -38,7 +39,13 @@ class contact extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
+
+        var h = document.getElementById("beforeend");
+        h.insertAdjacentHTML("beforeEnd", '<p className="textcolor" style="font-size: xxx-large;font-weight: bold;color:#b0b435;">Gửi yêu cầu thành công</p>');
+        setTimeout(() => {
+            h.querySelector(':last-child').remove();
+        }, 2000);
     }
     onChange = (e) => {
         this.setState({
@@ -63,25 +70,25 @@ class contact extends Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <input onChange={(e)=>this.onChange(e)} type="text" className="form-control" id="name" name="name" placeholder="Tên của bạn" required data-error="Vui lòng nhập tên" />
+                                                    <input onChange={(e) => this.onChange(e)} type="text" className="form-control" id="name" name="name" placeholder="Tên của bạn" required data-error="Vui lòng nhập tên" />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <input onChange={(e)=>this.onChange(e)} type="email" placeholder="Your Email" id="email" className="form-control" name="email" required data-error="Vui lòng nhập email" />
+                                                    <input onChange={(e) => this.onChange(e)} type="email" placeholder="Your Email" id="email" className="form-control" name="email" required data-error="Vui lòng nhập email" />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <input onChange={(e)=>this.onChange(e)} type="text" className="form-control" id="subject" name="subject" placeholder="Tiêu đề" required data-error="Vui lòng nhập tiê đề" />
+                                                    <input onChange={(e) => this.onChange(e)} type="text" className="form-control" id="subject" name="subject" placeholder="Tiêu đề" required data-error="Vui lòng nhập tiê đề" />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
                                                 <div className="form-group">
-                                                    <textarea onChange={(e)=>this.onChange(e)} className="form-control" id="message" name="message" placeholder="Nội dung" rows={4} data-error="Vui lòng nhập nội dung" required defaultValue={""} />
+                                                    <textarea onChange={(e) => this.onChange(e)} className="form-control" id="message" name="message" placeholder="Nội dung" rows={4} data-error="Vui lòng nhập nội dung" required defaultValue={""} />
                                                     <div className="help-block with-errors" />
                                                 </div>
                                                 <div className="submit-button text-center">
@@ -93,24 +100,10 @@ class contact extends Component {
                                         </div>
                                     </form>
                                 </div>
-                            </div>
-                            {/* <div className="col-lg-4 col-sm-12">
-                                <div className="contact-info-left">
-                                    <h2>CONTACT INFO</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc tristique purus turpis. Maecenas vulputate. </p>
-                                    <ul>
-                                        <li>
-                                            <p><i className="fas fa-map-marker-alt" />Address: Michael I. Days 9000 <br />Preston Street Wichita,<br /> KS 87213 </p>
-                                        </li>
-                                        <li>
-                                            <p><i className="fas fa-phone-square" />Phone: <a href="tel:+1-888705770">+1-888 705 770</a></p>
-                                        </li>
-                                        <li>
-                                            <p><i className="fas fa-envelope" />Email: <a href="mailto:contactinfo@gmail.com">contactinfo@gmail.com</a></p>
-                                        </li>
-                                    </ul>
+                                <div className="beforeend text-center" id="beforeend">
+                               
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
