@@ -2,6 +2,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import auth from '../../../router/auth';
 import Breadcumsection from '../breadcumsection';
+import {trackPromise} from 'react-promise-tracker';
 const bc = [
     {
         name: "Đăng nhập",
@@ -21,13 +22,13 @@ class login extends Component {
             [e.target.name]: e.target.value
         })
     }
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
         data.append("username", this.state.username);
         data.append("password", this.state.password);
-        Axios.post('/users/login', data)
+        await trackPromise( Axios.post('/users/login', data)
             .then(res => {
                 if (res.data.success === true) {
                     auth.login(res.data.data);
@@ -43,7 +44,7 @@ class login extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
     onDone = () => {
         this.props.history.goBack();

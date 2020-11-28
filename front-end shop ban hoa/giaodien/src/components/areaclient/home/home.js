@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
 import Newssection from './newssection';
-
+import { trackPromise } from 'react-promise-tracker';
 import Productsection from './productsection';
 import Slider from './slider';
 
@@ -18,7 +18,7 @@ class home extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
-        const [news, contents, products] = await Promise.all([
+        const [news, contents, products] = await trackPromise(Promise.all([
             Axios.post('/news/getAll?page=1&limit=3')
                 .then((res) => {
                     return (
@@ -37,7 +37,7 @@ class home extends Component {
                         res.data.data
                     )
                 })
-        ]);
+        ]));
         if (news !== null && contents !== null && products !== null) {
             if (this._isMounted) {
                 this.setState({
@@ -57,8 +57,9 @@ class home extends Component {
         return (
             <div>
                 <Slider />
-                {/* <Categoriessection data={this.state.contents} /> */}
+
                 <Productsection data={this.state.products} />
+
                 <Newssection data={this.state.news} />
             </div>
         );

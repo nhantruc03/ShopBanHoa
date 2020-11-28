@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Pagination from '../../Pagination';
 import Filtersection from './filtersection';
 import Breadcumsection from '../breadcumsection';
+import { trackPromise } from 'react-promise-tracker';
 import News from './news_row';
 const bc = [
     {
@@ -26,7 +27,7 @@ class news extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
-        const [data, newscategories] = await Promise.all([
+        const [data, newscategories] = await trackPromise(Promise.all([
             Axios.post('/news/getAll')
                 .then((res) => {
                     return (
@@ -39,7 +40,7 @@ class news extends Component {
                         res.data.data
                     )
                 })
-        ]);
+        ]));
         if (data !== null && newscategories !== null) {
             if (this._isMounted) {
                 this.setState({

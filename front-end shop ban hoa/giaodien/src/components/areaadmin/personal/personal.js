@@ -96,7 +96,7 @@ class personal extends Component {
                             <div className="col-12">
                                 <div className="section">
                                     <li className="fas fa-user"></li> Thông tin
-                                    </div>
+                                </div>
                                 <div className="row mt-3">
                                     <div className="col-7">
                                         <label htmlFor="username"  >Tài khoản</label>
@@ -122,7 +122,7 @@ class personal extends Component {
                                 <input onChange={(e) => this.onChange(e)} type="password" className="form-control" name="password" placeholder="Mật khẩu" value={this.state.password} required={true} />
                                 <br></br>
                             </div>
-                        
+
                             <div className="col-1"></div>
                             <button type="submit" className="btn btn-success form-control">Sửa</button>
                         </div>

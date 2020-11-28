@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
-import {AUTH} from './env';
-class TableDataRow extends  Component {
+import { AUTH } from './env';
+class TableDataRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,7 +97,17 @@ class TableDataRow extends  Component {
     renderAction = () => {
         if (this.props.noaction) {
 
-        } else {
+        }
+        else if (this.props.watchonly) {
+            return (
+                <td>
+                    <div className="btn-group">
+                        <div onClick={() => this.viewClick()} className="btn btn-warning"><i className="fa fa-edit" />Xem</div>
+                    </div>
+                </td>
+            )
+        }
+        else {
             if (this.props.review) {
                 return (
                     <td>

@@ -45,8 +45,10 @@ import login from '../components/areaclient/login/login';
 import { SecureRouteClient } from './secureRouteClient';
 import report from '../components/areaadmin/report/report';
 import personal from '../components/areaadmin/personal/personal';
+import personal_client from '../components/areaclient/personal/personal';
 import listcontact from '../components/areaadmin/contact/listcontact';
 import contact from '../components/areaadmin/contact/contact';
+import orderdetails_history from '../components/areaclient/personal/orderdetails_history';
 class router extends Component {
     render() {
         return (
@@ -101,6 +103,9 @@ class router extends Component {
                 <AppRoute exact path="/news" component={news} layout={Client} />
                 <AppRoute exact path="/documents.:name.:id" component={document} layout={Client} />
                 <SecureRouteClient exact path="/cart" component={cart} layout={Client} />
+
+                <SecureRouteClient exact path="/personal" component={personal_client} layout={Client} />
+                <SecureRouteClient exact path="/orders/:id" component={orderdetails_history} layout={Client} />
                 <AppRoute exact path="/login" component={login} layout={Client} />
 
                 <Route exact path="/admin/login" component={adminlogin} />

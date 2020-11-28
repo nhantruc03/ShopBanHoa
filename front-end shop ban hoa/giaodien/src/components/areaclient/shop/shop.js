@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Pagination from '../../Pagination';
 import Filtersection from './filtersection';
 import Breadcumsection from '../breadcumsection';
+import { trackPromise } from 'react-promise-tracker';
 import ProductsContainer from '../../../container/ProductsContainer';
 const bc = [
     {
@@ -26,7 +27,7 @@ class shop extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
-        const [products, contents] = await Promise.all([
+        const [products, contents] = await trackPromise(Promise.all([
             Axios.post('/products/getAll')
                 .then((res) => {
                     return (
@@ -39,7 +40,7 @@ class shop extends Component {
                         res.data.data
                     )
                 })
-        ]);
+        ]));
         if (products !== null && contents !== null) {
             if (this._isMounted) {
                 this.setState({
