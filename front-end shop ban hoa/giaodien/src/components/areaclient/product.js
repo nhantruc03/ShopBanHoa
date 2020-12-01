@@ -5,11 +5,11 @@ class product extends Component {
     renderType = () => {
         if (this.props.data.promotionprice !== null) {
             return (
-                <p className="sale">Giảm giá</p>
+                <p className="sale">SALE</p>
             )
         } else {
             return (
-                <p className="new">Mới</p>
+                <p className="new">NEW</p>
             )
         }
     }

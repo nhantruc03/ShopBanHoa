@@ -6,7 +6,7 @@ import Search from '../../search';
 import { AUTH } from '../../env';
 import { trackPromise } from 'react-promise-tracker';
 // import { Redirect } from 'react-router-dom';
-const tablerow = ["Ngày đặt",'Tên người nhận', 'Số điện thoại người nhận', 'Địa chị người nhận', 'Email', 'Thao tác']
+const tablerow = ["Ngày đặt",'Tên người nhận', 'SĐT', 'Địa chỉ', 'Email', 'Thao tác']
 const keydata = ['createdAt','shipname', 'shipmobile', 'shipaddress', 'shipemail']
 const obj = "orders"
 class order_history extends Component {

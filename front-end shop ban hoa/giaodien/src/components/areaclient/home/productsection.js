@@ -13,7 +13,7 @@ class productsection extends Component {
 
     render() {
         return (
-            <div className="products-box">
+            <div className="products-box wow fadeIn" data-wow-delay="0.5s">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">

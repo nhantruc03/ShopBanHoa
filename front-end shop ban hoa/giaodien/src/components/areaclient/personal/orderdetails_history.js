@@ -116,7 +116,7 @@ class orderdetails_history extends Component {
 
     renderTotal = () => {
         return (
-            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tông tiền:{this.state.total}</p>
+            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tổng tiền : {this.state.total}</p>
         )
     }
 
