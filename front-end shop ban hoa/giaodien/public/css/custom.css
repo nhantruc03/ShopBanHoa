@@ -256,7 +256,7 @@ textarea{
     object-fit: cover;
     border-radius: 5px;
 }
-.shop-detail-box-main input{
+.shop-detail-box-main .single-product-details input{
     width: 80px !important;
 }
 .single-product-details ul {
