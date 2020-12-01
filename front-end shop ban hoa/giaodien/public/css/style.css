@@ -918,6 +918,7 @@
      position: relative;
 }
  .box-img-hover img{
+    transition: 0.3s;
      margin: 0 auto;
      text-align: center;
      display: block;
