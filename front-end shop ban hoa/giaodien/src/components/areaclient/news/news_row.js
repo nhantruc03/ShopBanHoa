@@ -15,7 +15,7 @@ class news_row extends Component {
                 <div className="col-sm-6 col-md-6 col-lg-8 col-xl-8">
                     <div className="why-text full-width">
                         <h4>{this.props.data.name}</h4>
-                        <div>
+                        <div className="content-sumary">
                             {this.props.data.description}
                         </div>
                         {/* <Link className="btn mt-2" style={{ color: "black" }} to={`/news-details.${this.props.data.metatitle}.${this.props.data._id}`}>{`<<Xem tin tức>>`}</Link> */}
