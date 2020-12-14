@@ -21,10 +21,6 @@ class top extends Component {
                 role: obj.role
             })
         }
-        else {
-            console.log('null')
-        }
-
     }
 
     componentWillUnmount() {
@@ -56,9 +52,15 @@ class top extends Component {
             )
         } else {
             return (
-                <li>
-                    <Link className="link" to={`/login`} ><i className="fa fa-user s_color" /> Đăng nhập</Link>
-                </li>
+                <div style={{display:'inline'}}>
+                    <li>
+                        <Link className="link" to={`/login`} ><i className="fa fa-user s_color" /> Đăng nhập</Link>
+                    </li>
+                    <li>
+                        <Link className="link" to={`/register`} ><i className="fa fa-user s_color" /> Đăng ký</Link>
+                    </li>
+                </div>
+
             )
         }
     }

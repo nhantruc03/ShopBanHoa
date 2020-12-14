@@ -9,7 +9,6 @@ class cartcontainer extends Component {
     renderData = (cart) => {
         var result = Message.MSG_CART_EMPTY;
         if (cart.length > 0) {
-            console.log('true')
             result = cart.map((item, index) => {
                 return (
                     <Sidecartitem

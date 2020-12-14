@@ -49,6 +49,7 @@ import personal_client from '../components/areaclient/personal/personal';
 import listcontact from '../components/areaadmin/contact/listcontact';
 import contact from '../components/areaadmin/contact/contact';
 import orderdetails_history from '../components/areaclient/personal/orderdetails_history';
+import register from '../components/areaclient/register/register';
 class router extends Component {
     render() {
         return (
@@ -107,7 +108,7 @@ class router extends Component {
                 <SecureRouteClient exact path="/personal" component={personal_client} layout={Client} />
                 <SecureRouteClient exact path="/orders/:id" component={orderdetails_history} layout={Client} />
                 <AppRoute exact path="/login" component={login} layout={Client} />
-
+                <AppRoute exact path="/register" component={register} layout={Client} />
                 <Route exact path="/admin/login" component={adminlogin} />
             </div>
 

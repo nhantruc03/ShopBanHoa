@@ -3,7 +3,7 @@ const { pick } = require("lodash")
 const handleBody = (body) => { 
   if (body.phoneNumber != null && isNaN(body.phoneNumber)) {
     return {
-      error: "Phone Number only contains numbers"
+      error: "Số điện thoại không phù hợp!"
     }
   }
   return {

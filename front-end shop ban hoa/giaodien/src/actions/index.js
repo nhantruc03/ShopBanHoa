@@ -22,3 +22,9 @@ export const actUpdateFromCart = (product, quantity) => {
         quantity
     }
 }
+
+export const actClearCart = () => {
+    return {
+        type: types.CLEAR_CART
+    }
+}

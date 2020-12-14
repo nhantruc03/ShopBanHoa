@@ -14,7 +14,6 @@ class productscontainer extends Component {
     ))
 
     render() {
-        // var { products } = this.props
         return (
             <Productsection>
                 {this.renderData(this.props.data)}
@@ -29,7 +28,7 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = (dispatch, props) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         onAddToCart: (product) => {
             dispatch(actAddToCart(product, 1))

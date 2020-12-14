@@ -49,7 +49,7 @@ const create = async (req, res) => {
       await abortTransactions(sessions)
       return res.status(409).json({
         success: false,
-        error: "Duplicate data"
+        error: "Tên tài khoản hoặc số điện thoại đã được sử dụng!"
       })
     }
 

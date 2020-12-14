@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 // import { actAddToCart } from '../../../actions';
-import { actDeleteFromCart } from '../../../actions';
+import { actClearCart, actDeleteFromCart } from '../../../actions';
 import { actUpdateFromCart } from '../../../actions';
 import * as types from './../../../constants/Message';
 import Cartitem from './cartitem';
@@ -37,7 +37,6 @@ class cart extends Component {
     renderData = (cart) => {
         var result = types.MSG_CART_EMPTY;
         if (cart.length > 0) {
-            console.log(cart)
             result = cart.map((value, key) => {
                 return (
                     <Cartitem
@@ -77,7 +76,6 @@ class cart extends Component {
 
 
         if (user !== null) {
-            console.log(user)
             if (this._isMounted) {
                 this.setState({
                     shipname: user.name,
@@ -117,12 +115,12 @@ class cart extends Component {
             .catch(err => {
                 console.log(err);
             })
-
         let list_temp = [];
-        this.props.cart.forEach(async (value) => {
+        this.props.cart.forEach((value) => {
             if (value.product.promotionprice === null) {
                 data = {
                     productId: value.product._id,
+                    productName: value.product.name,
                     orderId: curOrder,
                     quantity: value.quantity,
                     price: Number(value.product.price)
@@ -130,6 +128,7 @@ class cart extends Component {
             } else {
                 data = {
                     productId: value.product._id,
+                    productName: value.product.name,
                     orderId: curOrder,
                     quantity: value.quantity,
                     price: Number(value.product.promotionprice)
@@ -138,28 +137,61 @@ class cart extends Component {
             list_temp.push(data);
 
         })
-        await trackPromise(Axios.post('/order-details', list_temp, {
-            headers: {
-                'Authorization': { AUTH }.AUTH
-            }
-        })
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.log(err);
-            })
-        )
-        var h = document.getElementById("beforeend");
-        h.insertAdjacentHTML("beforeEnd", '<p className="textcolor" style="font-size: xxx-large;font-weight: bold;color:#b0b435;">Mua hàng thành công</p>');
-        setTimeout(() => {
-            h.querySelector(':last-child').remove();
-            localStorage.removeItem('CART')
-            this.setState({
-                done: true
-            })
-        }, 2000);
 
+        var data_for_email = {
+            shipname: this.state.shipname,
+            shipmobile: this.state.shipmobile,
+            shipaddress: this.state.shipaddress,
+            shipemail: this.state.shipemail,
+            cart: list_temp
+        }
+
+        const [sendemail, createorder] = await trackPromise(Promise.all([
+            Axios.post('/orders/sendEmail', data_for_email, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    return res.data.success
+                })
+                .catch(err => {
+                    console.log(err);
+                    return false;
+                }),
+            Axios.post('/order-details', list_temp, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    return res.data.success
+                })
+                .catch(err => {
+                    console.log(err);
+                    return false;
+                })
+        ]));
+        var h = document.getElementById("beforeend");
+        if (sendemail === createorder === true) {
+
+            h.insertAdjacentHTML("beforeEnd", '<p className="textcolor" style="font-size: xxx-large;font-weight: bold;color:#b0b435;">Mua hàng thành công</p>');
+            setTimeout(() => {
+                h.querySelector(':last-child').remove();
+                this.props.onClearCart();
+                this.setState({
+                    done: true
+                })
+            }, 2000);
+        }
+        else {
+            h.insertAdjacentHTML("beforeEnd", '<p className="textcolor" style="font-size: xxx-large;font-weight: bold;color:#b0b435;">Mua hàng thất bại</p>');
+            setTimeout(() => {
+                h.querySelector(':last-child').remove();
+            }, 2000);
+        }
     }
 
     render() {
@@ -213,7 +245,7 @@ class cart extends Component {
                                 </div>
                             </div>
                             <div className="beforeend text-center" id="beforeend">
-                                
+
                             </div>
                         </div>
                     </div>
@@ -236,6 +268,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onUpdateProduct: (product, quantity) => {
             dispatch(actUpdateFromCart(product, quantity))
+        },
+        onClearCart: () => {
+            dispatch(actClearCart())
         }
     }
 }
