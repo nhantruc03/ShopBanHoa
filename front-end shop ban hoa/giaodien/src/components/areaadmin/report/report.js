@@ -3,18 +3,20 @@ import React, { Component } from 'react';
 import Search from '../../search';
 import TableData from '../../table';
 import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
+import NumberFormat from 'react-number-format';
 const tablerow = ['Tên sản phẩm', 'Ngày mua', 'Số lượng', 'Giá']
 const keydata = ['productId', 'createdAt', 'quantity', 'price']
 const obj = "order-details"
-const getData = () =>
-    Axios.post('/order-details/getAll', {}, {
+const getData = async () =>
+    await trackPromise(Axios.post('/order-details/getAll', {}, {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
     })
         .then((res) => {
             return res.data;
-        })
+        }))
 
 class report extends Component {
     constructor(props) {
@@ -188,7 +190,7 @@ class report extends Component {
         if (this.state.data !== null) {
             return (
                 <div className='mt-5 text-center'>
-                    <h1 className='text-primary mb-3'>Chi tiết hóa đơn</h1>
+                    <h1 className='text-primary mb-3'>Thống kê báo cáo</h1>
 
                     <div className="row">
                         <div className="col-3">
@@ -227,7 +229,7 @@ class report extends Component {
 
     renderTotal = () => {
         return (
-            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tổng tiền:{this.state.total}</p>
+            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tổng tiền:<NumberFormat style={{fontSize:'2rem'}} value={this.state.total} displayType={'text'} thousandSeparator={true} prefix={'đ'} /></p>
         )
     }
 

@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
 import TableData from '../../table';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
+import NumberFormat from 'react-number-format';
 const tablerow = ['Tên sản phẩm', 'Số lượng', 'Giá']
 const keydata = ['productId', 'quantity', 'price']
 const obj = "order-details"
-const getData = (id) =>
-    Axios.post('/order-details/getAll', { orderId: id }, {
+const getData = async (id) =>
+    await trackPromise(Axios.post('/order-details/getAll', { orderId: id }, {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
@@ -16,7 +18,7 @@ const getData = (id) =>
         .then((res) => {
             return res.data;
         })
-
+    )
 class listorders extends Component {
     constructor(props) {
         super(props);
@@ -34,14 +36,18 @@ class listorders extends Component {
         this._isMounted = true;
         if (this.state.data === null) {
             getData(this.props.match.params.id).then((res) => {
-                
+
                 this.setState({
                     data: res.data,
                     SearchData: res.data
                 });
+                console.log(this.state.data)
                 this.getTotal();
             })
+
         }
+
+
     }
 
     componentWillUnmount() {
@@ -82,7 +88,7 @@ class listorders extends Component {
             return (
                 <div className='mt-5 text-center'>
                     <h1 className='text-primary mb-3'>Chi tiết hóa đơn</h1>
-                    <Search targetParent="productId" target="name" data={this.state.data} getSearchData={(e)=> this.getSearchData(e)}/>
+                    <Search targetParent="productId" target="name" data={this.state.data} getSearchData={(e) => this.getSearchData(e)} />
                     <TableData obj={obj} dataRow={tablerow} data={SearchData} keydata={keydata} onDelete={(e) => this.onDelete(e)} noaction={true} />
                 </div>
             )
@@ -105,8 +111,31 @@ class listorders extends Component {
 
     renderTotal = () => {
         return (
-            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tông tiền:{this.state.total}</p>
+            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tông tiền: <NumberFormat style={{fontSize:'2rem'}} value={this.state.total} displayType={'text'} thousandSeparator={true} prefix={'đ'} /></p>
         )
+    }
+
+    onUpdate = async () => {
+
+        var data = {
+            status: !this.state.data[0].orderId.status
+        }
+        const [orders] = await trackPromise(Promise.all([
+            Axios.put('/orders/' + this.state.data[0].orderId._id, data, {
+                headers: {
+                    'Authorization': { AUTH }.AUTH
+                }
+            })
+                .then((res) => {
+                    return res.data.data;
+                })
+        ]));
+        console.log(orders);
+        if (orders !== null) {
+            if (this._isMounted) {
+                this.onDone();
+            }
+        }
     }
 
     render() {
@@ -121,6 +150,8 @@ class listorders extends Component {
                         {this.printData(this.state.SearchData)}
                         {this.renderTotal()}
                         <button onClick={() => this.onDone()} className="btn btn-warning">Quay về</button>
+
+                        <button onClick={() => this.onUpdate()} style={{ marginLeft: 10 }} className="btn btn-success">Cập nhật trạng thái và quay về</button>
                         <br />
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 class TableRow extends Component {
     constructor(props) {
         super(props);
@@ -59,31 +59,19 @@ class TableRow extends Component {
         else if (this.props.watchonly) {
             return (
                 <td>
-                    <div className="btn-group">
-                        <div onClick={() => this.viewClick()} className="btn btn-warning"><i className="fa fa-edit" />Xem</div>
-                    </div>
+                    <Link to={"/" + this.props.obj + "/" + this.props.data._id} className="btn btn-warning"><i className="fa fa-edit" />Xem</Link>
                 </td>
             )
         }
     }
 
     render() {
-        if (this.state.onView) {
-            return (
-                <Redirect to={"/" + this.props.obj + "/" + this.props.data._id} />
-            )
-        }
-        else {
-            return (
-
-                <tr>
-                    { this.renderData()}
-
-                    {this.renderAction()}
-
-                </tr >
-            );
-        }
+        return (
+            <tr>
+                { this.renderData()}
+                {this.renderAction()}
+            </tr >
+        );
     }
 }
 

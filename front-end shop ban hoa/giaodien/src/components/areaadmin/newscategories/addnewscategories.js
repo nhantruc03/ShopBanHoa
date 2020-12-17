@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
+import { trackPromise } from 'react-promise-tracker';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
 import {AUTH} from '../../env'
@@ -24,7 +25,7 @@ class addcategorycontent extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = {
             name: this.state.name,
@@ -32,7 +33,7 @@ class addcategorycontent extends Component {
         };
 
 
-        Axios.post('/newscategories', data, {
+        await trackPromise(Axios.post('/newscategories', data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -42,7 +43,7 @@ class addcategorycontent extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {

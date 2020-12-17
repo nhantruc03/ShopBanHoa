@@ -5,16 +5,17 @@ import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
 import {AUTH} from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const tablerow = ['Tên', 'Địa chỉ', 'Điện thoại', 'Chức vụ','Thao tác']
 const keydata = ['name', 'address', 'phoneNumber', 'role']
 const obj = "users"
-const getData = () =>
-    Axios.get('/users', {
+const getData = async () =>
+    await trackPromise(Axios.get('/users', {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
     })
-        .then((res) => res.data)
+        .then((res) => res.data))
 
 class listusers extends Component {
     constructor(props) {

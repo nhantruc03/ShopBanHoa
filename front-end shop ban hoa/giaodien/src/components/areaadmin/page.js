@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LoadingIndicator } from '../LoadingIndicator';
 import Sidebar from '../sidemenu';
 // import Footer from '../footer'
 import Topbar from '../topbar'
@@ -14,6 +15,7 @@ class page extends Component {
                         <div id="content-wrapper" className="d-flex flex-column">
                             <Topbar />
                             {this.props.children}
+                            <LoadingIndicator color="#4e73df" />
                             {/* <Footer /> */}
                         </div>
                     </div>

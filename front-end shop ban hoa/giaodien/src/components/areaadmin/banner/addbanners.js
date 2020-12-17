@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 // import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import MultiImageInput from 'react-multiple-image-input';
-import {AUTH} from './../../env';
+import { AUTH } from './../../env';
+import { trackPromise } from 'react-promise-tracker';
 // const trangthai = [
 //     { value: false, label: 'Khả dụng' },
 //     { value: true, label: 'Không khả dụng' }
@@ -34,7 +35,7 @@ class addbanners extends Component {
             [e.target.name]: e.target.value
         })
     }
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
@@ -44,7 +45,7 @@ class addbanners extends Component {
 
             data.append("image", this.state.image[0]);
         }
-        Axios.post('/banners/', data, {
+        await trackPromise(Axios.post('/banners/', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': { AUTH }.AUTH
@@ -56,6 +57,7 @@ class addbanners extends Component {
             .catch(err => {
                 console.log(err);
             })
+        )
     }
     onDone = () => {
         this.setState({

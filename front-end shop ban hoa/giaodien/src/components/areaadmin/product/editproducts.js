@@ -8,7 +8,8 @@ import Image from '../../image'
 import { ChangeToSlug } from '../../../services/convertoslug'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const animatedComponents = makeAnimated();
 
 var CategoryID = [];
@@ -75,7 +76,7 @@ class editproduct extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
@@ -114,10 +115,10 @@ class editproduct extends Component {
             data.append('oldmoreimages', this.state.oldmoreimages.toString());
         }
 
-        Axios.put('/products/' + this.props.match.params.id, data, {
+        await trackPromise(Axios.put('/products/' + this.props.match.params.id, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': {AUTH}.AUTH
+                'Authorization': { AUTH }.AUTH
             }
         })
             .then(res => {
@@ -125,7 +126,7 @@ class editproduct extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {
@@ -165,13 +166,13 @@ class editproduct extends Component {
             ))
         )
     }
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({
             isLoad: true
         })
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/products/' + this.props.match.params.id, {
+            await trackPromise(Axios.get('/products/' + this.props.match.params.id, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -202,7 +203,7 @@ class editproduct extends Component {
                             promotionprice: temp.promotionprice
                         })
                     }
-                })
+                }))
 
             var temp2 = null;
 
@@ -210,7 +211,7 @@ class editproduct extends Component {
                 isDeleted: false
             }
 
-            Axios.post('/categories/getAll', data, {
+            await trackPromise(Axios.post('/categories/getAll', data, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -228,7 +229,7 @@ class editproduct extends Component {
                     this.setState({
                         isLoad: false
                     })
-                })
+                }))
 
         }
     }

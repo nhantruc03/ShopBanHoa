@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AUTH } from '../../env'
 import Axios from 'axios';
+import { trackPromise } from 'react-promise-tracker';
 class personal extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +21,7 @@ class personal extends Component {
         })
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         const login = localStorage.getItem('login');
         const obj = JSON.parse(login);
@@ -31,7 +32,7 @@ class personal extends Component {
             username: this.state.username,
             password: this.state.password
         };
-        Axios.put('/users/' + obj.id, data, {
+        await trackPromise(Axios.put('/users/' + obj.id, data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -41,7 +42,7 @@ class personal extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {
@@ -55,7 +56,7 @@ class personal extends Component {
         const obj = JSON.parse(login);
 
         this._isMounted = true;
-        const [user] = await Promise.all([
+        const [user] = await trackPromise(Promise.all([
             Axios.get('/users/' + obj.id, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
@@ -64,7 +65,7 @@ class personal extends Component {
                 .then((res) =>
                     res.data.data
                 )
-        ]);
+        ]));
 
 
         if (user !== null) {

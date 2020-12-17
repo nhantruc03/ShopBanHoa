@@ -2,7 +2,8 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 var Roles = [
     { value: 'admin', label: 'Quản trị viên' },
     { value: 'client', label: 'Khách hàng' }
@@ -29,7 +30,7 @@ class editusers extends Component {
         })
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = {
             name: this.state.name,
@@ -37,7 +38,7 @@ class editusers extends Component {
             phoneNumber: this.state.phoneNumber,
             role: this.state.role
         }
-        Axios.put('/users/' + this.props.match.params.id, data, {
+        await trackPromise(Axios.put('/users/' + this.props.match.params.id, data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -47,7 +48,7 @@ class editusers extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {
@@ -56,10 +57,10 @@ class editusers extends Component {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/users/' + this.props.match.params.id, {
+            await trackPromise(Axios.get('/users/' + this.props.match.params.id, {
                 params: {
                     role: 'admin'
                 }
@@ -80,7 +81,7 @@ class editusers extends Component {
                     this.setState({
                         isLoad: false
                     })
-                })
+                }))
         }
     }
     render() {
@@ -98,9 +99,9 @@ class editusers extends Component {
                             <label htmlFor="name"  >Tên người dùng</label>
                             <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên người dùng" value={this.state.name} required={true} />
                             <label htmlFor="address">Địa chỉ</label>
-                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="address" placeholder="Địa chỉ" required={true}  value={this.state.address}/>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="address" placeholder="Địa chỉ" required={true} value={this.state.address} />
                             <label htmlFor="phoneNumber"  >Số điện thoại</label>
-                            <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="phoneNumber" placeholder="Số điện thoại" required={true} value={this.state.phoneNumber}/>
+                            <input onChange={(e) => this.onChange(e)} type="number" className="form-control" name="phoneNumber" placeholder="Số điện thoại" required={true} value={this.state.phoneNumber} />
                             <label htmlFor="role"  >Chức vụ</label>
                             <Select
                                 onChange={(e) => this.onSelect(e)}

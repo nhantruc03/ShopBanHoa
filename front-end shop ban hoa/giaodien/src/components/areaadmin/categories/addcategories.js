@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 var CategorycontentsID = [];
 class addcategory extends Component {
     constructor(props) {
@@ -33,16 +34,16 @@ class addcategory extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = {
             name: this.state.name,
             metatitle: this.state.metatitle,
-            categorycontentsId:this.state.categorycontentsId
+            categorycontentsId: this.state.categorycontentsId
         };
 
 
-        Axios.post('/categories', data, {
+        await trackPromise(Axios.post('/categories', data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -53,6 +54,7 @@ class addcategory extends Component {
             .catch(err => {
                 console.log(err);
             })
+        )
     }
 
     onDone = () => {
@@ -61,7 +63,7 @@ class addcategory extends Component {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({
             isLoad: true
         })
@@ -70,7 +72,7 @@ class addcategory extends Component {
         var data = {
             isDeleted: false
         };
-        Axios.post('/categorycontents/getAll', data, {
+        await trackPromise(Axios.post('/categorycontents/getAll', data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -89,6 +91,7 @@ class addcategory extends Component {
                     isLoad: false
                 })
             })
+        )
     }
 
     render() {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
 import { AUTH } from './env';
+import NumberFormat from 'react-number-format';
 class TableDataRow extends Component {
     constructor(props) {
         super(props);
@@ -31,13 +32,26 @@ class TableDataRow extends Component {
 
     renderData = () =>
         this.props.keydata.map((value, key) => {
+            var stt;
             if (value === "isDeleted") {
-                var stt;
+
                 if (this.props.data[value] === true) {
                     stt = "Không khả dụng";
                 }
                 else {
                     stt = "Khả dụng";
+                }
+
+                return (
+                    <td key={key} > {stt}</td>
+                )
+            }
+            if (value === "status") {
+                if (this.props.data[value] === true) {
+                    stt = "Đã xử lý";
+                }
+                else {
+                    stt = "Chưa xử lý";
                 }
 
                 return (
@@ -70,7 +84,7 @@ class TableDataRow extends Component {
                 }
                 else {
                     return (
-                        <td key={key} > { this.props.data[value]}</td>
+                        <td key={key} > <NumberFormat value={ this.props.data[value]} displayType={'text'} thousandSeparator={true} /> </td>
                     )
                 }
             }
@@ -94,6 +108,15 @@ class TableDataRow extends Component {
             onView: true
         })
     }
+
+    updateClick = () => {
+        var data = {
+            _id: this.props.data._id,
+            status: this.props.data.status
+        }
+        this.props.onUpdate(data)
+    }
+
     renderAction = () => {
         if (this.props.noaction) {
 
@@ -109,14 +132,27 @@ class TableDataRow extends Component {
         }
         else {
             if (this.props.review) {
-                return (
-                    <td>
-                        <div className="btn-group">
-                            <div onClick={() => this.viewClick()} className="btn btn-warning"><i className="fa fa-edit" />Xem</div>
-                            <div onClick={() => this.deleteClick()} className="btn btn-danger xoa"> <i className="fa fa-minus" />Xóa</div>
-                        </div>
-                    </td>
-                )
+                if (this.props.update) {
+                    return (
+                        <td>
+                            <div className="btn-group">
+                                <div onClick={()=>this.updateClick()} className="btn btn-success"><i className="fa fa-edit"/>Cập nhật</div>
+                                <div onClick={() => this.viewClick()} className="btn btn-warning"><i className="fa fa-edit" />Xem</div>
+                                <div onClick={() => this.deleteClick()} className="btn btn-danger xoa"> <i className="fa fa-minus" />Xóa</div>
+                            </div>
+                        </td>
+                    )
+                }
+                else {
+                    return (
+                        <td>
+                            <div className="btn-group">
+                                <div onClick={() => this.viewClick()} className="btn btn-warning"><i className="fa fa-edit" />Xem</div>
+                                <div onClick={() => this.deleteClick()} className="btn btn-danger xoa"> <i className="fa fa-minus" />Xóa</div>
+                            </div>
+                        </td>
+                    )
+                }
             } else {
                 return (
                     <td>

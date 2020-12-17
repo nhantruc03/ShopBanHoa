@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import {AUTH} from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 class editdocument extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +24,7 @@ class editdocument extends Component {
         })
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
@@ -31,7 +32,7 @@ class editdocument extends Component {
         data.append("link", this.state.link);
         data.append('content', this.state.content);
 
-        Axios.put('/documents/' + this.props.match.params.id, data, {
+        await trackPromise(Axios.put('/documents/' + this.props.match.params.id, data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -41,7 +42,7 @@ class editdocument extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {
@@ -50,13 +51,13 @@ class editdocument extends Component {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({
             isLoad: true
         })
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/documents/' + this.props.match.params.id, {
+           await trackPromise(Axios.get('/documents/' + this.props.match.params.id, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -69,7 +70,7 @@ class editdocument extends Component {
                         content: temp.content,
                         isLoad: false
                     })
-                })
+                }))
         }
     }
     handleCkeditorState = (event, editor) => {

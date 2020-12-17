@@ -8,7 +8,8 @@ import Image from '../../image'
 import { ChangeToSlug } from '../../../services/convertoslug'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const animatedComponents = makeAnimated();
 
 var CategoryID = [];
@@ -62,7 +63,7 @@ class editproduct extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
@@ -83,10 +84,10 @@ class editproduct extends Component {
             data.append("oldimage", this.state.oldimage)
         }
 
-        Axios.put('/news/' + this.props.match.params.id, data, {
+        await trackPromise(Axios.put('/news/' + this.props.match.params.id, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': {AUTH}.AUTH
+                'Authorization': { AUTH }.AUTH
             }
         })
             .then(res => {
@@ -94,7 +95,7 @@ class editproduct extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {
@@ -121,7 +122,7 @@ class editproduct extends Component {
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({
             isLoad: true
         })
@@ -148,7 +149,7 @@ class editproduct extends Component {
                 isDeleted: false
             }
 
-            Axios.post('/newscategories/getAll', data)
+            await trackPromise(Axios.post('/newscategories/getAll', data)
                 .then((res) => {
                     temp2 = res.data.data;
                     CategoryID = [];
@@ -162,7 +163,7 @@ class editproduct extends Component {
                     this.setState({
                         isLoad: false
                     })
-                })
+                }))
 
         }
     }
@@ -173,79 +174,74 @@ class editproduct extends Component {
         })
     }
     render() {
-        if (this.state.isLoad) {
-            return <p>Loading...</p>
+        if (this.state.isDone) {
+            return (
+                <Redirect to="/admin/listnews" />
+            )
         }
         else {
-            if (this.state.isDone) {
-                return (
-                    <Redirect to="/admin/listnews" />
-                )
-            }
-            else {
-                return (
-                    <div >
-                        <h1 className="text-center">Trang sửa tin tức</h1>
-                        <div className="container-fluid">
-                            <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
-                                <label htmlFor="name"  >Tên tin tức</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên tin tức" required={true} value={this.state.name} />
+            return (
+                <div >
+                    <h1 className="text-center">Trang sửa tin tức</h1>
+                    <div className="container-fluid">
+                        <form className="form-group" onSubmit={(e) => this.onSubmit(e)}>
+                            <label htmlFor="name"  >Tên tin tức</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="name" placeholder="Tên tin tức" required={true} value={this.state.name} />
 
-                                <label htmlFor="metaTitle"  >Meta Title</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-tin-tuc" value={this.state.metatitle} />
+                            <label htmlFor="metaTitle"  >Meta Title</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="metatitle" placeholder="ten-tin-tuc" value={this.state.metatitle} />
 
-                                <label htmlFor="description"  >Mô tả</label>
-                                <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="ten-tin-tuc" value={this.state.description} />
+                            <label htmlFor="description"  >Mô tả</label>
+                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="ten-tin-tuc" value={this.state.description} />
 
-                                <label htmlFor="image"  >Hình đại diện</label>
-                                <MultiImageInput
-                                    max={1}
-                                    theme="light"
-                                    images={this.state.image}
-                                    setImages={(e) => this.setImages(e)}
-                                    cropConfig={{ crop, ruleOfThirds: true }}
-                                />
-                                <div>
-                                    {this.getImage()}
-                                </div>
+                            <label htmlFor="image"  >Hình đại diện</label>
+                            <MultiImageInput
+                                max={1}
+                                theme="light"
+                                images={this.state.image}
+                                setImages={(e) => this.setImages(e)}
+                                cropConfig={{ crop, ruleOfThirds: true }}
+                            />
+                            <div>
+                                {this.getImage()}
+                            </div>
 
-                                <label htmlFor="content"  >Nội dung</label>
-                                <CKEditor
-                                    editor={ClassicEditor}
-                                    onInit={editor => {
-                                        // You can store the "editor" and use when it is needed.
-                                        console.log('Editor is ready to use!', editor);
-                                    }}
-                                    config={
-                                        {
-                                            ckfinder: {
-                                                uploadUrl: '/uploads'
-                                            }
+                            <label htmlFor="content"  >Nội dung</label>
+                            <CKEditor
+                                editor={ClassicEditor}
+                                onInit={editor => {
+                                    // You can store the "editor" and use when it is needed.
+                                    console.log('Editor is ready to use!', editor);
+                                }}
+                                config={
+                                    {
+                                        ckfinder: {
+                                            uploadUrl: '/uploads'
                                         }
                                     }
-                                    data={this.state.content}
-                                    onChange={this.handleCkeditorState}
-                                />
+                                }
+                                data={this.state.content}
+                                onChange={this.handleCkeditorState}
+                            />
 
-                                <label htmlFor="newscategoryId">Danh mục</label>
-                                <Select
-                                    name="newscategoryId"
-                                    onChange={(e) => this.onSelectMulti(e)}
-                                    closeMenuOnSelect={false}
-                                    components={animatedComponents}
-                                    value={CategoryID.filter(({ value, label }) => this.state.newscategoryId.includes(value))}
-                                    isMulti
-                                    options={CategoryID}
-                                />
-                                <br />
-                                <button type="submit" className="btn btn-success">Sửa</button>
+                            <label htmlFor="newscategoryId">Danh mục</label>
+                            <Select
+                                name="newscategoryId"
+                                onChange={(e) => this.onSelectMulti(e)}
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                value={CategoryID.filter(({ value, label }) => this.state.newscategoryId.includes(value))}
+                                isMulti
+                                options={CategoryID}
+                            />
+                            <br />
+                            <button type="submit" className="btn btn-success">Sửa</button>
                             &nbsp;
                             <button onClick={() => this.onDone()} className="btn btn-warning">Quay về</button>
-                            </form>
-                        </div>
+                        </form>
                     </div>
-                );
-            }
+                </div>
+            );
         }
     }
 }

@@ -7,7 +7,7 @@ const getAll = async (req, res) => {
   try {
     let OrderDetails;
     let query = {
-      ...pick(req.body, "productId", "orderId","quantity"),
+      ...pick(req.body, "productId", "orderId", "quantity"),
       isDeleted: false
     };
 
@@ -16,13 +16,15 @@ const getAll = async (req, res) => {
         .select(
           "productId orderId quantity price createdAt"
         )
-        .populate({ path: "productId", select: ["name"] });
+        .populate({ path: "productId", select: ["name"] })
+        .populate({ path: "orderId", select: ["status"] });
     } else {
       OrderDetails = await OrderDetail.find(query)
         .select(
           "productId orderId quantity price createdAt"
         )
         .populate({ path: "productId", select: ["price"] })
+        .populate({ path: "orderId", select: ["status"] })
         .skip(limit * (page - 1))
         .limit(limit);
     }

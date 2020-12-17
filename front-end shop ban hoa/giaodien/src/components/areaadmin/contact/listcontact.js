@@ -4,6 +4,7 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import Search from '../../search';
 import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 // import { Redirect } from 'react-router-dom';
 const tablerow = ['Tên người gửi', 'Email người gửi', 'tiêu đề', 'Thao tác']
 const keydata = ['name', 'email', 'subject']
@@ -22,7 +23,7 @@ class listcontact extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
-        const [orders] = await Promise.all([
+        const [orders] = await trackPromise(Promise.all([
             Axios.post('/contacts/getAll', {},{
                 headers: {
                     'Authorization': { AUTH }.AUTH
@@ -31,7 +32,7 @@ class listcontact extends Component {
                 .then((res) => {
                     return res.data.data;
                 })
-        ]);
+        ]));
         if (orders !== null ) {
             if (this._isMounted) {
                 this.setState({

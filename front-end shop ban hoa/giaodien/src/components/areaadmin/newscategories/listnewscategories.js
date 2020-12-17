@@ -4,24 +4,26 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const tablerow = ['Tên', 'MetaTitle', 'Trạng thái', 'Thao tác']
 const keydata = ['name', 'metatitle', 'isDeleted']
 const obj = "newscategories"
-const getData = () =>
-    Axios.post('/newscategories/getAll', {
+const getData = async () =>
+    await trackPromise(Axios.post('/newscategories/getAll', {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
     })
         .then((res) => res.data)
+    )
 
 class listcategorycontent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: null,
-            SearchData:null,
+            SearchData: null,
             currentPage: 1,
             postsPerPage: 10,
             listPage: []
@@ -98,12 +100,12 @@ class listcategorycontent extends Component {
                     <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
                 </div>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <div className='mt-5 text-center'>
-                <h1 className='text-primary mb-3'>Danh sách danh mục tin tức</h1>
-                <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
-            </div>
+                    <h1 className='text-primary mb-3'>Danh sách danh mục tin tức</h1>
+                    <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
+                </div>
             )
         }
     }

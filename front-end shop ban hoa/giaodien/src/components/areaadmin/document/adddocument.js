@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import {AUTH} from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 class adddocument extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +23,7 @@ class adddocument extends Component {
         })
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
@@ -30,7 +31,7 @@ class adddocument extends Component {
         data.append("link", this.state.link);
         data.append('content', this.state.content);
 
-        Axios.post('/documents', data, {
+        await trackPromise(Axios.post('/documents', data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -40,7 +41,7 @@ class adddocument extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {

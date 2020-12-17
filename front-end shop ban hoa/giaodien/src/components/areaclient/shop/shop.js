@@ -5,6 +5,8 @@ import Filtersection from './filtersection';
 import Breadcumsection from '../breadcumsection';
 import { trackPromise } from 'react-promise-tracker';
 import ProductsContainer from '../../../container/ProductsContainer';
+
+
 const bc = [
     {
         name: "Cửa hàng",
@@ -21,9 +23,11 @@ class shop extends Component {
             currentPage: 1,
             postsPerPage: 10,
             listPage: [],
-            filter: ''
+            filter: '',
+            range: [0, 5000000]
         }
     }
+
 
     async componentDidMount() {
         this._isMounted = true;
@@ -100,6 +104,13 @@ class shop extends Component {
         })
     }
 
+    onChangeRange = (data) => {
+        this.setState({
+            range: data
+        })
+    }
+
+
     render() {
         return (
             <div>
@@ -109,8 +120,8 @@ class shop extends Component {
                     <div className="container">
                         <div className="row">
                             {/* <Productsection data={this.getCurData(this.state.filterproducts)} /> */}
-                            <ProductsContainer data={this.getCurData(this.state.filterproducts)}/>
-                            <Filtersection getSearchData={(e) => this.getSearchData(e)} products={this.state.products} data={this.state.contents} getFilterData={(e) => this.getFilterData(e)} />
+                            <ProductsContainer range={this.state.range} data={this.getCurData(this.state.filterproducts)} />
+                            <Filtersection onChangeRange={(e) => this.onChangeRange(e)} curProducts={this.state.filterproducts} getSearchData={(e) => this.getSearchData(e)} products={this.state.products} data={this.state.contents} getFilterData={(e) => this.getFilterData(e)} />
                         </div>
                         <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(this.state.filterproducts)} paginate={(e) => this.paginate(e)} />
                     </div>

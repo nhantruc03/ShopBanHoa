@@ -4,17 +4,18 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const tablerow = ['Tên', 'Link', 'Thao tác']
 const keydata = ['name', 'link']
 const obj = "documents"
-const getData = () =>
-    Axios.post('/documents/getAll', {
+const getData = async () =>
+    await trackPromise(Axios.post('/documents/getAll', {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
     })
-        .then((res) => res.data)
+        .then((res) => res.data))
 
 class listdocument extends Component {
     constructor(props) {

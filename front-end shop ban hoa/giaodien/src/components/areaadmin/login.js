@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
+import { trackPromise } from 'react-promise-tracker';
 import { Redirect } from 'react-router-dom';
+import { LoadingIndicator } from '../LoadingIndicator';
 import auth from '../../router/auth';
 
 class login extends Component {
@@ -9,7 +11,7 @@ class login extends Component {
         this.state = {
             username: '',
             password: '',
-            isFail:false,
+            isFail: false,
             isDone: false
         }
     }
@@ -19,39 +21,38 @@ class login extends Component {
             [e.target.name]: e.target.value
         })
     }
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
         data.append("username", this.state.username);
         data.append("password", this.state.password);
-        Axios.post('/users/login', data)
+        await trackPromise(Axios.post('/users/login', data)
             .then(res => {
                 if (res.data.success === true) {
                     auth.login(res.data.data);
                 }
-                if(auth.isAuthenticatedAdmin()===true)
-                {
+                if (auth.isAuthenticatedAdmin() === true) {
                     this.onDone();
                 }
-                else{
+                else {
                     this.setState({
-                        isFail:true
+                        isFail: true
                     })
                 }
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
     onDone = () => {
         this.setState({
             isDone: !this.state.isDone
         })
     }
-    handleFail = () =>{
-        if(this.state.isFail){
-            return <p style={{color:"red", textAlign:"center"}}>Đăng nhập thất bại!</p>
+    handleFail = () => {
+        if (this.state.isFail) {
+            return <p style={{ color: "red", textAlign: "center" }}>Đăng nhập thất bại!</p>
         }
     }
     render() {
@@ -79,16 +80,17 @@ class login extends Component {
                                                     </div>
                                                     <form className="user" onSubmit={(e) => this.onSubmit(e)}>
                                                         <div className="form-group">
-                                                            <input onChange={(e)=>this.onChange(e)} type="text" className="form-control form-control-user" name="username" placeholder="Nhập tài khoản..." required />
+                                                            <input onChange={(e) => this.onChange(e)} type="text" className="form-control form-control-user" name="username" placeholder="Nhập tài khoản..." required />
                                                         </div>
                                                         <div className="form-group">
-                                                            <input onChange={(e)=>this.onChange(e)} type="password" className="form-control form-control-user" name="password" placeholder="Mật khẩu" required />
+                                                            <input onChange={(e) => this.onChange(e)} type="password" className="form-control form-control-user" name="password" placeholder="Mật khẩu" required />
                                                         </div>
                                                         {this.handleFail()}
                                                         <button type="submit" style={{ marginTop: 100 }} className="btn btn-primary btn-user btn-block">
                                                             Đăng nhập
                                                     </button>
                                                     </form>
+                                                    <LoadingIndicator color="#4e73df" />
                                                 </div>
                                             </div>
                                         </div>

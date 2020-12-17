@@ -27,6 +27,12 @@ const Order = new mongoose.Schema(
             index:true,
             required:true
         },
+        status:{
+            type: Boolean,
+            required: true,
+            default: false,
+            index: true
+        },
         isDeleted: {
             type: Boolean,
             required: true,

@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 var CategorycontentsID = [];
 class editcategory extends Component {
     constructor(props) {
@@ -31,15 +32,15 @@ class editcategory extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = {
             name: this.state.name,
             metatitle: this.state.metatitle,
-            categorycontentsId:this.state.categorycontentsId
+            categorycontentsId: this.state.categorycontentsId
         }
 
-        Axios.put('/categories/' + this.props.match.params.id, data, {
+        await trackPromise(Axios.put('/categories/' + this.props.match.params.id, data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -50,6 +51,7 @@ class editcategory extends Component {
             .catch(err => {
                 console.log(err);
             })
+        )
     }
 
     onDone = () => {
@@ -58,10 +60,10 @@ class editcategory extends Component {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/categories/' + this.props.match.params.id, {
+            await trackPromise(Axios.get('/categories/' + this.props.match.params.id, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -74,6 +76,7 @@ class editcategory extends Component {
                         categorycontentsId: temp.categorycontentsId
                     })
                 })
+            )
 
             var temp2 = null;
 
@@ -81,7 +84,7 @@ class editcategory extends Component {
                 isDeleted: false
             }
 
-            Axios.post('/categorycontents/getAll', data, {
+            await trackPromise(Axios.post('/categorycontents/getAll', data, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -99,7 +102,7 @@ class editcategory extends Component {
                     this.setState({
                         isLoad: false
                     })
-                })
+                }))
         }
     }
     render() {

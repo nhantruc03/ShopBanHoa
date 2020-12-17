@@ -22,7 +22,7 @@ class sidemenu extends Component {
                         Interface
                     </div>
                     {/* Nav Item - Pages Collapse Menu */}
-                    <Navbar expand="false" style={{ width: "100%", color: "white" }}>
+                    <Navbar expand="false" style={{ width: "100%", color: "white" }}> 
                         Người dùng
                         <Navbar.Toggle style={{ width: 60 }} aria-controls="nguoidung" > <i className="fas  fa-user-circle" /></Navbar.Toggle>
                         <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="nguoidung">
@@ -32,7 +32,7 @@ class sidemenu extends Component {
                         </Navbar.Collapse>
                     </Navbar>
                     <hr className="sidebar-divider" />
-                    <Navbar expand="false" style={{ width: "100%", color: "white" }}>
+                    <Navbar expand="false" style={{ width: "100%", color: "white" }} >
                         Quản lý sản phẩm
                         <Navbar.Toggle style={{ width: 60 }} aria-controls="sanpham" > <i className="fas  fa-briefcase" /></Navbar.Toggle>
                         <Navbar.Collapse style={{ backgroundColor: "white", width: "100%", borderRadius: "6px", marginTop: "5px" }} id="sanpham">

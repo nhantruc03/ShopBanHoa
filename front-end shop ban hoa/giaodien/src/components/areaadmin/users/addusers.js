@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import {AUTH} from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 var Roles = [
     { value: 'admin', label: 'Quản trị viên' },
     { value: 'client', label: 'Khách hàng' }
@@ -33,7 +34,7 @@ class addusers extends Component {
         })
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = {
             name: this.state.name,
@@ -43,7 +44,7 @@ class addusers extends Component {
             password: this.state.password,
             role: this.role
         };
-        Axios.post('/users', data, {
+        await trackPromise(Axios.post('/users', data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -53,7 +54,7 @@ class addusers extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {

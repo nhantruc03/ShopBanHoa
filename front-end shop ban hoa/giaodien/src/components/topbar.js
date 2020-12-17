@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import auth from '../router/auth';
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 class topbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             logout: false,
-            name:''
+            name: ''
         }
     }
     logout = () => {
@@ -48,10 +48,10 @@ class topbar extends Component {
                                 </a>
                                 {/* Dropdown - User Information */}
                                 <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                    <a className="dropdown-item" href="/admin/personal">
+                                    <Link className="dropdown-item" to="/admin/personal">
                                         <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
                                     Profile
-                                    </a>
+                                    </Link>
                                     <div className="dropdown-divider" />
                                     <a className="dropdown-item" onClick={() => this.logout()} href="/#" data-toggle="modal" data-target="#logoutModal">
                                         <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />

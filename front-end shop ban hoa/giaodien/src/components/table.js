@@ -12,6 +12,8 @@ class TableData extends Component {
             data={value}
             review={this.props.review}
             noaction={this.props.noaction}
+            update={this.props.update}
+            onUpdate={(e)=>this.props.onUpdate(e)}
         />
     ))
 

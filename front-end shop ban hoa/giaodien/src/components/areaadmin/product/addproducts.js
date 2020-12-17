@@ -7,7 +7,8 @@ import MultiImageInput from 'react-multiple-image-input';
 import { ChangeToSlug } from '../../../services/convertoslug'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const animatedComponents = makeAnimated();
 
 var CategoryID = [];
@@ -68,7 +69,7 @@ class addproduct extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         var data = new FormData();
 
@@ -95,10 +96,10 @@ class addproduct extends Component {
             data.append('moreimages', temp_list.toString());
         }
 
-        Axios.post('/products', data, {
+        await trackPromise(Axios.post('/products', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': {AUTH}.AUTH
+                'Authorization': { AUTH }.AUTH
             }
         })
             .then(res => {
@@ -106,9 +107,9 @@ class addproduct extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({
             isLoad: true
         })
@@ -117,7 +118,7 @@ class addproduct extends Component {
         var data = {
             isDeleted: false
         };
-        Axios.post('/categories/getAll', data, {
+        await trackPromise(Axios.post('/categories/getAll', data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -135,7 +136,7 @@ class addproduct extends Component {
                 this.setState({
                     isLoad: false
                 })
-            })
+            }))
     }
 
     onDone = () => {
@@ -194,7 +195,7 @@ class addproduct extends Component {
                                 />
 
                                 <label htmlFor="detail"  >Chi tiết</label>
-                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="detail" placeholder="Chi tiết" required={true}/>
+                                <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="detail" placeholder="Chi tiết" required={true} />
 
                                 <label htmlFor="description"  >Mô tả</label>
                                 {/* <textarea onChange={(e) => this.onChange(e)} type="text" className="form-control" name="description" placeholder="Mô tả" /> */}

@@ -3,6 +3,8 @@ import React  from 'react';
 import { usePromiseTracker } from "react-promise-tracker";
 export const LoadingIndicator = props => {
     const { promiseInProgress } = usePromiseTracker();
+    let color = "#b0b435"
+    color = props.color ? props.color : color;
     return (
         promiseInProgress &&
         <div
@@ -14,7 +16,7 @@ export const LoadingIndicator = props => {
                 alignItems: "center"
             }}
         >
-            <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+            <Loader type="ThreeDots" color={color} height="100" width="100" />
         </div>
     );
 }

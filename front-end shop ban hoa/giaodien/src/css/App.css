@@ -37,6 +37,26 @@
   }
 }
 
+.ant-slider-handle.ant-slider-handle-2 {
+  border: solid 2px #b0b435;
+}
+
+.ant-slider-handle.ant-slider-handle-1 {
+  border: solid 2px #b0b435;
+}
+
+.ant-slider-track {
+  background-color: #b0b435 !important;
+}
+
+.ant-slider:hover .ant-slider-track {
+  background-color: #b0b435 !important;
+}
+
+/* .ant-slider {
+  background: #b0b435;
+} */
+
 .sidebar .link {
   display: block;
   width: 100%;
@@ -63,10 +83,6 @@ a.btn.btn-default.hvr-hover.btn-cart {
 
 span.result {
   font-size: smaller;
-}
-
-svg {
-  fill: #b0b435;
 }
 
 p.textcolor {

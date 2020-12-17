@@ -8,11 +8,7 @@ const update = async (req, res) => {
       {
         ...pick(
           req.body,
-          "customerId",
-          "shipname",
-          "shipmobile",
-          "shipaddress",
-          "shipemail"
+          "status"
         )
       },
       { new: true }
@@ -24,8 +20,6 @@ const update = async (req, res) => {
         error: "Updated failed"
       });
     }
-
-
     return res.status(200).json({
       success: true,
       data: updateOrder

@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
+import { trackPromise } from 'react-promise-tracker';
 import { Redirect } from 'react-router-dom';
 import { AUTH } from '../../env'
 class contact extends Component {
@@ -14,10 +15,10 @@ class contact extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/contacts/' + this.props.match.params.id, {
+            await trackPromise(Axios.get('/contacts/' + this.props.match.params.id, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -30,7 +31,7 @@ class contact extends Component {
                         subject: temp.subject,
                         message: temp.message
                     })
-                })
+                }))
         }
     }
     onDone = () => {
@@ -54,16 +55,16 @@ class contact extends Component {
                             <input type="text" className="form-control" name="name" placeholder="Tên danh mục" required={true} value={this.state.name} readOnly />
 
                             <label htmlFor="email"  >Email</label>
-                            <input type="text" className="form-control" name="email" placeholder="email" value={this.state.email} readOnly/>
+                            <input type="text" className="form-control" name="email" placeholder="email" value={this.state.email} readOnly />
 
                             <label htmlFor="subject"  >Tiêu đề</label>
-                            <input type="text" className="form-control" name="subject" placeholder="tiêu đề" value={this.state.subject} readOnly/>
+                            <input type="text" className="form-control" name="subject" placeholder="tiêu đề" value={this.state.subject} readOnly />
 
                             <label htmlFor="message"  >Nội dung</label>
-                            <input type="text" className="form-control" name="message" placeholder="nội dụng" value={this.state.message} readOnly/>
+                            <input type="text" className="form-control" name="message" placeholder="nội dụng" value={this.state.message} readOnly />
 
                             <br />
-                        <button onClick={() => this.onDone()} className="btn btn-warning">Quay về</button>
+                            <button onClick={() => this.onDone()} className="btn btn-warning">Quay về</button>
                         </form>
                     </div>
                 </div>

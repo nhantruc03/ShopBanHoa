@@ -5,13 +5,13 @@ import Productsection from '../components/areaclient/shop/productsection';
 import { actAddToCart } from './../actions/index';
 class productscontainer extends Component {
 
-    renderData = (data) => data.map((value, key) => (
+    renderData = (data) => data.map((value, key) => (value.price > this.props.range[0] && value.price < this.props.range[1])?( 
         <Product
             data={value}
             key={key}
             onAddToCart={(product)=>this.props.onAddToCart(product)}
         />
-    ))
+    ):null)
 
     render() {
         return (

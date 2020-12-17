@@ -4,18 +4,20 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const tablerow = ['Tên', 'MetaTitle', 'Ảnh đại diện', 'Thao tác']
 const keydata = ['name', 'metatitle', 'image']
 const obj = "news"
 
-const getData = () =>
-    Axios.post('/news/getAll', {
+const getData = async () =>
+    await trackPromise(Axios.post('/news/getAll', {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
     })
         .then((res) => res.data)
+    )
 
 class listproducts extends Component {
     constructor(props) {
@@ -93,8 +95,8 @@ class listproducts extends Component {
                 <div className='mt-5 text-center'>
                     <h1 className='text-primary mb-3'>Danh sách tin tức</h1>
                     <Search target="name" data={this.state.data} getSearchData={(e) => this.getSearchData(e)} />
-                    <TableData obj={obj} dataRow={tablerow} data={this.getCurData(SearchData)} keydata={keydata} onDelete={(e) => this.onDelete(e)}/>
-                    <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(SearchData)} paginate={(e) =>this.paginate(e)}/>
+                    <TableData obj={obj} dataRow={tablerow} data={this.getCurData(SearchData)} keydata={keydata} onDelete={(e) => this.onDelete(e)} />
+                    <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.getlistpage(SearchData)} paginate={(e) => this.paginate(e)} />
                     <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm
             </div>
                 </div>

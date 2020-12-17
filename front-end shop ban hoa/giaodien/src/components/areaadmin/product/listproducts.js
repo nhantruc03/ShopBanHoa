@@ -5,17 +5,18 @@ import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
 import {AUTH} from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const tablerow = ['Tên', 'MetaTitle', 'Ảnh đại diện', 'Mô tả', 'Thao tác']
 const keydata = ['name', 'metatitle', 'image', 'detail']
 const obj = "products"
 
-const getData = () =>
-    Axios.post('/products/getAll', {
+const getData = async () =>
+    await trackPromise(Axios.post('/products/getAll', {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
     })
-        .then((res) => res.data)
+        .then((res) => res.data))
 
 class listproducts extends Component {
     constructor(props) {

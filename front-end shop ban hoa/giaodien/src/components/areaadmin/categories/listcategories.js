@@ -4,17 +4,19 @@ import TableData from '../../table';
 import Pagination from '../../Pagination';
 import { Redirect } from 'react-router-dom';
 import Search from '../../search';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
+import { trackPromise } from 'react-promise-tracker';
 const tablerow = ['Tên', 'MetaTitle', 'Trạng thái', 'Thao tác']
 const keydata = ['name', 'metatitle', 'isDeleted']
 const obj = "categories"
-const getData = () =>
-    Axios.post('/categories/getAll', {
+const getData = async () =>
+    await trackPromise(Axios.post('/categories/getAll', {
         headers: {
             'Authorization': { AUTH }.AUTH
         }
     })
         .then((res) => res.data)
+    )
 
 class listcategories extends Component {
     constructor(props) {
@@ -45,7 +47,7 @@ class listcategories extends Component {
         return SearchData.slice(indexOfFirstPost, indexOfLastPost);
     }
 
-    getSearchData = (data) =>{
+    getSearchData = (data) => {
         this.setState({
             SearchData: data
         })
@@ -88,7 +90,7 @@ class listcategories extends Component {
             return (
                 <div className='mt-5 text-center'>
                     <h1 className='text-primary mb-3'>Danh sách danh mục</h1>
-                    <Search target="name" data={this.state.data} getSearchData={(e)=> this.getSearchData(e)}/>
+                    <Search target="name" data={this.state.data} getSearchData={(e) => this.getSearchData(e)} />
                     <TableData obj={obj} dataRow={tablerow} data={this.getCurData(SearchData)} keydata={keydata} onDelete={(e) => this.onDelete(e)} />
                     <Pagination
                         postsPerPage={this.state.postsPerPage}
@@ -99,12 +101,12 @@ class listcategories extends Component {
 
                 </div>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <div className='mt-5 text-center'>
-                <h1 className='text-primary mb-3'>Danh sách danh mục</h1>
-                <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
-            </div>
+                    <h1 className='text-primary mb-3'>Danh sách danh mục</h1>
+                    <div onClick={() => this.onAddClick()} className="btn btn-block btn-success"><i className="fa fa-edit" />Thêm</div>
+                </div>
             )
         }
     }

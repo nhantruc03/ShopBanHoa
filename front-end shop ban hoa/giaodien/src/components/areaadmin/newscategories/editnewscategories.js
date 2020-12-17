@@ -1,8 +1,9 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
+import { trackPromise } from 'react-promise-tracker';
 import { Redirect } from 'react-router-dom'
 import { ChangeToSlug } from '../../../services/convertoslug'
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
 class editcategorycontent extends Component {
     constructor(props) {
         super(props);
@@ -23,14 +24,14 @@ class editcategorycontent extends Component {
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
-        var data= {
+        var data = {
             name: this.state.name,
             metatitle: this.state.metatitle,
             isDeleted: this.state.isDeleted
         }
-        Axios.put('/newscategories/' + this.props.match.params.id, data, {
+        await trackPromise(Axios.put('/newscategories/' + this.props.match.params.id, data, {
             headers: {
                 'Authorization': { AUTH }.AUTH
             }
@@ -40,7 +41,7 @@ class editcategorycontent extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            }))
     }
 
     onDone = () => {
@@ -49,10 +50,10 @@ class editcategorycontent extends Component {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         let temp = null;
         if (this.props.match.params.id) {
-            Axios.get('/newscategories/' + this.props.match.params.id, {
+            await trackPromise(Axios.get('/newscategories/' + this.props.match.params.id, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
@@ -65,7 +66,7 @@ class editcategorycontent extends Component {
                         isDeleted: temp.isDeleted
 
                     })
-                })
+                }))
 
         }
     }
