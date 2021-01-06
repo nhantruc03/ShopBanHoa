@@ -297,12 +297,17 @@ textarea{
 .about-content{
     font-size: 18px;
 }
+span.document-brand{
+    color: #b0b435;
+    font-size: 28px;
+}
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
  
         nav.navbar .navbar-brand img.logo {
             width: 50px !important;
             height: 50px !important;
         }
+        
         
 
 }
@@ -317,6 +322,9 @@ textarea{
     nav.navbar .navbar-brand img.logo {
     width: 50px;
     height: 50px;
+    }
+    .shop-detail-box-main .banner-frame{
+        margin-bottom: 30px;
     }
     .cart-box-main table tr th,
     .cart-box-main table .name-pr a{
