@@ -294,6 +294,9 @@ textarea{
     
     margin-bottom: -10px !important;
 }
+.about-content{
+    font-size: 18px;
+}
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
  
         nav.navbar .navbar-brand img.logo {

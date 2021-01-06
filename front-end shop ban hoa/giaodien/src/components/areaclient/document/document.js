@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
 import Breadcumsection from '../breadcumsection';
+import { trackPromise } from 'react-promise-tracker';
 const bc = [
     {
         name: "Tài liệu",
@@ -16,14 +17,14 @@ class document extends Component {
     }
     async componentDidMount() {
         this._isMounted = true;
-        const [data] = await Promise.all([
+        const [data] = await trackPromise(Promise.all([
             Axios.get('/documents/' + this.props.match.params.id)
                 .then((res) => {
                     return (
                         res.data.data
                     )
                 })
-        ]);
+        ]));
         if (data !== null) {
             if (this._isMounted) {
                 this.setState({
@@ -36,16 +37,17 @@ class document extends Component {
         this._isMounted = false;
     }
 
-    async componentWillReceiveProps_UNSAFE(newprop) {
+
+    async UNSAFE_componentWillReceiveProps(newprop) {
         this._isMounted = true;
-        const [data] = await Promise.all([
+        const [data] = await trackPromise(Promise.all([
             Axios.get('/documents/' + newprop.match.params.id)
                 .then((res) => {
                     return (
                         res.data.data
                     )
                 })
-        ]);
+        ]));
         if (data !== null) {
             if (this._isMounted) {
                 this.setState({
@@ -72,38 +74,18 @@ class document extends Component {
                                 </div>
                             </div>
                             <div className="col-lg-6">
-                                <h2 className="noo-sh-title-top">We are <span>Freshshop</span></h2>
-                                <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                                voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-                                sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
-                        Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <h2 className="noo-sh-title-top">Giới thiệu về <span>Freshshop</span></h2>
+                                <p className="about-content">Flower Shop là website phân phối sản phẩm về các loại hoa diệp lễ, hóa cưới, … hàng đầu Việt Nam.
+
+Flower Shop được sinh ra với mong muốn mang cung cấp cho người Việt Nam những bó hoa chất lượng nhất trên thế giới với một phương thức thanh toán đơn giản nhất, giá tốt nhất cùng với đó là dịch vụ chăm sóc khách hàng tuyệt vời. Chúng tôi mong muốn trở thành những người đồng hành và tư vấn cho bạn trong mọi vấn đề liên quan đến Hoa, giúp cho cuộc sống của mọi người giàu màu sắc và mơ mộng. Chúng tôi tin rằng giải trí đúng cách sẽ mang lại những giá trị tốt đẹp cho cuộc sống.</p>
+                               
                                 {/* <a className="btn hvr-hover" href="/#">Read More</a> */}
                             </div>
                         </div>
-                        <div className="row my-5">
-                            <div className="col-sm-6 col-lg-4">
-                                <div className="service-block-inner">
-                                    <h3>We are Trusted</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 col-lg-4">
-                                <div className="service-block-inner">
-                                    <h3>We are Professional</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 col-lg-4">
-                                <div className="service-block-inner">
-                                    <h3>We are Expert</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <div className="row my-5">
-                            <div
+                            <div className="document-content" style={{fontSize:'20px'}}
                                 dangerouslySetInnerHTML={{
                                     __html: this.state.data.content
                                 }}>
