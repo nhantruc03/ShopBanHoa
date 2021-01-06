@@ -63,7 +63,7 @@ class document extends Component {
                 <Breadcumsection data={bc} />
                 <div className="shop-detail-box-main">
                     <div className="container">
-                        <div className="row" >
+                        <div className="row" style={{marginLeft:'5px'}}>
                             <h2 style={{ fontWeight: "bold" }}>{this.state.data.name}</h2>
                         </div>
 
