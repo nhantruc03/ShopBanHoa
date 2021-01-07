@@ -85,7 +85,11 @@ Flower Shop được sinh ra với mong muốn mang cung cấp cho người Vi�
  <hr />
 
                         <div className="row my-5">
+<<<<<<< Updated upstream
                             <div className="document-content" style={{ fontSize: '20px' }}
+=======
+                            <div className="abc" style={{fontSize:'20px'}}
+>>>>>>> Stashed changes
                                 dangerouslySetInnerHTML={{
                                     __html: this.state.data.content
                                 }}>

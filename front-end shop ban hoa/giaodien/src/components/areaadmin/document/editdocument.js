@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
-import {AUTH} from '../../env'
+import { AUTH } from '../../env'
 import { trackPromise } from 'react-promise-tracker';
 class editdocument extends Component {
     constructor(props) {
@@ -57,7 +57,7 @@ class editdocument extends Component {
         })
         let temp = null;
         if (this.props.match.params.id) {
-           await trackPromise(Axios.get('/documents/' + this.props.match.params.id, {
+            await trackPromise(Axios.get('/documents/' + this.props.match.params.id, {
                 headers: {
                     'Authorization': { AUTH }.AUTH
                 }
