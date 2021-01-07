@@ -23,7 +23,8 @@ class personal extends Component {
 
     onSubmit = async (e) => {
         e.preventDefault();
-        const login = localStorage.getItem('login');
+        // const login = localStorage.getItem('login');
+        const login = window.sessionStorage.getItem('login');
         const obj = JSON.parse(login);
         var data = {
             name: this.state.name,
@@ -52,7 +53,8 @@ class personal extends Component {
     }
 
     async componentDidMount() {
-        const login = localStorage.getItem('login');
+        // const login = localStorage.getItem('login');
+        const login = window.sessionStorage.getItem('login');
         const obj = JSON.parse(login);
 
         this._isMounted = true;

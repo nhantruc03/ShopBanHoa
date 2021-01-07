@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
 class TableRow extends Component {
     constructor(props) {
@@ -27,9 +28,17 @@ class TableRow extends Component {
                     }
                 }
                 else {
-                    return (
-                        <td key={key} > { this.props.data[value]}</td>
-                    )
+                    if (value === 'price') {
+                        return (
+                            <td key={key} ><NumberFormat value={this.props.data[value]} displayType={'text'} thousandSeparator={true} prefix={'đ'} /></td>
+
+                        )
+                    }
+                    else {
+                        return (
+                            <td key={key} > { this.props.data[value]}</td>
+                        )
+                    }
                 }
             }
             else {

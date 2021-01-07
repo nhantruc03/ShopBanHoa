@@ -13,7 +13,8 @@ class top extends Component {
         }
     }
     componentDidMount() {
-        var login = localStorage.getItem('login');
+        var login = window.sessionStorage.getItem('login');
+        // var login = localStorage.getItem('login');
         var obj = JSON.parse(login);
         if (obj !== null) {
             this.setState({

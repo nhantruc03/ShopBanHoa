@@ -5,6 +5,7 @@ import Search from '../../search';
 import TableData from './TableData';
 import { AUTH } from '../../env'
 import Breadcumsection from '../breadcumsection';
+import NumberFormat from 'react-number-format';
 const tablerow = ['Tên sản phẩm', 'Số lượng', 'Giá']
 const keydata = ['productId', 'quantity', 'price']
 const obj = "order-details"
@@ -91,8 +92,8 @@ class orderdetails_history extends Component {
         if (this.state.data !== null) {
             return (
                 <div className='mt-5 text-center'>
-                    <h1 className='mb-3' style={{fontWeight:"bold"}}>Chi tiết hóa đơn</h1>
-                  
+                    <h1 className='mb-3' style={{ fontWeight: "bold" }}>Chi tiết hóa đơn</h1>
+
                     <Search targetParent="productId" target="name" data={this.state.data} getSearchData={(e) => this.getSearchData(e)} />
                     <TableData obj={obj} dataRow={tablerow} data={SearchData} keydata={keydata} onDelete={(e) => this.onDelete(e)} noaction={true} />
                 </div>
@@ -107,7 +108,7 @@ class orderdetails_history extends Component {
     getTotal = () => {
         var total = 0;
         this.state.data.forEach(o => {
-            total += o.price;
+            total += o.price * o.quantity;
         });
         this.setState({
             total: total
@@ -116,7 +117,7 @@ class orderdetails_history extends Component {
 
     renderTotal = () => {
         return (
-            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tổng tiền : {this.state.total}</p>
+            <p style={{ fontSize: '2rem', textAlign: "center" }}>Tổng tiền : <NumberFormat style={{fontSize: '2rem'}} value={this.state.total} displayType={'text'} thousandSeparator={true} prefix={'đ'} /> </p>
         )
     }
 

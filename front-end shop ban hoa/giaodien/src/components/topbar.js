@@ -17,7 +17,8 @@ class topbar extends Component {
     }
 
     componentDidMount() {
-        var temp = localStorage.getItem('login');
+        // var temp = localStorage.getItem('login');
+        var temp = window.sessionStorage.getItem('login');
         var obj = JSON.parse(temp);
         this.setState({
             name: obj.name

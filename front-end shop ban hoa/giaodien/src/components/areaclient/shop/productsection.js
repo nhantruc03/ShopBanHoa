@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Product from '../product';
+// import Product from '../product';
 // import { connect } from 'react-redux';
 class productsection extends Component {
 
-    renderData = (data) => data.map((value, key) => (
-        <Product data={value} key={key} />
-    ))
+    // renderData = (data) => data.map((value, key) => (
+    //     <Product data={value} key={key} />
+    // ))
 
     render() {
         return (
@@ -25,13 +25,4 @@ class productsection extends Component {
         );
     }
 }
-
-// const mapStateToProps = state => {
-//     return {
-//         products: state.products
-//     }
-// }
-
-// export default connect(mapStateToProps, null)(productsection);
-
 export default productsection

@@ -25,7 +25,7 @@ class listproducts extends Component {
             data: null,
             SearchData: null,
             currentPage: 1,
-            postsPerPage: 4,
+            postsPerPage: 3,
             listPage: [],
             onAdd: false
         }

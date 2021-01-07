@@ -1,5 +1,6 @@
 import * as types from './../constants/ActionType';
-var data = JSON.parse(localStorage.getItem('CART'));
+// var data = JSON.parse(localStorage.getItem('CART'));
+var data = JSON.parse(window.sessionStorage.getItem('CART'));
 
 var inittialState = data ? data : [];
 const cart = (state = inittialState, action) => {
@@ -17,24 +18,29 @@ const cart = (state = inittialState, action) => {
                     quantity
                 })
             }
-            localStorage.setItem('CART', JSON.stringify(state));
+            // localStorage.setItem('CART', JSON.stringify(state));
+            window.sessionStorage.setItem('CART', JSON.stringify(state));
+            
             return [...state];
         case types.DELETE_FROM_CART:
             index = findProductInCart(state, product);
             if (index !== -1) {
                 state.splice(index, 1);
             }
-            localStorage.setItem('CART', JSON.stringify(state));
+            // localStorage.setItem('CART', JSON.stringify(state));
+            window.sessionStorage.setItem('CART', JSON.stringify(state));
             return [...state];
         case types.UPDATE_FROM_CART:
             index = findProductInCart(state, product);
             if (index !== -1) {
                 state[index].quantity = quantity
             }
-            localStorage.setItem('CART', JSON.stringify(state));
+            // localStorage.setItem('CART', JSON.stringify(state));
+            window.sessionStorage.setItem('CART', JSON.stringify(state));
             return [...state];
         case types.CLEAR_CART:
-            localStorage.setItem('CART',null);
+            // localStorage.setItem('CART',null);
+            window.sessionStorage.setItem('CART',null);
             state = [];
             return[...state]
         default: return [...state];

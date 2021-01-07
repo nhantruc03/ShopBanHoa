@@ -23,8 +23,11 @@ class order_history extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
-        const login = localStorage.getItem('login');
+        const login = window.sessionStorage.getItem('login');
+        // const login = localStorage.getItem('login');
+        console.log(login)
         const obj = JSON.parse(login);
+        console.log(obj);
         const [orders] = await trackPromise(Promise.all([
             Axios.post('/orders/getAll', {customerId: obj.id}, {
                 headers: {
@@ -35,6 +38,7 @@ class order_history extends Component {
                     return res.data.data;
                 })
         ]));
+        console.log(orders)
         if (orders !== null) {
             if (this._isMounted) {
                 this.setState({

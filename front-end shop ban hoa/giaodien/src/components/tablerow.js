@@ -83,9 +83,16 @@ class TableDataRow extends Component {
                     }
                 }
                 else {
-                    return (
-                        <td key={key} > <NumberFormat value={ this.props.data[value]} displayType={'text'} thousandSeparator={true} /> </td>
-                    )
+                    if (value === 'price') {
+                        return (
+                            <td key={key} > <NumberFormat value={this.props.data[value]} displayType={'text'} thousandSeparator={true} /> </td>
+                        )
+                    } else {
+                        return (
+                            <td key={key} > { this.props.data[value]} </td>
+                        )
+                    }
+
                 }
             }
             else {
@@ -136,7 +143,7 @@ class TableDataRow extends Component {
                     return (
                         <td>
                             <div className="btn-group">
-                                <div onClick={()=>this.updateClick()} className="btn btn-success"><i className="fa fa-edit"/>Cập nhật</div>
+                                <div onClick={() => this.updateClick()} className="btn btn-success"><i className="fa fa-edit" />Cập nhật</div>
                                 <div onClick={() => this.viewClick()} className="btn btn-warning"><i className="fa fa-edit" />Xem</div>
                                 <div onClick={() => this.deleteClick()} className="btn btn-danger xoa"> <i className="fa fa-minus" />Xóa</div>
                             </div>

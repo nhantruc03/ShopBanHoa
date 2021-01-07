@@ -5,7 +5,8 @@ class Auth {
     }
 
     login(data) {
-        localStorage.setItem('login', JSON.stringify(data));
+        window.sessionStorage.setItem('login', JSON.stringify(data));
+        // localStorage.setItem('login', JSON.stringify(data));
         if (data.role === "admin") {
             this.authenticatedAdmin = true
             this.authenticatedClient = true
@@ -16,14 +17,16 @@ class Auth {
     }
 
     logout(cb) {
-        localStorage.removeItem('login')
+        window.sessionStorage.removeItem('login');
+        // localStorage.removeItem('login')
         this.authenticatedAdmin = false
         this.authenticatedClient = false;
     }
 
     isAuthenticatedAdmin() {
         try {
-            var test = localStorage.getItem('login');
+            var test = window.sessionStorage.getItem('login');
+            // var test = localStorage.getItem('login');
             var obj = JSON.parse(test);
             this.login(obj);
             return this.authenticatedAdmin;
@@ -35,7 +38,8 @@ class Auth {
 
     isAuthenticatedClient() {
         try {
-            var test = localStorage.getItem('login');
+            var test = window.sessionStorage.getItem('login');
+            // var test = localStorage.getItem('login');
             var obj = JSON.parse(test);
             this.login(obj);
             return this.authenticatedClient;
