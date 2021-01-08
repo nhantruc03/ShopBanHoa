@@ -2,7 +2,7 @@ const Users = require('../../model/users')
 const { handleBody } = require('./handleBody')
 const { startSession } = require('mongoose')
 const { commitTransactions, abortTransactions } = require('../../services/transaction')
-
+const bcrypt = require("bcrypt")
 const update = async (req, res) => {
   let sessions = []
   try {
@@ -27,6 +27,9 @@ const update = async (req, res) => {
     let session = await startSession();
     session.startTransaction();
     sessions.push(session);
+    if (body.password != null) {
+      body.password = await bcrypt.hashSync(body.password, 10);
+    }
     const updated = await Users.findOneAndUpdate(
       queryUpdate,
       body,

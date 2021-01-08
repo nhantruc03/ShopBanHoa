@@ -57,7 +57,7 @@ const sendEmail = async (req, res) => {
             </body>
             </html>`
         }
-
+        console.log("Dang send email");
         smtpTransport.sendMail(mailOptions, (error, response) => {
             if (error) {
                 return res.status(500).json({

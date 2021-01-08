@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
+
 class TableRow extends Component {
     constructor(props) {
         super(props);
@@ -11,6 +12,32 @@ class TableRow extends Component {
 
     renderData = () =>
         this.props.keydata.map((value, key) => {
+            var stt;
+            if (value === "isDeleted") {
+
+                if (this.props.data[value] === true) {
+                    stt = "Không khả dụng";
+                }
+                else {
+                    stt = "Khả dụng";
+                }
+
+                return (
+                    <td key={key} > {stt}</td>
+                )
+            }
+            if (value === "status") {
+                if (this.props.data[value] === true) {
+                    stt = "Đã xử lý";
+                }
+                else {
+                    stt = "Chưa xử lý";
+                }
+
+                return (
+                    <td key={key} > {stt}</td>
+                )
+            }
             if (value.includes('Id')) {
                 return <td key={key}>{this.props.data[value].name}</td>
             }
