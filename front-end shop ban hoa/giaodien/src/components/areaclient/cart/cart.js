@@ -241,7 +241,7 @@ class cart extends Component {
                                         <input onChange={(e) => this.onChange(e)} type="email" className="form-control" name="shipemail" value={this.state.shipemail} placeholder="Eg. abc@gmail.com" required />
 
                                         <div className="update-box pt-2">
-                                            <input defaultValue="Update Cart" type="submit" />
+                                            <input defaultValue="Update Cart" type="submit" value="Đặt hàng" />
                                         </div>
                                     </form>
                                 </div>
